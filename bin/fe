@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+const { program } = require('commander');
+const figlet = require('figlet');
+const versionStr = figlet.textSync('Fe Code');
+const Printer = require('@darkobits/lolcatjs');
+const shell = require('shelljs');
+const json2ts = require('json2ts');
+const _version = require('../package.json').version;
+const chalk = require('chalk');
+const inquirer = require('inquirer');
+const ora = require('ora');
+const download = require('download-git-repo');
+program.version(
+  Printer.default.fromString(
+    `   \n   前端代码生成器${_version}\n    www.yifengfe.com \n${versionStr}`
+  )
+);
+program
+  .usage('[cmd] <options>')
+  .arguments('<cmd> [env]')
+  .action(function (cmd, otherParmas) {
+    const handler = bindHandler[cmd];
+    if (typeof handler === 'undefined') {
+      console.log(chalk.blue(`${cmd}`) + chalk.red('暂未支持'));
+    } else {
+      handler(otherParmas);
+    }
+  });
+program.parse(process.argv);
