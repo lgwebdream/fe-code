@@ -4,26 +4,38 @@ const figlet = require('figlet');
 const versionStr = figlet.textSync('Fe Code');
 const Printer = require('@darkobits/lolcatjs');
 const shell = require('shelljs');
-const json2ts = require('json2ts');
 const _version = require('../package.json').version;
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 const ora = require('ora');
 const download = require('download-git-repo');
-program.version(
-  Printer.default.fromString(
-    `   \n   前端代码生成器${_version}\n    www.yifengfe.com \n${versionStr}`
-  )
-);
+const api2code = require('../scripts/api2code');
+const vue2code = require('../scripts/vue2code');
+const react2code = require('../scripts/react2code');
+const envir2code = require('../scripts/envir2code');
 program
-  .usage('[cmd] <options>')
-  .arguments('<cmd> [env]')
+  .version(
+    Printer.default.fromString(
+      `   \n   前端代码生成器${_version}\n    www.yifengfe.com \n${versionStr}`
+    )
+  )
+  .option('-c, --config <path>', '配置路径', './fecode.cong.js');
+
+//接口生成代码部分
+api2code(program);
+//生成Vue代码部分
+vue2code(program);
+//生成react代码部分
+react2code(program);
+//生成运行环境代码部分
+envir2code(program);
+program
+  .usage('[对应Commands]')
+  .arguments('<cmd>')
   .action(function (cmd, otherParmas) {
-    const handler = bindHandler[cmd];
-    if (typeof handler === 'undefined') {
-      console.log(chalk.blue(`${cmd}`) + chalk.red('暂未支持'));
-    } else {
-      handler(otherParmas);
+    const whiteList = ['api2ts'];
+    if (whiteList.indexOf(cmd) < 0) {
+      console.log('🐝 ' + chalk.blue(`${cmd}`) + ' ' + chalk.red('暂未支持~'));
     }
   });
 program.parse(process.argv);
