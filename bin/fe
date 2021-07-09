@@ -16,7 +16,7 @@ const envir2code = require('../scripts/envir2code');
 program
   .version(
     Printer.default.fromString(
-      `   \n   前端代码生成器${_version}\n    www.yifengfe.com \n${versionStr}`
+      `   \n   前端代码生成器${_version}\n    www.yidengfe.com \n${versionStr}`
     )
   )
   .option('-c, --config <path>', '配置路径', './fecode.cong.js');
