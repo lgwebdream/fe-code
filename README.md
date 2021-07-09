@@ -18,7 +18,7 @@
 #查看版本号
 fe-code -V
 #查看帮助文档
-fe-ccode --help
+fe-code --help
 #利用配置文件生成代码
 fe-code -c 配置文件 api2code ts -u http://api地址 -o 生成文档地址
 #接口生成TS代码帮助文档
