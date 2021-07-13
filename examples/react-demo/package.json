@@ -1,0 +1,24 @@
+{
+  "name": "react-demo",
+  "version": "1.0.0",
+  "description": "react 项目模板",
+  "author": "水逆",
+  "scripts": {
+    "preinstall": "npm i ../../lib/react",
+    "dev": "npm run preinstall && iwr dev",
+    "prod": "iwr prod -i"
+  },
+  "dependencies": {
+    "@fe-code/react": "file:../../lib/react",
+    "normalize.css": "^8.0.1",
+    "react": "^16.14.0",
+    "react-dom": "^16.14.0",
+    "react-router-dom": "^5.2.0",
+    "xhr": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/runtime-corejs3": "^7.14.7",
+    "iwr": "^1.0.7"
+  },
+  "sideEffects": false
+}
