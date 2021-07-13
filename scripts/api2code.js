@@ -1,25 +1,33 @@
-// const json2ts = require('json2ts');
-const chalk = require('chalk');
+const inquirer = require('inquirer');
+const generateInterface = require('../lib/api2code/generateInterface');
+const generateCRUD = require('../lib/api2code/generateCRUD');
+
+const handleTargetMap = {
+  interface: generateInterface,
+  CRUD: generateCRUD,
+};
 
 const api2code = program => {
   program
-    .command('api2code <type>')
+    .command('api2code')
     .alias('a2c')
-    .description('🌽 API接口对TypeScript转化')
-    .option('-u, --url <url>', 'api接口地址')
-    .option('-o, --output <output>', '生成文件地址', './')
-    .action((type, options) => {
-      if (type !== 'ts' || type !== 'js') {
-        console.log(`🐝 ${chalk.red('✘ 请正确传递代码模板引擎ts或js')}`);
-        return;
-      }
-      console.log('read config from %s', program.opts().config);
-      console.log(
-        'exec "%s" using %s mode and config %s',
-        type,
-        options.url,
-        program.opts().config,
-      );
+    .description('🌽  API对TypeScript转化')
+    .requiredOption('-u, --url <url>', 'api地址')
+    .requiredOption('-o, --output <output>', '生成文件路径')
+    .action(options => {
+      inquirer
+        .prompt([
+          {
+            type: 'list',
+            name: 'target',
+            message: 'Please select the type of generation.',
+            choices: Object.keys(handleTargetMap),
+          },
+        ])
+        .then(({ target }) => {
+          const { url, output } = options;
+          handleTargetMap[target]({ url, output });
+        });
     });
 };
 module.exports = api2code;
