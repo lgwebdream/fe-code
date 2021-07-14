@@ -1,0 +1,19 @@
+{
+  "name": "@fe-code/react",
+  "version": "1.0.0",
+  "description": "react crud template",
+  "files": [
+    "components"
+  ],
+  "main": "Crud.tsx",
+  "scripts": {},
+  "keywords": [
+    "react"
+  ],
+  "author": "水逆",
+  "license": "ISC",
+  "dependencies": {
+    "antd": "^4.16.7",
+    "react": "^17.0.2"
+  }
+}
