@@ -26,5 +26,4 @@ module.exports = {
   buildPath: './dist',
   copyPath: './src/assets/public',
   proxy: proxyMapping,
-  markdown: false,
 };
