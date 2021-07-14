@@ -1,38 +1,13 @@
 {
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": ".ts",
     "paths": {
       "@/*": ["src/*"]
     },
-    "target": "esnext",
-    "lib": ["esnext", "dom"],
-    "types": ["react", "react-dom", "react-router-dom", "node"],
-    "allowJs": true,
-    "module": "esnext",
-    "jsx": "react",
-    "strict": true,
-    "moduleResolution": "node",
-    "isolatedModules": false,
-    "removeComments": false,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": false,
-    "experimentalDecorators": true,
-    "noImplicitAny": false,
-    "noUnusedParameters": false,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noUnusedLocals": false,
-    "skipLibCheck": false,
-    "strictNullChecks": false,
-    "suppressImplicitAnyIndexErrors": true,
-    "downlevelIteration": true,
-    "importHelpers": true,
-    "sourceMap": false,
-    "checkJs": false
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["src/**/*.js", "**/*.spec.ts", "src/**/*.md"],
+  "exclude": ["src/**/*.js", "**/*.spec.ts", "src/**/*.md", "iwr.config.js", "api/**.js"],
   "compileOnSave": false
 }
