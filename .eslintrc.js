@@ -12,5 +12,6 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-restricted-syntax': 'off',
+    'no-unused-expressions': ['error', { allowShortCircuit: true }],
   },
 };
