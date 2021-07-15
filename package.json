@@ -7,20 +7,24 @@
     "fe-code": "bin/fe"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "mock": "json-server --watch ./mocks/api.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@darkobits/lolcatjs": "^3.1.3",
+    "axios": "^0.21.1",
     "chalk": "^4.1.1",
     "commander": "^5.1.0",
     "cosmiconfig": "^7.0.0",
     "download-git-repo": "^3.0.2",
     "figlet": "^1.4.0",
     "fs-extra": "^10.0.0",
+    "https-proxy-agent": "^5.0.0",
     "inquirer": "^7.1.0",
+    "json-server": "^0.16.3",
     "ora": "^4.0.4",
     "shelljs": "^0.8.4"
   },

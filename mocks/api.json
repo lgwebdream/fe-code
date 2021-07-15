@@ -1,0 +1,9 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "test post request",
+      "author": "menndy"
+    }
+  ]
+}

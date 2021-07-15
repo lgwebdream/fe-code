@@ -18,6 +18,8 @@ module.exports = {
       'error',
       { allowShortCircuit: true },
     ],
+    'global-require': 'off',
+    'import/no-dynamic-require': 'off',
     'react/react-in-jsx-scope': 'off',
   }
 };

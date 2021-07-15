@@ -1,7 +1,9 @@
+const { resolve } = require('path');
 const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
 const generateCRUD = require('../lib/api2code/generateCRUD');
 const loadConfig = require('../lib/loadConfig');
+const { removeEmpty } = require('../lib/utils');
 
 const config = loadConfig();
 
@@ -23,7 +25,7 @@ const chooseHttpMethod = {
   type: 'list',
   name: 'httpMethod',
   message: 'Please choose your HTTP method.',
-  choices: ['GET', 'POST', 'PUT', 'DELETE'],
+  choices: ['get', 'post'],
 };
 
 const api2code = program => {
@@ -34,17 +36,28 @@ const api2code = program => {
 
     .option('-u, --url <url>', 'api addres(domain or ip)', config.url)
     .option('-p, --path <path>', 'api path')
-    .option('-b, --body <body>', '')
+    .option(
+      '-b, --body <body>',
+      'data json path for http body, only post method.',
+    )
 
     .option('-i, --input <input>', 'input json file')
     .requiredOption('-o, --output <output>', 'path of generation file')
     .action(options => {
-      const { url, output, path } = options;
+      const { url, output, path, body } = options;
 
       path && promptList.push(chooseHttpMethod);
 
       inquirer.prompt(promptList).then(({ target, httpMethod }) => {
-        handleTargetMap[target]({ url, path, output, httpMethod });
+        handleTargetMap[target](
+          removeEmpty({
+            url,
+            path,
+            output,
+            httpMethod,
+            body: body && resolve(process.cwd(), body),
+          }),
+        );
       });
     });
 };
