@@ -50,7 +50,7 @@ export default function FCrud({ }) {
     <CrudTable<API.ListItem, API.PageParams, string>
       request={async (params = {}, sort, filter) => {
         return request<{
-          data: any
+          data: any,
         }>('/mock/json/list', {
           params,
         });
