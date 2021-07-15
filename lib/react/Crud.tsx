@@ -2,6 +2,7 @@ import React from 'react';
 /** // 临时处理，后期封装 */
 import request from 'umi-request';
 import CrudTable from './components/Table';
+import { fetcherResult } from './service';
 import { ICrudFormTypeEnum } from './index';
 declare namespace API {
   // 后端接口
@@ -48,10 +49,9 @@ const columns = [
 export default function FCrud({ }) {
   return (
     <CrudTable<API.ListItem, API.PageParams, string>
-      request={async (params = {}, sort, filter) => {
-        return request<{
-          data: any,
-        }>('/mock/json/list', {
+      request={async (params, sort, filter) => {
+        return request<Partial<fetcherResult<[]>>>(
+          '/mock/json/list', {
           params,
         });
       }}
