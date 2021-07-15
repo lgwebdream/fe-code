@@ -1,9 +1,18 @@
 {
-  "posts": [
+  "getList": [
     {
       "id": 1,
-      "title": "test post request",
+      "title": "test get request",
       "author": "menndy"
+    },
+    {
+      "id": 2,
+      "title": "test get request1",
+      "author": "menndy1"
     }
-  ]
+  ],
+  "getDetails": {
+
+  },
+  "login": []
 }
