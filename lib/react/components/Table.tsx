@@ -2,8 +2,8 @@ import React from 'react';
 import { Table, TableProps, SpinProps } from 'antd';
 import type { ColumnType, SortOrder } from 'antd/lib/table/interface';
 import type { CSSProperties } from 'react';
-import { fetcherResult } from '../service'
-import { ToolBarProps } from './ToolBar'
+import { fetcherResult } from '../service';
+import { ToolBarProps } from './ToolBar';
 
 type ParamsType = Record<string, any>;
 
@@ -30,7 +30,10 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
     },
   ) => React.ReactNode;
 
-  tableExtraRender?: (props: CrudTableProps<T, U, ValueType>, dataSource: T[]) => React.ReactNode;
+  tableExtraRender?: (
+    props: CrudTableProps<T, U, ValueType>,
+    dataSource: T[],
+  ) => React.ReactNode;
 
   /** 一个获得 dataSource 的方法 */
   request?: (
@@ -99,15 +102,22 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   debounceTime?: number;
 } & Omit<TableProps<T>, 'columns' | 'rowSelection'>;
 
-const CrudTable = <T extends Record<string, any>, U extends ParamsType, ValueType>(
-  props: CrudTableProps<T, U, ValueType> & {
-    defaultClassName?: string;
-  },
+const CrudTable = <
+  T extends Record<string, any>,
+  U extends ParamsType,
+  ValueType,
+>(
+  props: CrudTableProps<T, U, ValueType>,
 ) => {
-  const {rowKey, tableLayout} = props
-  return (
-    <Table<T> rowKey={rowKey} tableLayout={tableLayout} />
-  )
-}
+  const { rowKey, tableLayout, columns: propsColumns = [] } = props;
 
-export default CrudTable
+  return (
+    <Table<T>
+      columns={propsColumns}
+      rowKey={rowKey}
+      tableLayout={tableLayout}
+    />
+  );
+};
+
+export default CrudTable;
