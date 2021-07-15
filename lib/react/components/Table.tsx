@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, TableProps, SpinProps } from 'antd';
 import type { ColumnType, SortOrder } from 'antd/lib/table/interface';
 import type { CSSProperties } from 'react';
-import { fetcherResult } from '../service';
+import { FetcherResult } from '../service';
 import { ToolBarProps } from './ToolBar';
 
 type ParamsType = Record<string, any>;
@@ -44,7 +44,7 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
     },
     sort: Record<string, SortOrder>,
     filter: Record<string, React.ReactText[] | null>,
-  ) => Promise<Partial<fetcherResult<T>>>;
+  ) => Promise<Partial<FetcherResult<T>>>;
 
   /** 对数据进行一些处理 */
   postData?: (data: any[]) => any[];
