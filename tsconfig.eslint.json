@@ -28,5 +28,5 @@
     "checkJs": false
   },
   "compileOnSave": false,
-  "include": ["**/**.ts", "**/**.tsx"]
+  "include": ["**/**.ts", "**/**.tsx", "**/**.js",]
 }

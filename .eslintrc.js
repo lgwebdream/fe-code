@@ -13,6 +13,11 @@ module.exports = {
   rules: {
     'no-console': 'off',
     'no-restricted-syntax': 'off',
+    'no-unused-expressions': 'off',
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true },
+    ],
     'react/react-in-jsx-scope': 'off',
   },
   ignorePatterns: [
