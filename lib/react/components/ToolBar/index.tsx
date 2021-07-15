@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { TableColumnType } from 'antd';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
@@ -28,7 +27,6 @@ export type ListToolBarProps = {
   /** 过滤区，通常配合 LightFilter 使用 */
   filter?: React.ReactNode;
 };
-
 
 export type ToolBarProps<T = unknown> = {
   headerTitle?: React.ReactNode;
