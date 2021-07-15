@@ -40,12 +40,6 @@ const columns = [
   },
 ]
 
-/**
- * 组件拼装逻辑
- *
- * @param param
- * @returns
- */
 export default function FCrud({ }) {
   return (
     <CrudTable<API.ListItem, API.PageParams, string>
@@ -58,4 +52,4 @@ export default function FCrud({ }) {
       columns={columns}
     />
   )
-}
+

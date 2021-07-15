@@ -2,10 +2,8 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["esnext", "dom"],
-    "types": ["react", "react-dom", "react-router-dom", "node"],
     "allowJs": true,
     "module": "esnext",
-    "jsx": "react",
     "strict": true,
     "moduleResolution": "node",
     "isolatedModules": false,
@@ -28,5 +26,5 @@
     "checkJs": false
   },
   "compileOnSave": false,
-  "include": ["**/**.ts", "**/**.tsx", "**/**.js",]
+  "include": ["**/**.ts", "**/**.tsx", "**/**.js", "**/**/**/*.ts"]
 }

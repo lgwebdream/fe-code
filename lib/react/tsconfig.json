@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.eslint.json",
+  "compilerOptions": {
+    "types": ["react"],
+    "jsx": "react",
+    "esModuleInterop": true,
+    "strict": true,
+  },
+  "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx"]
+}
