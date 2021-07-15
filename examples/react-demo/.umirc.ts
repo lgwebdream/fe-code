@@ -3,11 +3,16 @@ import { join } from 'path';
 
 const reactLibPath = join(process.cwd(), '../../lib/react/');
 
+const pageRouters = [
+  { path: '/', component: '@/pages/index' },
+  { path: '/table', component: '@/pages/Table' },
+]
+
 export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: [{ path: '/', component: '@/pages/index' }],
+  routes: pageRouters,
   fastRefresh: {},
   alias: {
     '@crud': reactLibPath,
