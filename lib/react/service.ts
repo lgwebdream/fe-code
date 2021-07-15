@@ -1,4 +1,4 @@
-export interface fetcherResult<T> {
+export interface FetcherResult<T> {
   data?: {
     data: T[] | undefined;
     status: number;
@@ -14,7 +14,7 @@ export interface fetcherResult<T> {
   headers: object;
 }
 
-export interface fetchOptions {
+export interface FetchOptions {
   method?: 'get' | 'post' | 'put' | 'patch' | 'delete';
   successMessage?: string;
   errorMessage?: string;
