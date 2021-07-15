@@ -105,23 +105,52 @@ export interface ICrudListConfig<T> {
   formatter?: (result: T) => { rows: T[]; total: number };
 }
 
+// 支持的组件类型，后续扩充统一维护
+export type SchemaComponentTypes =
+  | 'form'
+  | 'button'
+  | 'table'
+  | 'select'
+  | 'page'
+  | undefined;
+
 /** CRUD 主体配置定义 */
 export declare interface ICrud<T> {
+  /** 业务组件标识 */
+  type: SchemaComponentTypes;
+
   /** 业务标题，用作表单弹框、信息提示等场景展示 */
   title?: string;
 
-  /** 列表数据配置 */
-  listConfig: ICrudListConfig<T>;
+  /** 页面渲染内容 */
+  body: {
+    /** 列表数据配置 */
+    listConfig: ICrudListConfig<T>;
 
-  /** 操作容器类型 */
-  containerType?: ICurdContainerTypeEnum;
+    /** 操作容器类型 */
+    containerType?: ICurdContainerTypeEnum;
 
-  /** 批量操作按钮 */
-  batchOperations?: ICrudOperation<T>[];
+    /** 批量操作按钮 */
+    batchOperations?: ICrudOperation<T>[];
 
-  /** 行级操作按钮 */
-  rowOperations?: ICrudOperation<T>[];
+    /** 行级操作按钮 */
+    rowOperations?: ICrudOperation<T>[];
 
-  /** 字段属性 */
-  fields: ICrudField<T>[];
+    /** 头部操作按钮 */
+    headOperations?: ICrudOperation<T>[];
+
+    /** 字段属性 */
+    fields: ICrudField<T>[];
+  };
 }
+
+/** 操作类型 */
+
+export type ActionType = {
+  /** 刷新 */
+  reload: (resetPageIndex?: boolean) => void;
+  /** 重置 */
+  reset?: () => void;
+  /** 清空选择 */
+  clearSelected?: () => void;
+};
