@@ -19,10 +19,5 @@ module.exports = {
       { allowShortCircuit: true },
     ],
     'react/react-in-jsx-scope': 'off',
-  },
-  ignorePatterns: [
-    '.eslintrc.js',
-    'iwr.config.js',
-    'examples/react-demo/api/index.js',
-  ],
+  }
 };

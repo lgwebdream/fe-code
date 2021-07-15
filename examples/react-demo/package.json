@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ant-design/pro-layout": "^6.5.0",
+    "@fe-code/react": "file:../../lib/react",
     "react": "17.x",
     "react-dom": "17.x",
     "umi": "^3.5.10"
@@ -18,7 +19,6 @@
     "@types/react-dom": "^17.0.0",
     "@umijs/preset-react": "1.x",
     "@umijs/test": "^3.5.10",
-    "typescript": "^4.1.2",
     "yorkie": "^2.0.0"
   }
 }

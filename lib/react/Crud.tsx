@@ -6,6 +6,6 @@ import React from 'react';
  * @param param
  * @returns
  */
-export default function FCrud({}) {
-  return <div>demo</div>;
+export default function FCrud() {
+  return <div>crud</div>;
 }
