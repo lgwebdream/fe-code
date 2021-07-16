@@ -11,7 +11,7 @@ module.exports = {
     project: './tsconfig.eslint.json',
   },
   rules: {
-    'no-console': 'off',
+    'no-console': ['error', { allow: ['warn', 'error'] }],
     'no-restricted-syntax': 'off',
     'no-unused-expressions': 'off',
     '@typescript-eslint/no-unused-expressions': [

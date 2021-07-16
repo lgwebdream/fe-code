@@ -44,7 +44,7 @@ const api2code = program => {
     .option('-i, --input <input>', 'input json file')
     .requiredOption('-o, --output <output>', 'path of generation file')
     .action(options => {
-      const { url, output, path, body } = options;
+      const { url, output, path, body, input } = options;
 
       path && promptList.push(chooseHttpMethod);
 
@@ -55,6 +55,7 @@ const api2code = program => {
             path,
             output,
             httpMethod,
+            input: input && resolve(process.cwd(), input),
             body: body && resolve(process.cwd(), body),
           }),
         );
