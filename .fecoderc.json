@@ -1,0 +1,7 @@
+{
+  "url": "http://localhost:3000",
+  "root": "src",
+  "framework": ["React", "Vue"],
+  "useTypescript": true,
+  "language": "zh-CN"
+}
