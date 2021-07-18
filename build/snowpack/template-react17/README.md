@@ -1,7 +1,3 @@
-# empty-project
-
-Empty project.
-
 ## How to run on localhost
 
 First install dependencies:

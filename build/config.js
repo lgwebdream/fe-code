@@ -1,13 +1,16 @@
+const { join } = require('path');
+
 module.exports.custom = {
-  main: 'vue', // react
+  main: 'vue',
   build: 'snowpack',
-  ui: '',
-  test: 'jest',
-  transpiler: ['typescript'],
-  style: ['sass', 'postcss', 'less'],
-  lint: ['eslint', 'prettier'],
-  node: '',
-  output: './dist',
+  ui: '', // todo
+  test: 'jest', // todo
+  transpiler: ['typescript'], // todo
+  style: ['sass', 'postcss', 'less'], // todo
+  lint: ['eslint', 'prettier'], // todo
+  node: '', // todo
+  outputPath: join(__dirname, 'dist'),
+  projectName: 'demo', // support for snowpack now
 };
 
 module.exports.supports = {
