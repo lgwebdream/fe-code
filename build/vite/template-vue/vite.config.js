@@ -1,4 +1,5 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+const { createVuePlugin } = require('vite-plugin-vue2');
 
-createApp(App).mount('#app')
+module.exports = {
+  plugins: [createVuePlugin()],
+};

@@ -18,8 +18,18 @@ module.exports = {
       'error',
       { allowShortCircuit: true }
     ],
+    "import/no-unresolved": [2, { "ignore": ["vue", "react", "react-dom", "vite-plugin-vue2"] }],
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"]
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js','.jsx','.vue','.tsx', '.ts']
+      }
+    },
   }
 };
