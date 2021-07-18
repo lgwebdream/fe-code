@@ -1,1 +1,1 @@
-console.log('hello world!');
+document.getElementById('app').innerText = 'Hello World!';

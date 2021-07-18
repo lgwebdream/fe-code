@@ -12,9 +12,10 @@
     "build": "snowpack build"
   },
   "dependencies": {
-    "vue": "^2.6.14"
+    "vue": "^2.6.14",
+    "@morgul/snowpack-plugin-vue2": "^0.4.2"
   },
   "devDependencies": {
-    "snowpack": "^3.8.1"
+    "snowpack": "^3.8.2"
   }
 }

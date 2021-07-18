@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <h1>
@@ -7,14 +6,13 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
-
-export default Vue.extend({
-  data: function() {
+<script>
+export default {
+  name: 'App',
+  data() {
     return {
       name: 'Hello World!',
     }
   },
-});
+}
 </script>
