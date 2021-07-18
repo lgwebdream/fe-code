@@ -1,4 +1,4 @@
-export const custom = {
+module.exports.custom = {
   main: 'vue', // react
   build: 'snowpack',
   ui: '',
@@ -7,9 +7,10 @@ export const custom = {
   style: ['sass', 'postcss', 'less'],
   lint: ['eslint', 'prettier'],
   node: '',
+  output: './dist',
 };
 
-export const supports = {
+module.exports.supports = {
   main: ['react', 'vue'],
   build: ['snowpack', 'webpack', 'vite'],
 };
