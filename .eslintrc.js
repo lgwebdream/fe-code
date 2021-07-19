@@ -21,5 +21,9 @@ module.exports = {
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
     'react/react-in-jsx-scope': 'off',
-  },
+    'react/jsx-props-no-spreading': "off",
+    'import/no-extraneous-dependencies': 0,
+    'import/no-unresolved': 0,
+    'import/prefer-default-export': 0,
+  }
 };
