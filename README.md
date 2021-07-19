@@ -12,7 +12,61 @@
 
 ---
 
-## ① 基础命令
+
+
+## 目录
+
+- [配置项](#配置项)
+- [基础命令](#基础命令)
+  - [`api2code`](#api2code)
+
+
+
+## 配置项
+
+### 配置文件
+
+配置文件在项目根目录下，支持以下格式。如果没有配置文件所有值将会走默认配置。
+
+-  `.fecoderc`
+- `.fecoderc.json`
+- `.fecoderc.yaml`
+- `.fecoderc.yml`
+- `.fecoderc.js`
+- `.fecoderc.cjs`
+- `fe-code.config.js`
+- `fe-code.config.cjs`
+
+
+
+### 配置项
+
+| 配置项          | 类型      | 描述                                                         | 默认     |
+| --------------- | --------- | ------------------------------------------------------------ | -------- |
+| `request`       | `object`  | `url`: 使用该脚手架发送请求时的默认baseUrl； `headers`:自定义http头 | 如下json |
+| `root`          | `string`  | 输出文件时的根路径                                           | `src`    |
+| `framework`     | `array`   | 使用的框架 `Vue`, `React`                                    | `[]`     |
+| `useTypescript` | `boolean` | 项目中是否使用TS                                             | `true`   |
+| `language`      | `string`  | （预留）脚手架使用的自然语言                                 | `zh-CN`  |
+
+默认配置：
+
+```json
+{
+  "request": {
+    "url": "http://localhost:3000",
+    "headers": {}
+  },
+  "root": "src",
+  "framework": [],
+  "useTypescript": true,
+  "language": "zh-CN"
+}
+```
+
+
+
+## 基础命令
 
 ```shell
 #查看版本号

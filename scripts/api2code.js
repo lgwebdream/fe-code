@@ -34,7 +34,7 @@ const api2code = program => {
     .alias('a2c')
     .description('🌽 api translation typescript')
 
-    .option('-u, --url <url>', 'api addres(domain or ip)', config.url)
+    .option('-u, --url <url>', 'api addres(domain or ip)', config.request.url)
     .option('-p, --path <path>', 'api path')
     .option(
       '-b, --body <body>',

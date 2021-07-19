@@ -1,11 +1,10 @@
-import React from 'react';
-import { Table, TableProps, SpinProps } from 'antd';
+import { TableProps, SpinProps } from 'antd';
 import type { ColumnType, SortOrder } from 'antd/lib/table/interface';
 import type { CSSProperties } from 'react';
-import { FetcherResult } from '../service';
-import { ToolBarProps } from './ToolBar';
+import { FetcherResult } from '../../service';
+import { ToolBarProps } from '../ToolBar';
 
-type ParamsType = Record<string, any>;
+export type ParamsType = Record<string, any>;
 
 export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   columns?: ColumnType<T>[];
@@ -79,7 +78,7 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   beforeSearchSubmit?: (params: Partial<U>) => any;
 
   /** 选择项配置 */
-  rowSelection?: TableProps<T>['rowSelection'] | false;
+  rowSelection?: TableProps<T>['rowSelection'];
 
   style?: React.CSSProperties;
 
@@ -102,22 +101,11 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   debounceTime?: number;
 } & Omit<TableProps<T>, 'columns' | 'rowSelection'>;
 
-const CrudTable = <
-  T extends Record<string, any>,
-  U extends ParamsType,
-  ValueType,
->(
-  props: CrudTableProps<T, U, ValueType>,
-) => {
-  const { rowKey, tableLayout, columns: propsColumns = [] } = props;
-
-  return (
-    <Table<T>
-      columns={propsColumns}
-      rowKey={rowKey}
-      tableLayout={tableLayout}
-    />
-  );
+export type UseFetchActions = {
+  pageInfo: {
+    current?: number;
+    pageSize?: number;
+    defaultCurrent?: number;
+    defaultPageSize?: number;
+  };
 };
-
-export default CrudTable;

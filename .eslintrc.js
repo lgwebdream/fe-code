@@ -18,7 +18,7 @@ module.exports = {
       'error',
       { allowShortCircuit: true }
     ],
-    "import/no-unresolved": [2, { "ignore": ["vue", "react", "react-dom", "vite-plugin-vue2"] }],
+    "import/no-unresolved": [2, { "ignore": ["vue", "react", "react-dom", "vite-plugin-vue2", "mockjs", "@crud/CRUD", "umi-request"] }],
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
     'react/react-in-jsx-scope': 'off',
