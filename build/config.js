@@ -1,16 +1,18 @@
 const { join } = require('path');
 
 module.exports.custom = {
-  main: 'vue',
-  build: 'snowpack',
-  ui: '', // todo
-  test: 'jest', // todo
-  transpiler: ['typescript'], // todo
-  style: ['sass', 'postcss', 'less'], // todo
-  lint: ['eslint', 'prettier'], // todo
-  node: '', // todo
+  main: 'vue', // react/vue
+  mainVersion: '2', // react: 16/17, vue: 2/3
+  build: 'snowpack', // webpack/vite/snowpack; rollup(for feature)
+  ui: 'element', // antd/element/bootstrap/material
+  test: 'jest', // chai/mocha
+  transpiler: ['typescript'],
+  style: ['sass', 'postcss', 'less'],
+  lint: ['eslint', 'prettier'],
+  node: '10',
   outputPath: join(__dirname, 'dist'),
-  projectName: 'demo', // support for snowpack now
+  projectName: 'demo',
+  plugins: [],
 };
 
 module.exports.supports = {
