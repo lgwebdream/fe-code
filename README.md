@@ -41,19 +41,22 @@
 
 ### 配置项
 
-| 配置项          | 类型      | 描述                                | 默认                    |
-| --------------- | --------- | ----------------------------------- | ----------------------- |
-| `url`           | `string`  | 使用该脚手架发送请求时的默认baseUrl | `http://localhost:3000` |
-| `root`          | `string`  | 输出文件时的根路径                  | `src`                   |
-| `framework`     | `array`   | 使用的框架 `Vue`, `React`           | `[]`                    |
-| `useTypescript` | `boolean` | 项目中是否使用TS                    | `true`                  |
-| `language`      | `string`  | （预留）脚手架使用的自然语言        | `zh-CN`                 |
+| 配置项          | 类型      | 描述                                                         | 默认     |
+| --------------- | --------- | ------------------------------------------------------------ | -------- |
+| `request`       | `object`  | `url`: 使用该脚手架发送请求时的默认baseUrl； `headers`:自定义http头 | 如下json |
+| `root`          | `string`  | 输出文件时的根路径                                           | `src`    |
+| `framework`     | `array`   | 使用的框架 `Vue`, `React`                                    | `[]`     |
+| `useTypescript` | `boolean` | 项目中是否使用TS                                             | `true`   |
+| `language`      | `string`  | （预留）脚手架使用的自然语言                                 | `zh-CN`  |
 
-
+默认配置：
 
 ```json
 {
-  "url": "http://localhost:3000",
+  "request": {
+    "url": "http://localhost:3000",
+    "headers": {}
+  },
   "root": "src",
   "framework": [],
   "useTypescript": true,
