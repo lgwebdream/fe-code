@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Table } from 'antd';
 import classNames from 'classnames';
+import type { TablePaginationConfig } from 'antd';
 import type { ParamsType, CrudTableProps } from './typing';
 import { FetcherResult } from '../../service';
-import { parseDefaultColumnConfig } from './utils';
+import { parseDefaultColumnConfig, useFetchData } from './utils';
 
 const CrudTable = <
   T extends Record<string, any>,
@@ -19,6 +20,7 @@ const CrudTable = <
     tableLayout,
     className: propsClassName,
     columns: propsColumns = [],
+    pagination: propsPagination,
     request,
     params,
     defaultClassName,
@@ -28,11 +30,10 @@ const CrudTable = <
   const className = classNames(defaultClassName, propsClassName);
   const { sort, filter } = parseDefaultColumnConfig(propsColumns);
 
-  const getTableProps = () => ({
-    ...restProps,
-    className,
-    columns: propsColumns,
-  });
+  const fetchPagination =
+    typeof propsPagination === 'object'
+      ? (propsPagination as TablePaginationConfig)
+      : { defaultCurrent: 1, defaultPageSize: 20, pageSize: 20, current: 1 };
 
   /** 数据请求 */
   const fetchData = useMemo(() => {
@@ -51,9 +52,17 @@ const CrudTable = <
     };
   }, [params, request]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  // /** 收集组件触发请求action, 暂时忽略默认数据 */
+  const action = useFetchData(fetchData, {
+    pageInfo: fetchPagination,
+  });
+
+  const getTableProps = () => ({
+    ...restProps,
+    className,
+    dataSource: action.dataSource,
+    columns: propsColumns,
+  });
 
   return (
     <Table<T> {...getTableProps()} rowKey={rowKey} tableLayout={tableLayout} />

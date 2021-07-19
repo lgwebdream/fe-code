@@ -1,5 +1,7 @@
 import type { ColumnType, SortOrder } from 'antd/lib/table/interface';
 
+export { default as useFetchData } from './useFetchData';
+
 function parseDataIndex(
   dataIndex: ColumnType<'string'>['dataIndex'],
 ): string | undefined {
