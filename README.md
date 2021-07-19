@@ -14,13 +14,21 @@
 
 
 
+## 目录
+
+- [配置项](#配置项)
+- [基础命令](#基础命令)
+  - [`api2code`](#`api2code`)
+
+
+
 ## 配置项
 
 ### 配置文件
 
 配置文件在项目根目录下，支持以下格式。如果没有配置文件所有值将会走默认配置。
 
--   `.fecoderc`
+-  `.fecoderc`
 - `.fecoderc.json`
 - `.fecoderc.yaml`
 - `.fecoderc.yml`
