@@ -53,9 +53,5 @@ program
   .usage('[对应Commands]')
   .action(({args}, otherParmas) => {
     const whiteList = ['api2ts'];
-    if (whiteList.indexOf(cmd) < 0) {
-      console.log(cmd)
-      console.log(`🐝 ${chalk.blue(`${cmd}`)} ${chalk.red('暂未支持~')}`);
-    }
   });
 program.parse(process.argv);
