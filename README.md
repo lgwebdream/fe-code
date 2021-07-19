@@ -12,7 +12,50 @@
 
 ---
 
-## ① 基础命令
+
+
+## 配置项
+
+### 配置文件
+
+配置文件在项目根目录下，支持以下格式。如果没有配置文件所有值将会走默认配置。
+
+-   `.fecoderc`
+- `.fecoderc.json`
+- `.fecoderc.yaml`
+- `.fecoderc.yml`
+- `.fecoderc.js`
+- `.fecoderc.cjs`
+- `fe-code.config.js`
+- `fe-code.config.cjs`
+
+
+
+### 配置项
+
+| 配置项          | 类型      | 描述                                | 默认                    |
+| --------------- | --------- | ----------------------------------- | ----------------------- |
+| `url`           | `string`  | 使用该脚手架发送请求时的默认baseUrl | `http://localhost:3000` |
+| `root`          | `string`  | 输出文件时的根路径                  | `src`                   |
+| `framework`     | `array`   | 使用的框架 `Vue`, `React`           | `[]`                    |
+| `useTypescript` | `boolean` | 项目中是否使用TS                    | `true`                  |
+| `language`      | `string`  | （预留）脚手架使用的自然语言        | `zh-CN`                 |
+
+
+
+```json
+{
+  "url": "http://localhost:3000",
+  "root": "src",
+  "framework": [],
+  "useTypescript": true,
+  "language": "zh-CN"
+}
+```
+
+
+
+## 基础命令
 
 ```shell
 #查看版本号
