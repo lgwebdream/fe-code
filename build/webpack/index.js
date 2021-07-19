@@ -1,4 +1,3 @@
-// console.info('demo');
 const { copySync, removeSync, ensureDir } = require('fs-extra');
 const { join } = require('path');
 const { custom: configCustom } = require('../config');
