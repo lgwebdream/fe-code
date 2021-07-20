@@ -10,7 +10,6 @@
     "prepare": "husky install",
     "mock": "json-server --watch ./mocks/api.json",
     "eslint": "lint-staged",
-    "fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "test": "jest"
   },
   "keywords": [],
