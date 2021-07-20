@@ -9,6 +9,7 @@
   "scripts": {
     "prepare": "husky install",
     "mock": "json-server --watch ./mocks/api.json",
+    "eslint": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "test": "jest"
   },
   "keywords": [],
