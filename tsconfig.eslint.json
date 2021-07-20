@@ -23,8 +23,9 @@
     "downlevelIteration": true,
     "importHelpers": true,
     "sourceMap": false,
-    "checkJs": false
+    "checkJs": false,
   },
+  "exclude": ["node_modules"],
   "compileOnSave": false,
-  "include": ["**/**.ts", "**/**.tsx", "**/**.js", "**/**/**/*.ts"]
+  "include": ["**/**.ts", "**/**.tsx", "**/**.js", "**/**/**/*.ts","**/**/**/*.jsx"],
 }

@@ -1,11 +1,20 @@
+// @ts-ignore
+import Mock from 'mockjs';
+
 export default {
   'GET /api/json/list': {
-    result: [
-      { id: 1, name: '张三', age: 18, title: 'cto' },
-      { id: 2, name: '李四', age: 19, title: 'coo' },
-      { id: 3, name: '王五', age: 20, title: 'cfo' },
-    ],
-    success: true,
+    data: Mock.mock({
+      'data|10': [
+        {
+          'key|+1': 0,
+          'name|+1': '@cname',
+          'age|1-100': 100,
+          address: '@county(true)',
+          description: '@cparagraph(1, 3)',
+        },
+      ],
+    }),
+    status: 200,
   },
   'GET /api/json/add': {
     result: { id: 2, name: '张三', age: 18, title: 'cto' },
