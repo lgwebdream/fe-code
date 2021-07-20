@@ -1,35 +1,34 @@
 import React from 'react';
 
-import { Form } from 'antd'
+import { Form } from 'antd';
 import { IFormProps, IFormSchema } from './type';
 import { findComByName } from './formUtils';
 
-const Item = Form.Item
+const { Item } = Form;
 
 export interface IFFormProps {
-  formProps: IFormProps,
-  schema: IFormSchema[]
+  formProps: IFormProps;
+  schema: IFormSchema[];
 }
 
-const FForm = (
-  props: IFFormProps
-) => {
-  const { formProps, schema } = props
+const FForm: React.FC<IFFormProps> = (props: IFFormProps) => {
+  const { formProps, schema } = props;
+  const [form] = Form.useForm();
+
   return (
-    <Form
-      {...formProps}
-    >
+    <Form {...formProps} form={form}>
       {schema.map(item => {
-        const { itemProps, comType, comProps } = item
-        const FComponent = findComByName(comType)
+        const { itemProps, comType, comProps } = item;
+        const FComponent = findComByName(comType);
 
         if (!item.itemProps.isList) {
-          return <Item {...itemProps}>
-            {FComponent && <FComponent {...comProps} />}
-          </Item>
-        } else {
-          return null
+          return (
+            <Item {...itemProps}>
+              {FComponent && <FComponent {...comProps} />}
+            </Item>
+          );
         }
+        return null;
       })}
     </Form>
   );
