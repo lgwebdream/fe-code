@@ -1,12 +1,12 @@
 import Mock from 'mockjs';
 
 export default {
-  'GET /api/json/list': {
+  'POST /api/json/list': {
     data: Mock.mock({
-      'data|10': [
+      'data|100': [
         {
           'key|+1': 0,
-          'name|+1': '@cname',
+          name: '@cname',
           'age|1-100': 100,
           address: '@county(true)',
           description: '@cparagraph(1, 3)',

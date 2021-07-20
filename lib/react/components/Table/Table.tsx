@@ -2,6 +2,10 @@ import React, { useMemo } from 'react';
 import { Table } from 'antd';
 import classNames from 'classnames';
 import type { TablePaginationConfig } from 'antd';
+import type {
+  TableCurrentDataSource,
+  SorterResult,
+} from 'antd/lib/table/interface';
 import type { ParamsType, CrudTableProps } from './typing';
 import { FetcherResult } from '../../service';
 import { parseDefaultColumnConfig, useFetchData } from './utils';
@@ -52,16 +56,33 @@ const CrudTable = <
     };
   }, [params, request]);
 
-  // /** 收集组件触发请求action, 暂时忽略默认数据 */
+  /** 收集组件触发请求action, 暂时忽略合并默认数据 */
   const action = useFetchData(fetchData, {
     pageInfo: fetchPagination,
+    onPageInfoChange: pageInfo => {
+      if (propsPagination) {
+        propsPagination?.onChange?.(pageInfo.current, pageInfo.pageSize);
+      }
+    },
   });
+
+  // const pagination = useMemo(() => {
+
+  // }, [propsPagination, action]);
 
   const getTableProps = () => ({
     ...restProps,
     className,
     dataSource: action.dataSource,
     columns: propsColumns,
+    onChange: (
+      changePagination: TablePaginationConfig,
+      filters: Record<string, (React.Key | boolean)[] | null>,
+      sorter: SorterResult<T> | SorterResult<T>[],
+      extra: TableCurrentDataSource<T>,
+    ) => {
+      restProps.onChange?.(changePagination, filters, sorter, extra);
+    },
   });
 
   return (

@@ -101,6 +101,12 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   debounceTime?: number;
 } & Omit<TableProps<T>, 'columns' | 'rowSelection'>;
 
+export type PageInfo = {
+  pageSize: number;
+  total: number;
+  current: number;
+};
+
 export type UseFetchActions = {
   pageInfo: {
     current?: number;
@@ -108,4 +114,5 @@ export type UseFetchActions = {
     defaultCurrent?: number;
     defaultPageSize?: number;
   };
+  onPageInfoChange?: (pageInfo: PageInfo) => void;
 };
