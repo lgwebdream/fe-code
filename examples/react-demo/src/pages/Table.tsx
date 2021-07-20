@@ -1,5 +1,4 @@
-import * as FCrud from '@crud/CRUD';
-// @ts-ignore
+import FCrud from '@fe-code/react';
 import request from 'umi-request';
 
 declare namespace API {
