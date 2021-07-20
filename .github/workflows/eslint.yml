@@ -18,8 +18,8 @@ jobs:
         
     steps:
       - uses: actions/checkout@v2
-#       - name: Install packages
-#         run: yarn install
+      - name: Install packages
+        run: yarn install
       - name: ESLint
         run: npm run eslint
      
