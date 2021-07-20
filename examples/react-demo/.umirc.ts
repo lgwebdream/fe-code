@@ -6,6 +6,7 @@ const reactLibPath = join(process.cwd(), '../../lib/react/');
 const pageRouters = [
   { path: '/', component: '@/pages/index' },
   { path: '/table', component: '@/pages/Table' },
+  { path: '/toolbar', component: '@/pages/toolbar' },
 ]
 
 export default defineConfig({
