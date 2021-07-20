@@ -64,10 +64,14 @@ export default function ToolBar<T>(props: ToolBarProps<T>) {
     [],
   );
 
-  const getButton = useCallback((props: ButtonProps & { key: string }) => {
-    const { key, onClick, ...rest } = props;
+  const getButton = useCallback((bProps: ButtonProps & { key: string }) => {
+    const { key, onClick, type, children, icon } = bProps;
 
-    return onClick ? <Button {...rest} key={key} onClick={onClick} /> : null;
+    return onClick ? (
+      <Button key={key} onClick={onClick} type={type} icon={icon}>
+        {children}
+      </Button>
+    ) : null;
   }, []);
 
   const className = getClassName('toolbar', toolbar?.prefixCls);
@@ -110,7 +114,7 @@ export default function ToolBar<T>(props: ToolBarProps<T>) {
 
   return (
     <div className={className} style={style}>
-      {rending ? rending : columns.map(comp => comp)}
+      {rending || columns.map(comp => comp)}
     </div>
   );
 }

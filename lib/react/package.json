@@ -13,6 +13,7 @@
   "author": "水逆",
   "license": "ISC",
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "antd": "^4.16.7",
     "react": "^17.0.2"
   },
