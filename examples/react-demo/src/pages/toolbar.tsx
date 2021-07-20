@@ -22,7 +22,6 @@ export default function ToolBarPage() {
     selectedRowKeys?: (string | number)[];
     selectedRows?: API.ListItem[];
   }) => {
-    const { selectedRowKeys } = rows;
     return (
       <>
         <Button type="primary" icon={<PlusOutlined />} onClick={onAddRow}>
@@ -33,7 +32,7 @@ export default function ToolBarPage() {
           type="primary"
           danger
           icon={<DeleteOutlined />}
-          disabled={!selectedRowKeys?.length}
+          disabled={!rows.selectedRowKeys?.length}
           onClick={onDeleteRow}
         >
           批量删除
@@ -41,7 +40,7 @@ export default function ToolBarPage() {
 
         <Button
           icon={<EditOutlined />}
-          disabled={!selectedRowKeys?.length}
+          disabled={!rows.selectedRowKeys?.length}
           onClick={onModifyRow}
         >
           批量修改
