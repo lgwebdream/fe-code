@@ -24,7 +24,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     "no-shadow": "off",
     "react/jsx-props-no-spreading": 'off',
-    "@typescript-eslint/no-shadow": ["error"]
+    "@typescript-eslint/no-shadow": ["error"],
+    "import/prefer-default-export": 'off',
   },
   settings: {
     'import/resolver': {

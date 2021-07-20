@@ -13,18 +13,18 @@ export interface IFFormProps {
 
 const FForm: React.FC<IFFormProps> = (props: IFFormProps) => {
   const { formProps, schema } = props;
-  const [form] = Form.useForm();
-
   return (
-    <Form {...formProps} form={form}>
+    <Form {...formProps}>
       {schema.map(item => {
         const { itemProps, comType, comProps } = item;
         const FComponent = findComByName(comType);
-
-        if (!item.itemProps.isList) {
+        if (!FComponent) {
+          return null;
+        }
+        if (!item?.itemProps?.isList) {
           return (
-            <Item {...itemProps}>
-              {FComponent && <FComponent {...comProps} />}
+            <Item {...itemProps} key={itemProps.id || itemProps.key}>
+              <FComponent {...comProps} />
             </Item>
           );
         }

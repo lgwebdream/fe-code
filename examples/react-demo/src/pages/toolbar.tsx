@@ -31,7 +31,7 @@ export default function ToolBarPage() {
 
         <Button
           type="primary"
-          danger={true}
+          danger
           icon={<DeleteOutlined />}
           disabled={!selectedRowKeys?.length}
           onClick={onDeleteRow}
