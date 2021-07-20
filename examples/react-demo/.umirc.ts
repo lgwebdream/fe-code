@@ -7,6 +7,7 @@ const pageRouters = [
   { path: '/', component: '@/pages/index' },
   { path: '/table', component: '@/pages/Table' },
   { path: '/toolbar', component: '@/pages/toolbar' },
+  { path: '/formDemo', component: '@/pages/FormDemo' },
 ]
 
 export default defineConfig({
