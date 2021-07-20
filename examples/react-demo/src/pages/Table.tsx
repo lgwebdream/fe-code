@@ -1,4 +1,4 @@
-import * as FCrud from '@fe-code/react';
+import FCrud from '@fe-code/react';
 import request from 'umi-request';
 
 declare namespace API {
@@ -25,13 +25,18 @@ const columns = [
     dataIndex: 'address',
     key: 'address',
   },
+  {
+    title: '描述',
+    dataIndex: 'description',
+    key: 'description',
+  },
 ];
 
 export default function IndexPage() {
   return (
     <FCrud.Table<API.ListItem, API.PageParams, string>
-      request={async (params) => {
-        return request<{}>('/mock/json/list', {
+      request={async (params = { current: 1 }) => {
+        return request<{}>('api/json/list', {
           params,
         });
       }}
