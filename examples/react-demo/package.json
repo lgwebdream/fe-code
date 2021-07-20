@@ -8,8 +8,10 @@
     "test:coverage": "umi-test --coverage"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.6.2",
     "@ant-design/pro-layout": "^6.5.0",
     "@fe-code/react": "file:../../lib/react",
+    "antd": "^4.16.8",
     "classnames": "^2.3.1",
     "mockjs": "^1.1.0",
     "react": "17.x",
