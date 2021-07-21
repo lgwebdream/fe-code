@@ -1,31 +1,33 @@
-import { FCrud } from '@fe-code/react';
-// import { useState } from 'react';
-// import { message } from 'antd';
+import { FCrud, ICrudToolbar } from '@fe-code/react';
+import { Button } from 'antd';
 
-declare namespace API {
-  type ListItem = {};
-}
+const toolbar: ICrudToolbar<{}>[] = [
+  {
+    label: '添加',
+    type: 'primary',
+  },
+  {
+    label: '导出',
+    type: 'ghost',
+  },
+  {
+    label: '删除',
+    type: 'dashed',
+  },
+  {
+    render: (row) => {
+      console.log(row);
+      return <Button type="text">自定义按钮</Button>;
+    },
+  },
+];
 
 export default function ToolBarPage() {
-  // const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
-
-  // const onAddRow = () =>
-  //   setSelectedRowKeys([Math.random()].concat(selectedRowKeys));
-
-  // const onDeleteRows = () =>
-  //   setSelectedRowKeys(selectedRowKeys.slice(0, selectedRowKeys.length - 2));
-
-  // const onModifyRows = () => message.error('onModifyRow');
-
   return (
     <>
       {/* 内置增删改 */}
-      <FCrud.ToolBar<API.ListItem, unknown>
-        // batchOperationOptions={{
-        //   onAddRow,
-        //   onDeleteRows,
-        //   onModifyRows,
-        // }}
+      <FCrud.ToolBar
+        batchOptions={toolbar}
         searchOptions={{
           columns: [
             {

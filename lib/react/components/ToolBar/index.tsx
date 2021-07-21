@@ -10,7 +10,7 @@ export interface ToolBarProps<T = unknown, VT = unknown> {
   selectedRowKeys?: (string | number)[];
   selectedRows?: T[];
   toolbarOptions?: ToolBarOptions<T>;
-  batchOperationOptions?: ICrudToolbar<T>[];
+  batchOptions?: ICrudToolbar<T>[];
   searchOptions?: SearchOptions<T, VT>;
 }
 
@@ -20,7 +20,7 @@ const ToolBar = <T extends Object, VT>(props: ToolBarProps<T, VT>) => {
     selectedRows,
     searchOptions,
     toolbarOptions,
-    batchOperationOptions,
+    batchOptions,
   } = props;
 
   const { prefixCls, style, className, render } = toolbarOptions || {};
@@ -50,7 +50,7 @@ const ToolBar = <T extends Object, VT>(props: ToolBarProps<T, VT>) => {
             selectedRows={selectedRows}
           />
           <BatchOperation<T>
-            options={batchOperationOptions}
+            options={batchOptions}
             selectedRowKeys={selectedRowKeys}
             selectedRows={selectedRows}
           />

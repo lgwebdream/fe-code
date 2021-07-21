@@ -11,9 +11,8 @@ const FCrud = <T extends Record<string, unknown>>(
 
   return (
     <div className="f-crud">
-      {/* <div className="crud-filter"></div> */}
       <div className="crud-toolbar">
-        <ToolBar batchOperationOptions={batchToolbar} />
+        <ToolBar batchOptions={batchToolbar} />
       </div>
       <div className="crud-body">
         <Table {...tableProps} request={request} columns={columns} />

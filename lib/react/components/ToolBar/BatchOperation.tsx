@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from 'antd';
 import type { ICrudToolbar } from '..';
+
+const { Group } = Button;
 
 export interface BatchOperationProps<T> {
   selectedRowKeys?: (string | number)[];
@@ -11,61 +13,26 @@ export interface BatchOperationProps<T> {
 const BatchOperation = <T extends Object>(props: BatchOperationProps<T>) => {
   const { selectedRows, selectedRowKeys, options } = props;
 
-  // const nextClassName = classnames(
-  //   getClassName('batch-operation', prefixCls),
-  //   className,
-  // );
-
-  // const columns = [
-  //   getButton({
-  //     type: 'primary',
-  //     children: '新增',
-  //     icon: <PlusOutlined />,
-  //     key: 'add',
-  //     onClick: onAddRow,
-  //   }),
-  //   getButton({
-  //     type: 'primary',
-  //     children: '批量删除',
-  //     disabled: !selectedRowKeys?.length,
-  //     danger: true,
-  //     icon: <DeleteOutlined />,
-  //     key: 'delete',
-  //     onClick: onDeleteRows,
-  //   }),
-  //   getButton({
-  //     children: '批量修改',
-  //     icon: <EditOutlined />,
-  //     disabled: !selectedRowKeys?.length,
-  //     key: 'modify',
-  //     onClick: onModifyRows,
-  //   }),
-  // ].filter(comp => comp);
-
-  // const dynamicRender = render?.({
-  //   selectedRowKeys,
-  //   selectedRows,
-  // });
-
-  return (
-    <div className="batch-operation">
-      {/* {dynamicRender || columns.map(comp => comp)} */}
-      {options?.map((it, idx) => {
-        const {
-          key,
-          type,
-          label,
-          children,
-          icon,
-          danger,
-          disabled,
-          style,
-          className,
-          onClick,
-          request,
-        } = it;
-        return (
-          it.render || (
+  const Buttons = useMemo(() => {
+    return (
+      <Group>
+        {options?.map((it, idx) => {
+          const {
+            key,
+            type,
+            label,
+            children,
+            icon,
+            danger,
+            disabled,
+            style,
+            className,
+            onClick,
+            request,
+          } = it;
+          return it.render ? (
+            it.render()
+          ) : (
             <Button
               className={className}
               style={style}
@@ -81,11 +48,13 @@ const BatchOperation = <T extends Object>(props: BatchOperationProps<T>) => {
             >
               {label || children}
             </Button>
-          )
-        );
-      })}
-    </div>
-  );
+          );
+        })}
+      </Group>
+    );
+  }, [options, selectedRows, selectedRowKeys]);
+
+  return <div className="batch-operation">{Buttons}</div>;
 };
 
 export default BatchOperation;

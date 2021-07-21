@@ -23,7 +23,7 @@ export enum ICurdContainerTypeEnum {
 }
 
 /** 操作按钮定义 */
-export type ICrudToolbar<T> = {
+export type ICrudToolbar<T = unknown> = {
   style?: CSSProperties;
   className?: string;
   prefixCls?: string;

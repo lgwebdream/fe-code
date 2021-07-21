@@ -4,6 +4,7 @@ import {
   ICrudFormTypeEnum,
   ICurdContainerTypeEnum,
 } from '@fe-code/react';
+import { Button } from 'antd';
 import request from 'umi-request';
 
 const apiConfig = {
@@ -31,17 +32,20 @@ const demoTable: ICrud<IMember> = {
   batchToolbar: [
     {
       label: '添加',
+      type: 'primary',
     },
     {
       label: '导出',
+      type: 'ghost',
     },
     {
       label: '删除',
+      type: 'dashed',
     },
     {
       render: (row) => {
         console.log(row);
-        return <div>批量操作</div>;
+        return <Button type="text">自定义按钮</Button>;
       },
     },
   ],
