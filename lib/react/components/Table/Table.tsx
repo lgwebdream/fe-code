@@ -1,20 +1,24 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Table } from 'antd';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import classNames from 'classnames';
 import type { TablePaginationConfig } from 'antd';
 import type { ParamsType, CrudTableProps } from './typing';
-import { FetcherResult } from '../../service';
 import { parseDefaultColumnConfig, useFetchData } from './utils';
+
+export type ICrudTableProps<
+  T extends Record<string, any>,
+  U extends ParamsType,
+  ValueType,
+> = CrudTableProps<T, U, ValueType> & {
+  defaultClassName?: string;
+};
 
 const CrudTable = <
   T extends Record<string, any>,
   U extends ParamsType,
   ValueType,
 >(
-  props: CrudTableProps<T, U, ValueType> & {
-    defaultClassName?: string;
-  },
+  props: ICrudTableProps<T, U, ValueType>,
 ) => {
   const {
     rowKey,
@@ -36,27 +40,13 @@ const CrudTable = <
       ? (propsPagination as TablePaginationConfig)
       : { defaultCurrent: 1, defaultPageSize: 20, pageSize: 20, current: 1 };
 
-  /** 数据请求 */
-  const fetchData = useMemo(() => {
-    if (!request) return undefined;
-    return async (pageParams?: Record<string, any>) => {
-      const actionParams = {
-        ...(pageParams || {}),
-        ...params,
-      };
-      const response = await request(
-        actionParams as unknown as U,
-        sort,
-        filter,
-      );
-      return response as FetcherResult<T>;
-    };
-  }, [params, request]);
-
-  // /** 收集组件触发请求action, 暂时忽略默认数据 */
-  const action = useFetchData(fetchData, {
-    pageInfo: fetchPagination,
-  });
+  /** 收集组件触发请求action, 暂时忽略默认数据 */
+  const action = useFetchData(
+    request,
+    { pageInfo: fetchPagination },
+    sort,
+    filter,
+  );
 
   const getTableProps = () => ({
     ...restProps,
@@ -66,8 +56,7 @@ const CrudTable = <
   });
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <Table<T> {...getTableProps()} rowKey={rowKey} tableLayout={tableLayout} />
+    <Table {...getTableProps()} rowKey={rowKey} tableLayout={tableLayout} />
   );
 };
 

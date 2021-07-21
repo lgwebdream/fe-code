@@ -1,7 +1,7 @@
 import { TableProps, SpinProps } from 'antd';
-import type { ColumnType, SortOrder } from 'antd/lib/table/interface';
+import type { ColumnType } from 'antd/lib/table/interface';
 import type { CSSProperties } from 'react';
-import { FetcherResult } from '../../service';
+import type { ICrudListRequest } from '../index.d';
 import { ToolBarProps } from '../ToolBar';
 
 export type ParamsType = Record<string, any>;
@@ -35,15 +35,7 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   ) => React.ReactNode;
 
   /** 一个获得 dataSource 的方法 */
-  request?: (
-    params: U & {
-      pageSize?: number;
-      current?: number;
-      keyword?: string;
-    },
-    sort: Record<string, SortOrder>,
-    filter: Record<string, React.ReactText[] | null>,
-  ) => Promise<Partial<FetcherResult<T>>>;
+  request?: ICrudListRequest<T>;
 
   /** 对数据进行一些处理 */
   postData?: (data: any[]) => any[];
@@ -101,11 +93,13 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   debounceTime?: number;
 } & Omit<TableProps<T>, 'columns' | 'rowSelection'>;
 
+export type CrudTableParams = {
+  current?: number;
+  pageSize?: number;
+  defaultCurrent?: number;
+  defaultPageSize?: number;
+};
+
 export type UseFetchActions = {
-  pageInfo: {
-    current?: number;
-    pageSize?: number;
-    defaultCurrent?: number;
-    defaultPageSize?: number;
-  };
+  pageInfo: CrudTableParams;
 };

@@ -1,4 +1,4 @@
-import { FForm } from '@fe-code/react';
+import { FCrud } from '@fe-code/react';
 import { IFormComTypeEnum } from '@fe-code/react/components/Form/constant';
 import { Alert, Button, Form } from 'antd';
 
@@ -21,13 +21,13 @@ export default function FormDemo() {
   };
 
   return (
-    <div style={{width: 500}}>
-    <Alert message="1. 基本使用" type="success" />
-      <FForm
+    <div style={{ width: 500 }}>
+      <Alert message="1. 基本使用" type="success" />
+      <FCrud.Form
         formProps={{
           onFinish,
           form,
-          ...formItemLayout
+          ...formItemLayout,
         }}
         schema={[
           {
@@ -47,15 +47,20 @@ export default function FormDemo() {
               label: '密码',
               required: true,
               name: 'pass',
-              rules: [{ required: true, message: 'Please input your password!' }],
+              rules: [
+                { required: true, message: 'Please input your password!' },
+              ],
             },
           },
         ]}
       />
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" onClick={()=>{
-          form.submit()
-        }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            form.submit();
+          }}
+        >
           Submit
         </Button>
       </Form.Item>

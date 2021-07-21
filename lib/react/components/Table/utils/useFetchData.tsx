@@ -1,24 +1,29 @@
 import { useState, useEffect } from 'react';
-import { FetcherResult } from '../../../service';
+import {
+  ICrudListRequest,
+  ICrudListRequestSort,
+  ICrudListRequestFilter,
+} from '../..';
 import { UseFetchActions } from '../typing';
 
-const useFetchData = <T extends FetcherResult<any>>(
-  getData:
-    | undefined
-    | ((params?: { pageSize?: number; current?: number }) => Promise<T>),
+const useFetchData = <T extends Record<string, any>>(
+  request: ICrudListRequest<T>,
   actions: UseFetchActions,
+  sort?: ICrudListRequestSort,
+  filter?: ICrudListRequestFilter,
 ) => {
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
     const pageParams = actions.pageInfo;
-    const data = await getData(pageParams);
+    const data = await request(pageParams, sort || null, filter || null);
     return data;
   };
 
   useEffect(() => {
     fetchList().then(res => {
-      setList(res.data.data);
+      // TODO 这里也可以获取到其他分页数据
+      setList(res.rows);
     });
   }, []);
 

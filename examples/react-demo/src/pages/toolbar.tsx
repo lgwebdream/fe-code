@@ -1,4 +1,4 @@
-import FCrud from '@fe-code/react';
+import { FCrud } from '@fe-code/react';
 import { useState } from 'react';
 import { Button, message } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';

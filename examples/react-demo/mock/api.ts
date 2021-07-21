@@ -6,11 +6,13 @@ export default {
     data: Mock.mock({
       'data|10': [
         {
+          'id|+1': 1,
           'key|+1': 0,
           'name|+1': '@cname',
           'age|1-100': 100,
           address: '@county(true)',
           description: '@cparagraph(1, 3)',
+          title: '@pick(["cto","ceo","coo"])',
         },
       ],
     }),
