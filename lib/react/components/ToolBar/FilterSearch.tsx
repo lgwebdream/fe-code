@@ -1,6 +1,12 @@
 import classnames from 'classnames';
 import { Form, Button, Input } from 'antd';
-import { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  ReactElement,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { getClassName } from './utils';
 import type { FormElementOptions, FormItemType, SearchOptions } from './typing';
 
@@ -72,7 +78,7 @@ const FilterSearch = <T extends Object, VT>(
   };
 
   useEffect(() => {
-    const elements = columns.map((column) => {
+    const elements = columns.map(column => {
       const { type, options: formElementOptions, ...rest } = column;
       return (
         <Form.Item {...rest} key={rest.name}>

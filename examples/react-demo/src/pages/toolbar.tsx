@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Button, message } from 'antd';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import ToolBar from './ToolBar/index';
+import { message } from 'antd';
+import FCrud from '@fe-code/react';
 
 declare namespace API {
   type ListItem = {};
@@ -21,7 +20,7 @@ export default function ToolBarPage() {
   return (
     <>
       {/* 内置增删改 */}
-      <ToolBar<API.ListItem, unknown>
+      <FCrud.ToolBar<API.ListItem, unknown>
         batchOperationOptions={{
           onAddRow,
           onDeleteRows,
@@ -40,8 +39,8 @@ export default function ToolBarPage() {
               rules: [{ required: true, message: '请输入姓名' }],
             },
           ],
-          onReset: () => console.log("onReset"),
-          onSearch: () => console.log("onSearch")
+          onReset: () => console.log('onReset'),
+          onSearch: () => console.log('onSearch'),
         }}
         selectedRowKeys={selectedRowKeys}
       />
