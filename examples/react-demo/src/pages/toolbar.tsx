@@ -1,31 +1,31 @@
 import { FCrud } from '@fe-code/react';
-import { useState } from 'react';
-import { message } from 'antd';
+// import { useState } from 'react';
+// import { message } from 'antd';
 
 declare namespace API {
   type ListItem = {};
 }
 
 export default function ToolBarPage() {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
+  // const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
 
-  const onAddRow = () =>
-    setSelectedRowKeys([Math.random()].concat(selectedRowKeys));
+  // const onAddRow = () =>
+  //   setSelectedRowKeys([Math.random()].concat(selectedRowKeys));
 
-  const onDeleteRows = () =>
-    setSelectedRowKeys(selectedRowKeys.slice(0, selectedRowKeys.length - 2));
+  // const onDeleteRows = () =>
+  //   setSelectedRowKeys(selectedRowKeys.slice(0, selectedRowKeys.length - 2));
 
-  const onModifyRows = () => message.error('onModifyRow');
+  // const onModifyRows = () => message.error('onModifyRow');
 
   return (
     <>
       {/* 内置增删改 */}
       <FCrud.ToolBar<API.ListItem, unknown>
-        batchOperationOptions={{
-          onAddRow,
-          onDeleteRows,
-          onModifyRows,
-        }}
+        // batchOperationOptions={{
+        //   onAddRow,
+        //   onDeleteRows,
+        //   onModifyRows,
+        // }}
         searchOptions={{
           columns: [
             {
@@ -42,7 +42,7 @@ export default function ToolBarPage() {
           onReset: () => console.log('onReset'),
           onSearch: () => console.log('onSearch'),
         }}
-        selectedRowKeys={selectedRowKeys}
+        // selectedRowKeys={selectedRowKeys}
       />
     </>
   );

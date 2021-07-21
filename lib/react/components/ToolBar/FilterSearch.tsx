@@ -23,15 +23,8 @@ const FilterSearch = <T extends Object, VT>(
 ) => {
   const { selectedRowKeys, selectedRows, options } = props;
 
-  const {
-    columns = [],
-    style,
-    className,
-    prefixCls,
-    render,
-    onSearch,
-    onReset,
-  } = options || {};
+  const { columns, style, className, prefixCls, render, onSearch, onReset } =
+    options || {};
 
   const [formReactElement, setFormReactElement] = useState<ReactElement>();
 
@@ -78,7 +71,7 @@ const FilterSearch = <T extends Object, VT>(
   };
 
   useEffect(() => {
-    const elements = columns.map(column => {
+    const elements = columns?.map(column => {
       const { type, options: formElementOptions, ...rest } = column;
       return (
         <Form.Item {...rest} key={rest.name}>
@@ -86,7 +79,7 @@ const FilterSearch = <T extends Object, VT>(
         </Form.Item>
       );
     });
-    elements.push(
+    elements?.push(
       <Form.Item key="operation">
         <Button onClick={onResetClick}>重置</Button>
         <Button type="primary" onClick={onSearchClick}>

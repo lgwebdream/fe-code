@@ -15,18 +15,19 @@ export interface ToolBarOptions<T> {
   }) => ReactElement;
 }
 
-export interface BatchOperationOptions<T> {
-  style?: CSSProperties;
-  className?: string;
-  prefixCls?: string;
-  onAddRow?: () => void;
-  onDeleteRows?: () => void;
-  onModifyRows?: () => void;
-  render?: (rows: {
-    selectedRowKeys?: (string | number)[];
-    selectedRows?: T[];
-  }) => ReactElement;
-}
+// export interface BatchOperationOptions<T> extends ICrudToolbar<T> {
+//   style?: CSSProperties;
+//   className?: string;
+//   prefixCls?: string;
+//   key?: string;
+//   // onAddRow?: () => void;
+//   // onDeleteRows?: () => void;
+//   // onModifyRows?: () => void;
+//   // render?: (rows: {
+//   //   selectedRowKeys?: (string | number)[];
+//   //   selectedRows?: T[];
+//   // }) => ReactElement;
+// }
 
 export interface SearchOptions<T, VT> {
   prefixCls?: string;

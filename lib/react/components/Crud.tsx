@@ -7,12 +7,14 @@ import { ICrud } from '.';
 const FCrud = <T extends Record<string, unknown>>(
   props: ICrud<T>,
 ): React.ReactElement => {
-  const { columns, tableProps, request } = props;
+  const { columns, tableProps, batchToolbar, request } = props;
 
   return (
     <div className="f-crud">
-      {/* <div className="crud-filter"></div>
-      <div className="crud-toolbar"></div> */}
+      {/* <div className="crud-filter"></div> */}
+      <div className="crud-toolbar">
+        <ToolBar batchOperationOptions={batchToolbar} />
+      </div>
       <div className="crud-body">
         <Table {...tableProps} request={request} columns={columns} />
       </div>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
+import { ButtonProps } from 'antd';
 import { Rule } from 'antd/es/form/index.d';
 import { ColumnType, SortOrder } from 'antd/lib/table/interface';
 import type { CrudTableParams, CrudTableProps } from './Table/typing';
+import { ToolBarProps } from './ToolBar';
 
 /** 表单枚举类型 */
 export enum ICrudFormTypeEnum {
@@ -21,7 +23,12 @@ export enum ICurdContainerTypeEnum {
 }
 
 /** 操作按钮定义 */
-export interface ICrudToolbar<T> {
+export type ICrudToolbar<T> = {
+  style?: CSSProperties;
+  className?: string;
+  prefixCls?: string;
+  key?: string;
+
   /** 按钮文本展示 */
   label?: string;
 
@@ -29,11 +36,14 @@ export interface ICrudToolbar<T> {
   icon?: React.ReactElement;
 
   /** 请求 Promise */
-  request?: (selectedRows: T[]) => Promise<T>;
+  request?: (
+    selectedRows: T[],
+    selectedRowKeys?: (string | number)[],
+  ) => Promise<T>;
 
   /** 覆盖渲染，优先级最高，覆盖 ToolbarType 内部定义方法 */
   render?: (row?: T, index?: number) => React.ReactElement;
-}
+} & ButtonProps;
 
 /** 字段定义 */
 export interface ICrudField<T> extends ColumnType<T> {
@@ -84,6 +94,9 @@ export type ICrudListRequest<T extends Record<string, any>> = (
 export interface ICrud<T> {
   /** 业务标题，用作表单弹框、信息提示等场景展示 */
   title?: string;
+
+  /** toolbar 其他属性扩展 */
+  toolbarProps?: ToolBarProps<T>;
 
   /** 表格其他属性扩展 */
   tableProps?: CrudTableProps<T, {}>;

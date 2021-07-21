@@ -3,17 +3,14 @@ import classnames from 'classnames';
 import BatchOperation from './BatchOperation';
 import FilberSearch from './FilterSearch';
 import { getClassName } from './utils';
-import type {
-  BatchOperationOptions,
-  SearchOptions,
-  ToolBarOptions,
-} from './typing';
+import type { SearchOptions, ToolBarOptions } from './typing';
+import type { ICrudToolbar } from '..';
 
 export interface ToolBarProps<T = unknown, VT = unknown> {
   selectedRowKeys?: (string | number)[];
   selectedRows?: T[];
   toolbarOptions?: ToolBarOptions<T>;
-  batchOperationOptions?: BatchOperationOptions<T>;
+  batchOperationOptions?: ICrudToolbar<T>[];
   searchOptions?: SearchOptions<T, VT>;
 }
 
