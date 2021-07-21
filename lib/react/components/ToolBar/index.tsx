@@ -1,120 +1,69 @@
-import React, { ReactElement, useCallback, useMemo } from 'react';
-import { Button, ButtonProps } from 'antd';
-import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
-import type { SearchProps } from 'antd/lib/input';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import React, { useMemo } from 'react';
+import classnames from 'classnames';
+import BatchOperation from './BatchOperation';
+import FilberSearch from './FilterSearch';
+import { getClassName } from './utils';
+import type {
+  BatchOperationOptions,
+  SearchOptions,
+  ToolBarOptions,
+} from './typing';
 
-type SearchPropType = SearchProps | React.ReactNode | boolean;
-
-export type ListToolBarProps = {
-  prefixCls?: string;
-  className?: string;
-  style?: React.CSSProperties;
-  /** 标题 */
-  title?: React.ReactNode;
-  /** 副标题 */
-  subTitle?: React.ReactNode;
-  /** 标题提示 */
-  tooltip?: string | LabelTooltipType;
-  /** 搜索输入栏相关配置 */
-  search?: SearchPropType;
-  /** 搜索回调 */
-  onSearch?: (keyWords: string) => void;
-  /** 工具栏右侧操作区 */
-  actions?: React.ReactNode[];
-  /** 是否多行展示 */
-  multipleLine?: boolean;
-  /** 过滤区，通常配合 LightFilter 使用 */
-  filter?: React.ReactNode;
-};
-
-export type ToolBarProps<T = unknown> = {
-  headerTitle?: React.ReactNode;
-  tooltip?: string | LabelTooltipType;
-  /** @deprecated 你可以使用 tooltip，这个更改是为了与 antd 统一 */
-  tip?: string;
-  toolbar?: ListToolBarProps;
-  toolBarRender?: (rows: {
-    selectedRowKeys?: (string | number)[];
-    selectedRows?: T[];
-  }) => ReactElement;
+export interface ToolBarProps<T = unknown, VT = unknown> {
   selectedRowKeys?: (string | number)[];
   selectedRows?: T[];
-  className?: string;
-  onSearch?: () => void;
-  onAddRow?: () => void;
-  onDeleteRows?: () => void;
-  onModifyRows?: () => void;
-};
+  toolbarOptions?: ToolBarOptions<T>;
+  batchOperationOptions?: BatchOperationOptions<T>;
+  searchOptions?: SearchOptions<T, VT>;
+}
 
-export default function ToolBar<T>(props: ToolBarProps<T>) {
+const ToolBar = <T extends Object, VT>(props: ToolBarProps<T, VT>) => {
   const {
-    toolbar,
     selectedRowKeys,
     selectedRows,
-    toolBarRender,
-    onAddRow,
-    onDeleteRows,
-    onModifyRows,
+    searchOptions,
+    toolbarOptions,
+    batchOperationOptions,
   } = props;
 
-  const getClassName = useCallback(
-    (suffixCls: string, prefixCls?: string) =>
-      prefixCls ? `${prefixCls}-${suffixCls}` : suffixCls,
-    [],
+  const { prefixCls, style, className, render } = toolbarOptions || {};
+
+  const nextClassName = classnames(
+    getClassName('toolbar', prefixCls),
+    className,
   );
 
-  const getButton = useCallback((bProps: ButtonProps & { key: string }) => {
-    const { key, onClick, type, children, icon } = bProps;
-
-    return onClick ? (
-      <Button key={key} onClick={onClick} type={type} icon={icon}>
-        {children}
-      </Button>
-    ) : null;
-  }, []);
-
-  const className = getClassName('toolbar', toolbar?.prefixCls);
-
-  const rending = toolBarRender?.({ selectedRowKeys, selectedRows });
-
-  const columns = [
-    getButton({
-      type: 'primary',
-      children: '新增',
-      icon: <PlusOutlined />,
-      key: 'add',
-      onClick: onAddRow,
-    }),
-    getButton({
-      type: 'primary',
-      children: '批量删除',
-      disabled: !selectedRowKeys?.length,
-      danger: true,
-      icon: <DeleteOutlined />,
-      key: 'delete',
-      onClick: onDeleteRows,
-    }),
-    getButton({
-      children: '批量修改',
-      icon: <EditOutlined />,
-      disabled: !selectedRowKeys?.length,
-      key: 'modify',
-      onClick: onModifyRows,
-    }),
-  ];
-
-  const style = useMemo(
+  const nextStyle = useMemo(
     () => ({
       padding: 10,
-      ...(toolbar?.style ?? {}),
+      ...style,
     }),
-    [toolbar?.style],
+    [style],
   );
 
+  const dynamicRender = render?.({ selectedRowKeys, selectedRows });
+
   return (
-    <div className={className} style={style}>
-      {rending || columns.map(comp => comp)}
+    <div className={nextClassName} style={nextStyle}>
+      {dynamicRender || (
+        <>
+          <FilberSearch<T, VT>
+            options={searchOptions}
+            selectedRowKeys={selectedRowKeys}
+            selectedRows={selectedRows}
+          />
+          <BatchOperation<T>
+            options={batchOperationOptions}
+            selectedRowKeys={selectedRowKeys}
+            selectedRows={selectedRows}
+          />
+        </>
+      )}
     </div>
   );
-}
+};
+
+ToolBar.BatchOperation = BatchOperation;
+ToolBar.FilberSearch = FilberSearch;
+
+export default ToolBar;
