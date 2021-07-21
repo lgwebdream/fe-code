@@ -65,10 +65,17 @@ export default function ToolBar<T>(props: ToolBarProps<T>) {
   );
 
   const getButton = useCallback((bProps: ButtonProps & { key: string }) => {
-    const { key, onClick, type, children, icon } = bProps;
+    const { key, onClick, type, children, icon, danger, disabled } = bProps;
 
     return onClick ? (
-      <Button key={key} onClick={onClick} type={type} icon={icon}>
+      <Button
+        key={key}
+        onClick={onClick}
+        type={type}
+        icon={icon}
+        danger={danger}
+        disabled={disabled}
+      >
         {children}
       </Button>
     ) : null;
