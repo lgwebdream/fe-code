@@ -1,5 +1,5 @@
 import { Button } from 'antd';
-import { FCrud, ICrudToolbar, IFormComTypeEnum } from '@crud';
+import { FCrud, ICrudToolbar, IFormComTypeEnum } from '@crud/index';
 
 const toolbar: ICrudToolbar[] = [
   {
