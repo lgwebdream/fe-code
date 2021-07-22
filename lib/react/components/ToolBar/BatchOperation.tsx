@@ -1,87 +1,62 @@
-import { Button, ButtonProps } from 'antd';
-import React, { useCallback } from 'react';
-import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import classnames from 'classnames';
-import { getClassName } from './utils';
-import type { BatchOperationOptions } from './typing';
+import React, { useMemo } from 'react';
+import { Button } from 'antd';
+import type { ICrudToolbar } from '../Crud.d';
+
+const { Group } = Button;
 
 export interface BatchOperationProps<T> {
   selectedRowKeys?: (string | number)[];
   selectedRows?: T[];
-  options?: BatchOperationOptions<T>;
+  options?: ICrudToolbar<T>[];
 }
 
 const BatchOperation = <T extends Object>(props: BatchOperationProps<T>) => {
-  const { selectedRowKeys = [], selectedRows = [], options } = props;
+  const { selectedRows, selectedRowKeys, options } = props;
 
-  const {
-    prefixCls,
-    className,
-    style,
-    render,
-    onAddRow,
-    onDeleteRows,
-    onModifyRows,
-  } = options || {};
+  const Buttons = useMemo(() => {
+    return (
+      <Group>
+        {options?.map((it, idx) => {
+          const {
+            key,
+            type,
+            label,
+            children,
+            icon,
+            danger,
+            disabled,
+            style,
+            className,
+            onClick,
+            request,
+          } = it;
+          return it.render ? (
+            <span key={key || `${Date.now()}-${idx}`.toString()}>
+              {it.render()}
+            </span>
+          ) : (
+            <Button
+              className={className}
+              style={style}
+              key={key || `${Date.now()}-${idx}`.toString()}
+              onClick={
+                onClick ||
+                (request ? () => request(selectedRows, selectedRowKeys) : null)
+              }
+              type={type}
+              icon={icon}
+              danger={danger}
+              disabled={disabled}
+            >
+              {label || children}
+            </Button>
+          );
+        })}
+      </Group>
+    );
+  }, [options, selectedRows, selectedRowKeys]);
 
-  const getButton = useCallback((bProps: ButtonProps & { key: string }) => {
-    const { key, onClick, type, children, icon, danger, disabled } = bProps;
-
-    return onClick ? (
-      <Button
-        key={key}
-        onClick={onClick}
-        type={type}
-        icon={icon}
-        danger={danger}
-        disabled={disabled}
-      >
-        {children}
-      </Button>
-    ) : null;
-  }, []);
-
-  const nextClassName = classnames(
-    getClassName('batch-operation', prefixCls),
-    className,
-  );
-
-  const columns = [
-    getButton({
-      type: 'primary',
-      children: '新增',
-      icon: <PlusOutlined />,
-      key: 'add',
-      onClick: onAddRow,
-    }),
-    getButton({
-      type: 'primary',
-      children: '批量删除',
-      disabled: !selectedRowKeys?.length,
-      danger: true,
-      icon: <DeleteOutlined />,
-      key: 'delete',
-      onClick: onDeleteRows,
-    }),
-    getButton({
-      children: '批量修改',
-      icon: <EditOutlined />,
-      disabled: !selectedRowKeys?.length,
-      key: 'modify',
-      onClick: onModifyRows,
-    }),
-  ].filter(comp => comp);
-
-  const dynamicRender = render?.({
-    selectedRowKeys,
-    selectedRows,
-  });
-
-  return (
-    <div style={style} className={nextClassName}>
-      {dynamicRender || columns.map(comp => comp)}
-    </div>
-  );
+  return <div className="batch-operation">{Buttons}</div>;
 };
 
 export default BatchOperation;

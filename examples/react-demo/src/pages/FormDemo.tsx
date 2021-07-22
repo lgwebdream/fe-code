@@ -1,4 +1,4 @@
-import { FForm } from '@fe-code/react';
+import { FCrud } from '@fe-code/react';
 import { IFormComTypeEnum } from '@fe-code/react/components/Form/constant';
 import { Alert, Button, Form } from 'antd';
 
@@ -21,41 +21,48 @@ export default function FormDemo() {
   };
 
   return (
-    <div style={{width: 500}}>
-    <Alert message="1. 基本使用" type="success" />
-      <FForm
-        formProps={{
+    <div style={{ width: 500 }}>
+      <Alert message="1. 基本使用" type="success" />
+      <FCrud.Form
+        {...{
           onFinish,
           form,
-          ...formItemLayout
+          ...formItemLayout,
         }}
         schema={[
+          { title: 'ID', dataIndex: 'id', readonly: true },
           {
-            comType: IFormComTypeEnum.Input,
-            comProps: {},
-            itemProps: {
-              label: '姓名',
-              required: true,
-              name: 'name',
-              rules: [{ required: true }],
-            },
+            title: '姓名',
+            dataIndex: 'name',
+            type: IFormComTypeEnum.Input,
+            rules: [{ message: '姓名不能为空', required: true }],
           },
           {
-            comType: IFormComTypeEnum.Input,
-            comProps: {},
-            itemProps: {
-              label: '密码',
-              required: true,
-              name: 'pass',
-              rules: [{ required: true, message: 'Please input your password!' }],
-            },
+            title: '年龄',
+            dataIndex: 'age',
+            type: IFormComTypeEnum.InputNumber,
+          },
+          { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
+          {
+            title: '职位',
+            dataIndex: 'title',
+            type: IFormComTypeEnum.Select,
+            rules: [{ message: '职位不能为空', required: true }],
+            options: [
+              { label: 'CTO', value: 'cto' },
+              { label: 'COO', value: 'coo' },
+              { label: 'CFO', value: 'cfo' },
+            ],
           },
         ]}
       />
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" onClick={()=>{
-          form.submit()
-        }}>
+        <Button
+          type="primary"
+          onClick={() => {
+            form.submit();
+          }}
+        >
           Submit
         </Button>
       </Form.Item>

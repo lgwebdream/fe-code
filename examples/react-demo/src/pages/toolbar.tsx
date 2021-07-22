@@ -1,49 +1,63 @@
-import { useState } from 'react';
-import { message } from 'antd';
-import FCrud from '@fe-code/react';
+import { FCrud, ICrudToolbar, IFormComTypeEnum } from '@fe-code/react';
+import { Button } from 'antd';
 
-declare namespace API {
-  type ListItem = {};
-}
+const toolbar: ICrudToolbar[] = [
+  {
+    label: '添加',
+    type: 'primary',
+  },
+  {
+    label: '导出',
+    type: 'ghost',
+  },
+  {
+    label: '删除',
+    type: 'dashed',
+  },
+  {
+    render: (row) => {
+      console.log(row);
+      return <Button type="text">自定义按钮</Button>;
+    },
+  },
+];
+
+const columns = [
+  { title: 'ID', dataIndex: 'id', readonly: true },
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    type: IFormComTypeEnum.Input,
+    rules: [{ message: '姓名不能为空', required: true }],
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    type: IFormComTypeEnum.InputNumber,
+  },
+  { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
+  {
+    title: '职位',
+    dataIndex: 'title',
+    type: IFormComTypeEnum.Select,
+    rules: [{ message: '职位不能为空', required: true }],
+    options: [
+      { label: 'CTO', value: 'cto' },
+      { label: 'COO', value: 'coo' },
+      { label: 'CFO', value: 'cfo' },
+    ],
+  },
+];
 
 export default function ToolBarPage() {
-  const [selectedRowKeys, setSelectedRowKeys] = useState<any>([]);
-
-  const onAddRow = () =>
-    setSelectedRowKeys([Math.random()].concat(selectedRowKeys));
-
-  const onDeleteRows = () =>
-    setSelectedRowKeys(selectedRowKeys.slice(0, selectedRowKeys.length - 2));
-
-  const onModifyRows = () => message.error('onModifyRow');
-
   return (
-    <>
-      {/* 内置增删改 */}
-      <FCrud.ToolBar<API.ListItem, unknown>
-        batchOperationOptions={{
-          onAddRow,
-          onDeleteRows,
-          onModifyRows,
-        }}
-        searchOptions={{
-          columns: [
-            {
-              type: 'input',
-              name: 'name',
-              label: '姓名',
-              options: {
-                size: 'middle',
-                placeholder: '请输入信息',
-              },
-              rules: [{ required: true, message: '请输入姓名' }],
-            },
-          ],
-          onReset: () => console.log('onReset'),
-          onSearch: () => console.log('onSearch'),
-        }}
-        selectedRowKeys={selectedRowKeys}
-      />
-    </>
+    <FCrud.ToolBar
+      batchOptions={toolbar}
+      searchOptions={{
+        columns,
+        onReset: () => console.log('onReset'),
+        onSearch: () => console.log('onSearch'),
+      }}
+    />
   );
 }

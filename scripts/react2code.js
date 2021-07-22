@@ -12,20 +12,6 @@ const questions = [
     choices: ['hooks', 'class'],
     default: 'hooks',
   },
-  {
-    type: 'list',
-    name: 'state',
-    message: 'state of writing: ',
-    choices: ['useReducer', 'redux', 'mobx', 'recoil'],
-    default: 'useReducer',
-  },
-  {
-    type: 'list',
-    name: 'ui',
-    message: 'ui of writing: ',
-    choices: ['antd', 'material-ui'],
-    default: 'antd',
-  },
 ];
 
 const templatePath = join(__dirname, '../lib/react/');
@@ -39,11 +25,11 @@ const react2code = program => {
     .requiredOption('-o, --output <output>', 'path of generation file')
 
     .action(({ output }) => {
-      console.log(`output@`, output);
+      // console.log(`output@`, output);
 
       prompt(questions).then(answers => {
-        const { style, state, ui } = answers;
-        console.log(`answer@`, style, state, ui);
+        // const { sty le } = answers;
+        // console.log(`answer@`, style);
 
         // write path
         const toPath = join(process.cwd(), output);

@@ -16,9 +16,6 @@ export default defineConfig({
   },
   routes: pageRouters,
   fastRefresh: {},
-  alias: {
-    '@crud': reactLibPath,
-  },
   chainWebpack: (config) => {
     config.module.rules
       .values()

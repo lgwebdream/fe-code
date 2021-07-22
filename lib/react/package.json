@@ -5,7 +5,7 @@
   "files": [
     "components"
   ],
-  "main": "Crud.tsx",
+  "main": "index.tsx",
   "scripts": {},
   "keywords": [
     "react"
