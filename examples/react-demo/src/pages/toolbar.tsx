@@ -1,5 +1,5 @@
-import { FCrud, ICrudToolbar, IFormComTypeEnum } from '@fe-code/react';
 import { Button } from 'antd';
+import { FCrud, ICrudToolbar, IFormComTypeEnum } from '@crud/index';
 
 const toolbar: ICrudToolbar[] = [
   {

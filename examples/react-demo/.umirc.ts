@@ -8,7 +8,7 @@ const pageRouters = [
   { path: '/table', component: '@/pages/Table' },
   { path: '/toolbar', component: '@/pages/toolbar' },
   { path: '/formDemo', component: '@/pages/FormDemo' },
-]
+];
 
 export default defineConfig({
   nodeModulesTransform: {
@@ -16,6 +16,9 @@ export default defineConfig({
   },
   routes: pageRouters,
   fastRefresh: {},
+  alias: {
+    '@crud': reactLibPath,
+  },
   chainWebpack: (config) => {
     config.module.rules
       .values()

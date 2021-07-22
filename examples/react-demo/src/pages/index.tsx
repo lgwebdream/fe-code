@@ -1,11 +1,11 @@
+import { Button } from 'antd';
+import request from 'umi-request';
 import {
   FCrud,
   ICrud,
   ICurdContainerTypeEnum,
   IFormComTypeEnum,
-} from '@fe-code/react';
-import { Button } from 'antd';
-import request from 'umi-request';
+} from '@crud/index';
 
 const apiConfig = {
   add: '/api/json/add',
