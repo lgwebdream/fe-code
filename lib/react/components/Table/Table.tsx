@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Table } from 'antd';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import classNames from 'classnames';
 import type { TablePaginationConfig } from 'antd';
 import type {
@@ -68,7 +67,10 @@ const CrudTable = <
   });
 
   // const pagination = useMemo(() => {
-
+  //   return {
+  //     current: 2,
+  //     pageSize: 5,
+  //   };
   // }, [propsPagination, action]);
 
   const getTableProps = () => ({
@@ -87,7 +89,6 @@ const CrudTable = <
   });
 
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
     <Table<T> {...getTableProps()} rowKey={rowKey} tableLayout={tableLayout} />
   );
 };

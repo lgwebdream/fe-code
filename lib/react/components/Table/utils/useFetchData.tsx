@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FetcherResult } from '../../../service';
 import { UseFetchActions } from '../typing';
+import usePrevious from './hooks/usePrevious';
 
 /** 组合用户的配置和默认值 */
 const mergeActionAndPageInfo = ({ pageInfo }: UseFetchActions) => {
@@ -31,6 +32,17 @@ const useFetchData = <T extends FetcherResult<any>>(
     const data = await getData(pageParams);
     return data;
   };
+
+  // pre state
+  const prePage = usePrevious(pageInfo?.current);
+  const prePageSize = usePrevious(pageInfo?.pageSize);
+
+  // 分页发生变化的时候自动刷新
+  useEffect(() => {
+    const { current, pageSize } = pageInfo;
+    console.log(prePage, prePageSize, current, pageSize);
+    // const { current, pageSize } = pageInfo || {};
+  }, [pageInfo?.current]);
 
   useEffect(() => {
     fetchList().then(res => {

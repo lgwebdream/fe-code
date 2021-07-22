@@ -1,4 +1,4 @@
-import FCrud from '@fe-code/react';
+import FCrud from '@crud/CRUD';
 import request from 'umi-request';
 
 declare namespace API {
@@ -35,7 +35,7 @@ const columns = [
 export default function IndexPage() {
   return (
     <FCrud.Table<API.ListItem, API.PageParams, string>
-      request={async (params = { current: 1, pageSize: 20 }) => {
+      request={async (params = {}) => {
         return request<{}>('/api/json/list', {
           method: 'post',
           data: params,
