@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    2222
     <x-button type="primary">button</x-button>
   </div>
 </template>

@@ -1,24 +1,17 @@
-# hello-world
+# vue
 
-## Project setup
-```
+## 安装依赖
+
+```bash
 yarn install
+yarn link:npm
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## vue-demo安装
 
-### Compiles and minifies for production
-```
-yarn build
-```
+安装依赖，并link当前vue目录。关联组件
 
-### Lints and fixes files
+```bash
+yarn install
+yarn start
 ```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
