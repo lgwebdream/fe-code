@@ -1,7 +1,7 @@
-import { FCrud, ICrudToolbar } from '@fe-code/react';
+import { FCrud, ICrudToolbar, IFormComTypeEnum } from '@fe-code/react';
 import { Button } from 'antd';
 
-const toolbar: ICrudToolbar<{}>[] = [
+const toolbar: ICrudToolbar[] = [
   {
     label: '添加',
     type: 'primary',
@@ -22,30 +22,42 @@ const toolbar: ICrudToolbar<{}>[] = [
   },
 ];
 
+const columns = [
+  { title: 'ID', dataIndex: 'id', readonly: true },
+  {
+    title: '姓名',
+    dataIndex: 'name',
+    type: IFormComTypeEnum.Input,
+    rules: [{ message: '姓名不能为空', required: true }],
+  },
+  {
+    title: '年龄',
+    dataIndex: 'age',
+    type: IFormComTypeEnum.InputNumber,
+  },
+  { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
+  {
+    title: '职位',
+    dataIndex: 'title',
+    type: IFormComTypeEnum.Select,
+    rules: [{ message: '职位不能为空', required: true }],
+    options: [
+      { label: 'CTO', value: 'cto' },
+      { label: 'COO', value: 'coo' },
+      { label: 'CFO', value: 'cfo' },
+    ],
+  },
+];
+
 export default function ToolBarPage() {
   return (
-    <>
-      {/* 内置增删改 */}
-      <FCrud.ToolBar
-        batchOptions={toolbar}
-        searchOptions={{
-          columns: [
-            {
-              type: 'input',
-              name: 'name',
-              label: '姓名',
-              options: {
-                size: 'middle',
-                placeholder: '请输入信息',
-              },
-              rules: [{ required: true, message: '请输入姓名' }],
-            },
-          ],
-          onReset: () => console.log('onReset'),
-          onSearch: () => console.log('onSearch'),
-        }}
-        // selectedRowKeys={selectedRowKeys}
-      />
-    </>
+    <FCrud.ToolBar
+      batchOptions={toolbar}
+      searchOptions={{
+        columns,
+        onReset: () => console.log('onReset'),
+        onSearch: () => console.log('onSearch'),
+      }}
+    />
   );
 }

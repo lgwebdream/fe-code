@@ -1,34 +1,16 @@
 import classnames from 'classnames';
-import { Form, Button, Input } from 'antd';
-import React, {
-  ReactElement,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { Form, Button } from 'antd';
+import React, { useMemo } from 'react';
 import { getClassName } from './utils';
-import type { FormElementOptions, FormItemType, SearchOptions } from './typing';
+import type { SearchOptions } from './ToolBar.d';
+import FForm from '../Form/index';
 
 const { useForm } = Form;
 
-export interface FilterSearchProps<T, VT> {
-  selectedRowKeys?: (string | number)[];
-  selectedRows?: T[];
-  options?: SearchOptions<T, VT>;
-}
-
-const FilterSearch = <T extends Object, VT>(
-  props: FilterSearchProps<T, VT>,
-) => {
-  const { selectedRowKeys, selectedRows, options } = props;
-
-  const { columns, style, className, prefixCls, render, onSearch, onReset } =
-    options || {};
-
-  const [formReactElement, setFormReactElement] = useState<ReactElement>();
-
+const FilterSearch = (props: SearchOptions) => {
   const [formInstance] = useForm();
+  const { columns, style, className, prefixCls, render, onSearch, onReset } =
+    props;
 
   const nextClassName = classnames(
     getClassName('filter-search', prefixCls),
@@ -43,23 +25,6 @@ const FilterSearch = <T extends Object, VT>(
     [],
   );
 
-  const dynamicRender = render?.({
-    selectedRowKeys,
-    selectedRows,
-  });
-
-  const getAntdFormElement = useCallback(
-    (type: FormItemType, formElementOptions: FormElementOptions<VT>) => {
-      switch (type) {
-        case 'input':
-          return <Input {...formElementOptions} />;
-        default:
-          return null;
-      }
-    },
-    [],
-  );
-
   const onResetClick = () => {
     formInstance.resetFields();
     onReset?.();
@@ -70,33 +35,22 @@ const FilterSearch = <T extends Object, VT>(
     flag && onSearch?.(formInstance.getFieldsValue());
   };
 
-  useEffect(() => {
-    const elements = columns?.map(column => {
-      const { type, options: formElementOptions, ...rest } = column;
-      return (
-        <Form.Item {...rest} key={rest.name}>
-          {getAntdFormElement(type, formElementOptions)}
-        </Form.Item>
-      );
-    });
-    elements?.push(
-      <Form.Item key="operation">
-        <Button onClick={onResetClick}>重置</Button>
-        <Button type="primary" onClick={onSearchClick}>
-          搜索
-        </Button>
-      </Form.Item>,
-    );
-    setFormReactElement(
-      <Form layout="inline" form={formInstance}>
-        {elements}
-      </Form>,
-    );
-  }, [columns, onReset, onSearch]);
-
   return (
     <div className={nextClassName} style={nextStyle}>
-      {dynamicRender || formReactElement}
+      {render ? (
+        render()
+      ) : (
+        <>
+          <FForm form={formInstance} layout="inline" schema={columns}>
+            <Form.Item>
+              <Button onClick={onResetClick}>重置</Button>
+              <Button type="primary" onClick={onSearchClick}>
+                搜索
+              </Button>
+            </Form.Item>
+          </FForm>
+        </>
+      )}
     </div>
   );
 };

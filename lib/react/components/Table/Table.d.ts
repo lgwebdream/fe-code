@@ -1,8 +1,8 @@
 import { TableProps, SpinProps } from 'antd';
 import type { ColumnType } from 'antd/lib/table/interface';
 import type { CSSProperties } from 'react';
-import type { ICrudListRequest } from '../index.d';
-import { ToolBarProps } from '../ToolBar';
+import type { ICrudListRequest } from '../Crud.d';
+// import { ToolBarProps } from '../ToolBar.d';
 
 export type ParamsType = Record<string, any>;
 
@@ -43,7 +43,7 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   defaultData?: T[];
 
   /** 渲染操作栏 */
-  toolBarRender?: ToolBarProps<T>['toolBarRender'] | false;
+  // toolBarRender?: ToolBarProps<T>['toolBarRender'] | false;
 
   /** 数据加载完成后触发 */
   onLoad?: (dataSource: T[]) => void;

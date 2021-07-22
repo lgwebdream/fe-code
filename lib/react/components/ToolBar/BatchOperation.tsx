@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Button } from 'antd';
-import type { ICrudToolbar } from '..';
+import type { ICrudToolbar } from '../Crud.d';
 
 const { Group } = Button;
 
@@ -31,12 +31,14 @@ const BatchOperation = <T extends Object>(props: BatchOperationProps<T>) => {
             request,
           } = it;
           return it.render ? (
-            it.render()
+            <span key={key || `${Date.now()}-${idx}`.toString()}>
+              {it.render()}
+            </span>
           ) : (
             <Button
               className={className}
               style={style}
-              key={key || `${Date.now()}-${idx}`}
+              key={key || `${Date.now()}-${idx}`.toString()}
               onClick={
                 onClick ||
                 (request ? () => request(selectedRows, selectedRowKeys) : null)

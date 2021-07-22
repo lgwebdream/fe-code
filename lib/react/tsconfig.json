@@ -6,5 +6,5 @@
     "esModuleInterop": true,
     "strict": true,
   },
-  "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx"]
+  "include": ["*.ts", "*.tsx", "**/*.ts", "**/*.tsx", "**/*.d.ts"]
 }

@@ -1,22 +1,17 @@
 import { useState, useEffect } from 'react';
-import {
-  ICrudListRequest,
-  ICrudListRequestSort,
-  ICrudListRequestFilter,
-} from '../..';
-import { UseFetchActions } from '../typing';
+import { ICrudListRequest } from '../../Crud.d';
+import { UseFetchActions } from '../Table.d';
 
 const useFetchData = <T extends Record<string, any>>(
   request: ICrudListRequest<T>,
   actions: UseFetchActions,
-  sort?: ICrudListRequestSort,
-  filter?: ICrudListRequestFilter,
+  params: Record<string, any>,
 ) => {
   const [list, setList] = useState([]);
 
   const fetchList = async () => {
     const pageParams = actions.pageInfo;
-    const data = await request(pageParams, sort || null, filter || null);
+    const data = await request({ ...pageParams, ...params });
     return data;
   };
 
@@ -25,7 +20,7 @@ const useFetchData = <T extends Record<string, any>>(
       // TODO 这里也可以获取到其他分页数据
       setList(res.rows);
     });
-  }, []);
+  }, [params]);
 
   return {
     dataSource: list,

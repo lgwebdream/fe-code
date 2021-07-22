@@ -24,33 +24,35 @@ export default function FormDemo() {
     <div style={{ width: 500 }}>
       <Alert message="1. 基本使用" type="success" />
       <FCrud.Form
-        formProps={{
+        {...{
           onFinish,
           form,
           ...formItemLayout,
         }}
         schema={[
+          { title: 'ID', dataIndex: 'id', readonly: true },
           {
-            comType: IFormComTypeEnum.Input,
-            comProps: {},
-            itemProps: {
-              label: '姓名',
-              required: true,
-              name: 'name',
-              rules: [{ required: true }],
-            },
+            title: '姓名',
+            dataIndex: 'name',
+            type: IFormComTypeEnum.Input,
+            rules: [{ message: '姓名不能为空', required: true }],
           },
           {
-            comType: IFormComTypeEnum.Input,
-            comProps: {},
-            itemProps: {
-              label: '密码',
-              required: true,
-              name: 'pass',
-              rules: [
-                { required: true, message: 'Please input your password!' },
-              ],
-            },
+            title: '年龄',
+            dataIndex: 'age',
+            type: IFormComTypeEnum.InputNumber,
+          },
+          { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
+          {
+            title: '职位',
+            dataIndex: 'title',
+            type: IFormComTypeEnum.Select,
+            rules: [{ message: '职位不能为空', required: true }],
+            options: [
+              { label: 'CTO', value: 'cto' },
+              { label: 'COO', value: 'coo' },
+              { label: 'CFO', value: 'cfo' },
+            ],
           },
         ]}
       />

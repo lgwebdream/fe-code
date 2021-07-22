@@ -1,8 +1,8 @@
 import {
   FCrud,
   ICrud,
-  ICrudFormTypeEnum,
   ICurdContainerTypeEnum,
+  IFormComTypeEnum,
 } from '@fe-code/react';
 import { Button } from 'antd';
 import request from 'umi-request';
@@ -15,14 +15,7 @@ const apiConfig = {
   list: '/api/json/list',
 };
 
-type IMember = {
-  id?: number;
-  title?: string;
-  name?: string;
-  age?: number;
-};
-
-const demoTable: ICrud<IMember> = {
+const demoTable: ICrud = {
   title: '人员管理',
   containerType: ICurdContainerTypeEnum.Modal,
   request: () =>
@@ -65,25 +58,23 @@ const demoTable: ICrud<IMember> = {
     {
       title: '姓名',
       dataIndex: 'name',
-      type: ICrudFormTypeEnum.Text,
+      type: IFormComTypeEnum.Input,
       rules: [{ message: '姓名不能为空', required: true }],
       isFilter: true,
     },
-    { title: '年龄', dataIndex: 'age', type: ICrudFormTypeEnum.Number },
-    { title: '地址', dataIndex: 'address', type: ICrudFormTypeEnum.Text },
+    { title: '年龄', dataIndex: 'age', type: IFormComTypeEnum.InputNumber },
+    { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
     {
       title: '职位',
       dataIndex: 'title',
-      type: ICrudFormTypeEnum.Select,
+      type: IFormComTypeEnum.Select,
       isFilter: true,
       rules: [{ message: '职位不能为空', required: true }],
-      config: {
-        options: [
-          { text: 'CTO', value: 'cto' },
-          { text: 'COO', value: 'coo' },
-          { text: 'CFO', value: 'cfo' },
-        ],
-      },
+      options: [
+        { label: 'CTO', value: 'cto' },
+        { label: 'COO', value: 'coo' },
+        { label: 'CFO', value: 'cfo' },
+      ],
     },
   ],
 };
