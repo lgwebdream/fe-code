@@ -1,6 +1,5 @@
-import { FCrud } from '@fe-code/react';
-import { IFormComTypeEnum } from '@fe-code/react/components/Form/constant';
 import { Alert, Button, Form } from 'antd';
+import { FCrud, IFormComTypeEnum } from '@crud';
 
 export default function FormDemo() {
   const [form] = Form.useForm();
