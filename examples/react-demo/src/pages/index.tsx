@@ -36,20 +36,27 @@ const demoTable: ICrud = {
       type: 'dashed',
     },
     {
-      render: (row) => {
-        console.log(row);
-        return <Button type="text">自定义按钮</Button>;
+      render: (rows, rowKeys) => {
+        return (
+          <Button type="text" onClick={() => console.log(rows, rowKeys)}>
+            自定义按钮
+          </Button>
+        );
       },
     },
   ],
   rowToolbar: [
     {
       label: '编辑',
+      type: 'link',
     },
     {
-      render: (row) => {
-        console.log(row);
-        return <div>行级操作</div>;
+      render: (row, index) => {
+        return (
+          <Button type="link" onClick={() => console.log(1111, row, index)}>
+            行级操作
+          </Button>
+        );
       },
     },
   ],

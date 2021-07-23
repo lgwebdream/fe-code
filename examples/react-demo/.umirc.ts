@@ -25,4 +25,5 @@ export default defineConfig({
       .map((it) => it.include.add(reactLibPath).add(process.cwd()));
   },
   webpack5: {},
+  mfsu: {},
 });
