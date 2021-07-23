@@ -3,27 +3,15 @@ import classnames from 'classnames';
 import BatchOperation from './BatchOperation';
 import FilberSearch from './FilterSearch';
 import { getClassName } from './utils';
-import type {
-  BatchOperationOptions,
-  SearchOptions,
-  ToolBarOptions,
-} from './typing';
+import { ToolBarProps } from './ToolBar';
 
-export interface ToolBarProps<T = unknown, VT = unknown> {
-  selectedRowKeys?: (string | number)[];
-  selectedRows?: T[];
-  toolbarOptions?: ToolBarOptions<T>;
-  batchOperationOptions?: BatchOperationOptions<T>;
-  searchOptions?: SearchOptions<T, VT>;
-}
-
-const ToolBar = <T extends Object, VT>(props: ToolBarProps<T, VT>) => {
+const ToolBar = (props: ToolBarProps) => {
   const {
     selectedRowKeys,
     selectedRows,
     searchOptions,
     toolbarOptions,
-    batchOperationOptions,
+    batchOptions,
   } = props;
 
   const { prefixCls, style, className, render } = toolbarOptions || {};
@@ -47,13 +35,9 @@ const ToolBar = <T extends Object, VT>(props: ToolBarProps<T, VT>) => {
     <div className={nextClassName} style={nextStyle}>
       {dynamicRender || (
         <>
-          <FilberSearch<T, VT>
-            options={searchOptions}
-            selectedRowKeys={selectedRowKeys}
-            selectedRows={selectedRows}
-          />
-          <BatchOperation<T>
-            options={batchOperationOptions}
+          <FilberSearch {...searchOptions} />
+          <BatchOperation
+            options={batchOptions}
             selectedRowKeys={selectedRowKeys}
             selectedRows={selectedRows}
           />
