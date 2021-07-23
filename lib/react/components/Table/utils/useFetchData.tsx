@@ -1,29 +1,74 @@
 import { useState, useEffect } from 'react';
-import { ICrudListRequest } from '../../Crud.d';
+import { FetcherResult } from '../../../service';
 import { UseFetchActions } from '../Table.d';
+import usePrevious from '../hooks/usePrevious';
 
-const useFetchData = <T extends Record<string, any>>(
-  request: ICrudListRequest<T>,
+const mergeOptionAndPageInfo = ({ pageInfo }: UseFetchActions) => {
+  if (pageInfo) {
+    const { current, defaultCurrent, pageSize, defaultPageSize } = pageInfo;
+    return {
+      current: current || defaultCurrent || 1,
+      total: 0,
+      pageSize: pageSize || defaultPageSize || 20,
+    };
+  }
+  return { current: 1, total: 0, pageSize: 20 };
+};
+
+const useFetchData = <T extends FetcherResult<any>>(
+  getData:
+    | undefined
+    | ((params?: { pageSize?: number; current?: number }) => Promise<T>),
+  defaultData: any[] | undefined,
   actions: UseFetchActions,
-  params: Record<string, any>,
 ) => {
   const [list, setList] = useState([]);
+  const [pageInfo, setPageInfo] = useState(
+    mergeOptionAndPageInfo({ pageInfo: actions.pageInfo }),
+  );
+
+  const { effects = [] } = actions || {};
+  // 缓存上一次的pageInfo 用于分页改变时查询列表
+  const prePage = usePrevious(pageInfo?.current);
+  const prePageSize = usePrevious(pageInfo?.pageSize);
 
   const fetchList = async () => {
-    const pageParams = actions.pageInfo;
-    const data = await request({ ...pageParams, ...params });
-    return data;
+    const { current, pageSize } = pageInfo;
+    const pageParams =
+      actions?.pageInfo !== false ? { current, pageSize } : undefined;
+
+    const { data, code } = await getData(pageParams);
+    if (code !== 200) setList([]);
+    const responseData = data?.data;
+    setList(responseData);
   };
 
+  // 分页发生变化的时候自动刷新
   useEffect(() => {
-    fetchList().then(res => {
-      // TODO 这里也可以获取到其他分页数据
-      setList(res.rows);
-    });
-  }, [params]);
+    const { current, pageSize } = pageInfo || {};
+    if (
+      (!prePage || prePage === current) &&
+      (!prePageSize || prePageSize === pageSize)
+    ) {
+      // eslint-disable-next-line no-useless-return
+      return;
+    }
+    setPageInfo({ current, pageSize, total: list.length });
+  }, [pageInfo?.current]);
+
+  useEffect(() => {
+    fetchList();
+  }, [...effects]);
 
   return {
     dataSource: list,
+    pageInfo,
+    setPageInfo: async info => {
+      setPageInfo({
+        ...pageInfo,
+        ...info,
+      });
+    },
   };
 };
 
