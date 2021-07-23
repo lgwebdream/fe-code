@@ -2,7 +2,7 @@
 import Mock from 'mockjs';
 
 export default {
-  'GET /api/json/list': {
+  'POST /api/json/list': {
     data: Mock.mock({
       'data|10': [
         {
@@ -18,19 +18,19 @@ export default {
     }),
     status: 200,
   },
-  'GET /api/json/add': {
+  'POST /api/json/add': {
     result: { id: 2, name: '张三', age: 18, title: 'cto' },
     success: true,
   },
-  'GET /api/json/edit': {
+  'POST /api/json/edit': {
     result: { id: 3, name: '张三', age: 18, title: 'cto' },
     success: true,
   },
-  'GET /api/json/delete': {
+  'POST /api/json/delete': {
     result: 3,
     success: true,
   },
-  'GET /api/json/export': {
+  'POST /api/json/export': {
     result: 'hello world',
     success: true,
   },
