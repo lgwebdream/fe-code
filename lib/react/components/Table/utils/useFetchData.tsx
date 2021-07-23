@@ -43,6 +43,7 @@ const useFetchData = <T extends FetcherResult<any>>(
     setList(responseData);
   };
 
+  // 分页发生变化的时候自动刷新
   useEffect(() => {
     const { current, pageSize } = pageInfo || {};
     if (
@@ -61,6 +62,13 @@ const useFetchData = <T extends FetcherResult<any>>(
 
   return {
     dataSource: list,
+    pageInfo,
+    setPageInfo: async info => {
+      setPageInfo({
+        ...pageInfo,
+        ...info,
+      });
+    },
   };
 };
 

@@ -8,7 +8,7 @@ export default {
         {
           'id|+1': 1,
           'key|+1': 0,
-          'name|+1': '@cname',
+          name: '@cname',
           'age|1-100': 100,
           address: '@county(true)',
           description: '@cparagraph(1, 3)',

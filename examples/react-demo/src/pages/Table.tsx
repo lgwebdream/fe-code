@@ -35,8 +35,8 @@ const columns = [
 export default function IndexPage() {
   return (
     <FCrud.Table<API.ListItem, API.PageParams, string>
-      request={async (params = { current: 1 }) => {
-        return request('/api/json/list', {
+      request={async (params = {}) => {
+        return request<{}>('/api/json/list', {
           method: 'post',
           data: params,
         });
