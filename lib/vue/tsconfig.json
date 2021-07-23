@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "module": "esnext",
     "strict": true,
     "jsx": "preserve",
@@ -23,7 +23,8 @@
     "components/**/*.vue",
     "examples/**/*.ts",
     "examples/**/*.tsx",
-    "examples/**/*.vue"
+    "examples/**/*.vue",
+    "shims-vue.d.ts"
   ],
   "exclude": ["node_modules"]
 }
