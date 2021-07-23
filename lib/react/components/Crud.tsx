@@ -176,7 +176,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
     }
 
     return buffer;
-  }, [columns, rowToolbar]);
+  }, [columns, rowToolbar, filter]);
 
   return (
     <div className="f-crud">

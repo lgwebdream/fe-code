@@ -8,7 +8,11 @@ const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
   const [form] = Form.useForm();
 
   useEffect(() => {
-    props.visible && form.setFieldsValue(data);
+    if (visible) {
+      form?.setFieldsValue(data);
+    } else {
+      form?.resetFields();
+    }
   }, [data, visible]);
 
   return (
@@ -18,11 +22,10 @@ const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
       {...props}
       onOk={() => {
         form.validateFields().then(() => {
-          onOk && onOk(form.getFieldsValue());
+          onOk && onOk({ ...form.getFieldsValue() });
         });
       }}
       onCancel={e => {
-        form.resetFields();
         onCancel && onCancel(e);
       }}
     >
