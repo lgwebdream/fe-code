@@ -4,10 +4,12 @@ import FForm from '../Form';
 import { ICrudModalProps } from './Modal.d';
 
 const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
-  const { data, columns, onOk } = props;
+  const { data, columns, onOk, visible, onCancel } = props;
   const [form] = Form.useForm();
 
-  useEffect(() => {}, [data]);
+  useEffect(() => {
+    props.visible && form.setFieldsValue(data);
+  }, [data, visible]);
 
   return (
     <Modal
@@ -18,6 +20,10 @@ const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
         form.validateFields().then(() => {
           onOk && onOk(form.getFieldsValue());
         });
+      }}
+      onCancel={e => {
+        form.resetFields();
+        onCancel && onCancel(e);
       }}
     >
       <FForm
