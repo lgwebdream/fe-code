@@ -29,13 +29,13 @@ export type ICrudToolbar<T = unknown> = {
   icon?: React.ReactElement;
 
   /** 请求 Promise */
-  request?: (
-    selectedRows: T[],
-    selectedRowKeys?: (string | number)[],
-  ) => Promise<T>;
+  request?: (row: T[] | T, rowKey?: (string | number)[] | number) => Promise<T>;
 
   /** 覆盖渲染，优先级最高，覆盖 ToolbarType 内部定义方法 */
-  render?: (row?: T, index?: number) => React.ReactElement;
+  render?: (
+    row?: T | T[],
+    index?: (string | number)[] | number,
+  ) => React.ReactElement;
 } & ButtonProps;
 
 /** 字段定义 */
