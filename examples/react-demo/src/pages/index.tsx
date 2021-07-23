@@ -19,8 +19,9 @@ const apiConfig = {
 const demoTable: ICrud = {
   title: '人员管理',
   containerType: ICurdContainerTypeEnum.Modal,
-  request: () =>
-    request(apiConfig.list, { method: 'post' }).then((res) => {
+
+  request: (params) =>
+    request(apiConfig.list, { method: 'post', data: params }),
       return { rows: res?.data?.data };
     }),
   batchToolbar: [
@@ -118,6 +119,7 @@ const demoTable: ICrud = {
       ],
     },
   ],
+  tableProps: { size: 'middle' },
 };
 
 export default function IndexPage() {

@@ -5,6 +5,7 @@ import { ColumnType, SortOrder } from 'antd/lib/table/interface';
 import type { CrudTableParams, CrudTableProps } from './Table/Table.d';
 import { IFormComTypeEnum } from './Form/constant';
 import { IFormItemProps } from './Form/Form';
+import { FetcherResult } from '../service';
 
 /** 操作容器定义 */
 export enum ICurdContainerTypeEnum {
@@ -91,12 +92,7 @@ export type ICrudListRequest<T extends Record<string, any>> = (
   params: CrudTableParams | T,
   sort?: ICrudListRequestSort,
   filter?: ICrudListRequestFilter,
-) => Promise<{
-  rows: T[];
-  total?: number;
-  page?: number;
-  pageCount?: number;
-}>;
+) => Promise<FetcherResult<T>>;
 
 /** CRUD 主体配置定义 */
 export interface ICrud<T = unknown> {
