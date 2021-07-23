@@ -2,13 +2,13 @@
 import Mock from 'mockjs';
 
 export default {
-  'GET /api/json/list': {
+  'POST /api/json/list': {
     data: Mock.mock({
-      'data|10': [
+      'data|100': [
         {
           'id|+1': 1,
           'key|+1': 0,
-          'name|+1': '@cname',
+          name: '@cname',
           'age|1-100': 100,
           address: '@county(true)',
           description: '@cparagraph(1, 3)',
@@ -16,7 +16,8 @@ export default {
         },
       ],
     }),
-    status: 200,
+    code: 200,
+    msg: '服务器成功返回数据',
   },
   'GET /api/json/add': {
     result: { id: 2, name: '张三', age: 18, title: 'cto' },
