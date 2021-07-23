@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Table } from 'antd';
 import classNames from 'classnames';
 import type { TablePaginationConfig } from 'antd';
@@ -29,6 +29,7 @@ const CrudTable = <
     className: propsClassName,
     pagination: propsPagination,
     columns: propsColumns,
+    onRequestError,
     request,
     defaultData,
     params = {},
@@ -41,10 +42,12 @@ const CrudTable = <
   }, [defaultClassName, propsClassName]);
   const { sort, filter } = parseDefaultColumnConfig(propsColumns);
 
-  const fetchPagination =
+  const defaultPagination =
     typeof propsPagination === 'object'
       ? (propsPagination as TablePaginationConfig)
       : { defaultCurrent: 1, defaultPageSize: 20, pageSize: 20, current: 1 };
+
+  const [fetchPagination, setPageInfo] = useState(defaultPagination);
 
   /** 列表页刷新请求统一入口 */
   const fetchData = useMemo(() => {
@@ -68,6 +71,7 @@ const CrudTable = <
   const action = useFetchData(fetchData, defaultData, {
     pageInfo: fetchPagination,
     dataSource: props.dataSource,
+    onRequestError,
     effects: [JSON.stringify(params)],
     onPageInfoChange: pageInfo => {
       if (propsPagination) {
@@ -80,7 +84,7 @@ const CrudTable = <
   const getTableProps = () => ({
     ...restProps,
     className,
-    // pagination,
+    loading: action.loading,
     dataSource: action.dataSource,
     columns: propsColumns,
     onChange: (
@@ -90,6 +94,7 @@ const CrudTable = <
       extra: TableCurrentDataSource<T>,
     ) => {
       restProps.onChange?.(changePagination, filters, sorter, extra);
+      setPageInfo(changePagination);
     },
   });
 

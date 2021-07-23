@@ -110,4 +110,5 @@ export type UseFetchActions = {
   dataSource?: any;
   effects?: any[];
   onPageInfoChange?: (pageInfo: PageInfo) => void;
+  onRequestError?: (e: Error) => void;
 };

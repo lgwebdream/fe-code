@@ -82,6 +82,7 @@ const demoTable: ICrud = {
       ],
     },
   ],
+  tableProps: { size: 'middle' },
 };
 
 export default function IndexPage() {

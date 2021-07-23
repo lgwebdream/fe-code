@@ -23,11 +23,12 @@ const useFetchData = <T extends FetcherResult<any>>(
   actions: UseFetchActions,
 ) => {
   const [list, setList] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState(
     mergeOptionAndPageInfo({ pageInfo: actions.pageInfo }),
   );
 
-  const { effects = [] } = actions || {};
+  const { effects = [], onRequestError } = actions || {};
   // 缓存上一次的pageInfo 用于分页改变时查询列表
   const prePage = usePrevious(pageInfo?.current);
   const prePageSize = usePrevious(pageInfo?.pageSize);
@@ -36,16 +37,30 @@ const useFetchData = <T extends FetcherResult<any>>(
     const { current, pageSize } = pageInfo;
     const pageParams =
       actions?.pageInfo !== false ? { current, pageSize } : undefined;
+    setLoading(true);
 
-    const { data, code } = await getData(pageParams);
-    if (code !== 200) setList([]);
-    const responseData = data?.data;
-    setList(responseData);
+    try {
+      await getData(pageParams).then(response => {
+        const { data, code } = response;
+        if (code !== 200) setList([]);
+        const responseData = data?.data;
+        setLoading(false);
+        setList(responseData);
+      });
+    } catch (error) {
+      /** 上报错误信息 */
+      if (onRequestError === undefined) {
+        throw new Error(error);
+      }
+      onRequestError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // 分页发生变化的时候自动刷新
   useEffect(() => {
-    const { current, pageSize } = pageInfo || {};
+    const { current, pageSize } = actions.pageInfo || {};
     if (
       (!prePage || prePage === current) &&
       (!prePageSize || prePageSize === pageSize)
@@ -54,15 +69,16 @@ const useFetchData = <T extends FetcherResult<any>>(
       return;
     }
     setPageInfo({ current, pageSize, total: list.length });
-  }, [pageInfo?.current]);
+  }, [actions.pageInfo]);
 
   useEffect(() => {
     fetchList();
-  }, [...effects]);
+  }, [...effects, pageInfo]);
 
   return {
     dataSource: list,
     pageInfo,
+    loading,
     setPageInfo: async info => {
       setPageInfo({
         ...pageInfo,
