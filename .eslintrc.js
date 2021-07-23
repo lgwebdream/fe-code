@@ -39,6 +39,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     'import/prefer-default-export': 'off',
+    'react/destructuring-assignment': [0, 'always'],
   },
   settings: {
     'import/resolver': {

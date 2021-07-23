@@ -100,6 +100,15 @@ export type CrudTableParams = {
   defaultPageSize?: number;
 };
 
+export type PageInfo = {
+  pageSize: number;
+  total: number;
+  current: number;
+};
+
 export type UseFetchActions = {
   pageInfo: CrudTableParams;
+  dataSource?: any;
+  effects?: any[];
+  onPageInfoChange?: (pageInfo: PageInfo) => void;
 };
