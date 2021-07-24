@@ -1,17 +1,14 @@
 export interface FetcherResult<T> {
   data?: {
     data: T[] | undefined;
-    status: number;
-    msg: string;
-    msgTimeout?: number;
-    errors?: {
-      [propName: string]: string;
-    };
-    type?: string;
-    [propName: string]: any; // 为了兼容其他返回格式
   };
-  status: number;
-  headers: object;
+  code: number;
+  msg: string;
+  msgTimeout?: number;
+  errors?: {
+    [propName: string]: string;
+  };
+  [propName: string]: any; // 为了兼容其他返回格式
 }
 
 export interface FetchOptions {

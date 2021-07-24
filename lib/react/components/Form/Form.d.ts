@@ -7,8 +7,9 @@ import {
   DatePickerProps,
   TimePickerProps,
 } from 'antd';
-
 import { IFormComTypeEnum } from './constant';
+
+export { IFormComTypeEnum };
 
 export interface IFormItemProps extends FormItemProps {
   // TODO
@@ -18,17 +19,11 @@ export interface IFormItemProps extends FormItemProps {
   key?: string; // 唯一值
 }
 
-export { IFormComTypeEnum };
-
-export interface IFormSchema {
-  comType: IFormComTypeEnum;
-  comProps?:
-    | InputProps
-    | InputNumberProps
-    | SelectProps<any>
-    | DatePickerProps
-    | TimePickerProps;
-  itemProps?: IFormItemProps;
-}
+export type IFormComponentProps =
+  | InputProps
+  | InputNumberProps
+  | SelectProps<any>
+  | DatePickerProps
+  | TimePickerProps;
 
 export type IFormProps = FormProps;
