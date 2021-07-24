@@ -1,13 +1,17 @@
 const defaultConfigPath = './config';
 const defaultOutput = './dist';
+const { red } = require('chalk');
+
+const rootPath = process.cwd();
+const { join: pathJoin } = require('path');
 
 const [, , inputConfigPath = defaultConfigPath, outputPath = defaultOutput] =
   process.argv;
 
 try {
-  const config = require(inputConfigPath);
-  const runner = require(`./${config.build}`);
-  runner(config, outputPath);
+  const config = require(pathJoin(rootPath, inputConfigPath));
+  const runner = require(pathJoin(rootPath, `./build/${config.build}`));
+  runner(config, pathJoin(rootPath, outputPath));
 } catch (e) {
-  console.info(e);
+  console.info(red(e));
 }
