@@ -9,6 +9,8 @@
   "scripts": {
     "prepare": "husky install",
     "mock": "json-server --watch ./mocks/api.json",
+    "eslint": "lint-staged",
+    "fix": "eslint . --fix --ext .js,.jsx,.ts,.tsx",
     "test": "jest"
   },
   "keywords": [],
@@ -22,6 +24,7 @@
     "commander": "^5.1.0",
     "cosmiconfig": "^7.0.0",
     "download-git-repo": "^3.0.2",
+    "eslint-plugin-vue": "^7.14.0",
     "figlet": "^1.4.0",
     "fs-extra": "^10.0.0",
     "https-proxy-agent": "^5.0.0",

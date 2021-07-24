@@ -1,44 +1,59 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Table } from 'antd';
 import classNames from 'classnames';
 import type { TablePaginationConfig } from 'antd';
-import type { ParamsType, CrudTableProps } from './typing';
+import type {
+  TableCurrentDataSource,
+  SorterResult,
+} from 'antd/lib/table/interface';
+import type { ParamsType, CrudTableProps } from './Table.d';
+import { useFetchData, parseDefaultColumnConfig } from './utils';
 import { FetcherResult } from '../../service';
-import { parseDefaultColumnConfig, useFetchData } from './utils';
+
+export type ICrudTableProps<
+  T extends Record<string, any>,
+  U extends ParamsType,
+  ValueType,
+> = CrudTableProps<T, U, ValueType> & {
+  defaultClassName?: string;
+};
 
 const CrudTable = <
   T extends Record<string, any>,
   U extends ParamsType,
   ValueType,
 >(
-  props: CrudTableProps<T, U, ValueType> & {
-    defaultClassName?: string;
-  },
+  props: ICrudTableProps<T, U, ValueType>,
 ) => {
   const {
-    rowKey,
-    tableLayout,
     className: propsClassName,
-    columns: propsColumns = [],
     pagination: propsPagination,
+    columns: propsColumns,
+    onRequestError,
     request,
-    params,
+    defaultData,
+    params = {},
     defaultClassName,
     ...restProps
   } = props;
 
-  const className = classNames(defaultClassName, propsClassName);
+  const className = useMemo(() => {
+    return classNames(defaultClassName, propsClassName);
+  }, [defaultClassName, propsClassName]);
   const { sort, filter } = parseDefaultColumnConfig(propsColumns);
 
-  const fetchPagination =
+  const defaultPagination =
     typeof propsPagination === 'object'
       ? (propsPagination as TablePaginationConfig)
       : { defaultCurrent: 1, defaultPageSize: 20, pageSize: 20, current: 1 };
 
-  /** 数据请求 */
+  const [fetchPagination, setPageInfo] = useState(defaultPagination);
+
+  /** 列表页刷新请求统一入口 */
   const fetchData = useMemo(() => {
     if (!request) return undefined;
     return async (pageParams?: Record<string, any>) => {
+      /** 合并table额外的params, eg：表单联动 */
       const actionParams = {
         ...(pageParams || {}),
         ...params,
@@ -50,23 +65,40 @@ const CrudTable = <
       );
       return response as FetcherResult<T>;
     };
-  }, [params, request]);
+  }, [params, filter, sort, request]);
 
-  // /** 收集组件触发请求action, 暂时忽略默认数据 */
-  const action = useFetchData(fetchData, {
+  /** 收集组件触发请求的action, 内建业务模块代码 */
+  const action = useFetchData(fetchData, defaultData, {
     pageInfo: fetchPagination,
+    dataSource: props.dataSource,
+    onRequestError,
+    effects: [JSON.stringify(params)],
+    onPageInfoChange: pageInfo => {
+      if (propsPagination) {
+        propsPagination?.onChange?.(pageInfo.current, pageInfo.pageSize);
+      }
+    },
   });
 
+  /** 合并外置props,只接管业务逻辑，对其他属性只做代理 */
   const getTableProps = () => ({
     ...restProps,
     className,
+    loading: action.loading,
     dataSource: action.dataSource,
     columns: propsColumns,
+    onChange: (
+      changePagination: TablePaginationConfig,
+      filters: Record<string, (React.Key | boolean)[] | null>,
+      sorter: SorterResult<T> | SorterResult<T>[],
+      extra: TableCurrentDataSource<T>,
+    ) => {
+      restProps.onChange?.(changePagination, filters, sorter, extra);
+      setPageInfo(changePagination);
+    },
   });
 
-  return (
-    <Table<T> {...getTableProps()} rowKey={rowKey} tableLayout={tableLayout} />
-  );
+  return <Table {...getTableProps()} className={className} />;
 };
 
 CrudTable.defaultProps = {

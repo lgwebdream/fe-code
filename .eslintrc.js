@@ -11,19 +11,42 @@ module.exports = {
     project: './tsconfig.eslint.json',
   },
   rules: {
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-console': ['warn', { allow: ['warn', 'error'] }],
     'no-restricted-syntax': 'off',
     'no-unused-expressions': 'off',
     '@typescript-eslint/no-unused-expressions': [
       'error',
       { allowShortCircuit: true },
     ],
+    'import/no-unresolved': [
+      2,
+      {
+        ignore: [
+          'vue',
+          'react',
+          '@crud',
+          'react-dom',
+          'vite-plugin-vue2',
+          'mockjs',
+          'umi-request',
+        ],
+      },
+    ],
     'global-require': 'off',
     'import/no-dynamic-require': 'off',
     'react/react-in-jsx-scope': 'off',
-    'react/jsx-props-no-spreading': "off",
-    'import/no-extraneous-dependencies': 0,
-    'import/no-unresolved': 0,
-    'import/prefer-default-export': 0,
-  }
+    'no-shadow': 'off',
+    'react/jsx-props-no-spreading': 'off',
+    '@typescript-eslint/no-shadow': ['error'],
+    'import/prefer-default-export': 'off',
+    'react/destructuring-assignment': [0, 'always'],
+    "import/no-extraneous-dependencies": 0,
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.vue', '.tsx', '.ts'],
+      },
+    },
+  },
 };

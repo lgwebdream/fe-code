@@ -13,7 +13,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@@/*": ["src/.umi/*"],
-      "@crud/*": ["../../lib/react/*"]
+      "@crud/*": ["../../lib/react/*"],
     },
     "allowSyntheticDefaultImports": true
   },
@@ -23,8 +23,7 @@
     "config/**/*",
     ".umirc.ts",
     "typings.d.ts",
-    "../../lib/react/**/*.tsx",
-    "../../lib/react/**/*.ts"
+    "../../lib/react/*.tsx"
   ],
   "exclude": [
     "node_modules",

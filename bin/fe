@@ -8,6 +8,10 @@ const inquirer = require('inquirer');
 const ora = require('ora');
 const download = require('download-git-repo');
 const { version } = require('../package.json');
+const api2code = require('../scripts/api2code');
+const vue2code = require('../scripts/vue2code');
+const react2code = require('../scripts/react2code');
+const envir2code = require('../scripts/envir2code');
 const loadConfig = require('../lib/loadConfig');
 
 const versionStr = figlet.textSync('Fe Code');
@@ -19,39 +23,21 @@ program.version(
 );
 // .option('-c, --config <path>', '配置路径', './fecoderc.json');
 
-// register all the abilities powered by fe-code
-const subCommands = [{
-  path: '../scripts/api2code',
-  name: 'api2code',
-  description: '接口转换及CURD代码生成器',
-  enable: true,
-}, {
-  path: '../scripts/vue2code',
-  name: 'vue2code',
-  description: 'vue代码生成器',
-  enable: false,
-}, {
-  path: '../scripts/react2code',
-  name: 'react2code',
-  description: 'react代码生成器',
-  enable: false,
-}, {
-  path: '../scripts/env2code',
-  name: 'env2code',
-  description: '运行环境代码生成器',
-  enable: false,
-}];
-
-// setup all the abilities
-subCommands.forEach(({ path, enable }) => {
-  if (enable && path) {
-    require(path)(program);
-  }
-});
-
+// 接口生成代码部分
+api2code(program);
+// 生成Vue代码部分
+vue2code(program);
+// 生成react代码部分
+react2code(program);
+// 生成运行环境代码部分
+envir2code(program);
 program
   .usage('[对应Commands]')
-  .action(({args}, otherParmas) => {
+  .arguments('<cmd>')
+  .action((cmd, otherParmas) => {
     const whiteList = ['api2ts'];
+    if (whiteList.indexOf(cmd) < 0) {
+      console.log(`🐝 ${chalk.blue(`${cmd}`)} ${chalk.red('暂未支持~')}`);
+    }
   });
 program.parse(process.argv);
