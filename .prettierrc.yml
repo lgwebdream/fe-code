@@ -2,4 +2,6 @@ singleQuote: true
 trailingComma: all
 semi: true
 bracketSpacing: true
+useTabs: false
+tabsWidth: 4
 arrowParens: avoid

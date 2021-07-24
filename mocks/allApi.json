@@ -1,0 +1,25 @@
+{
+  "type_code_path": "typings",
+  "crud_code_path": "service",
+  "apis": {
+    "user": [
+      {
+        "method": "GET",
+        "domain": "http://x100.com",
+        "path": "/order/v1/getlist",
+        "name": "getList",
+        "description": "查询订单列表",
+        "requestParams": {
+          "page_no": 0,
+          "count": 10
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/order/v1/submit",
+        "name": "create",
+        "description": "提交新的订单"
+      }
+    ]
+  }
+}
