@@ -1,0 +1,9 @@
+{
+  "mount": {
+    "dist": "/",
+    "src": "/"
+  },
+  "packageOptions": {
+    "namedExports": ["antd"]
+  }
+}

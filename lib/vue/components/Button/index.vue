@@ -1,6 +1,8 @@
 <template>
-  <div class="x-button">
-    <el-button type="primary"> <slot></slot>内部</el-button>
+  <div class='x-button'>
+    <el-button type='primary'>
+      <slot></slot>内部
+    </el-button>
   </div>
 </template>
 
