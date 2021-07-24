@@ -10,7 +10,7 @@ const [, , inputConfigPath = defaultConfigPath, outputPath = defaultOutput] =
 
 try {
   const config = require(pathJoin(rootPath, inputConfigPath));
-  const runner = require(pathJoin(rootPath, `./build/${config.build}`));
+  const runner = require(pathJoin(__dirname, `./${config.build}`));
   runner(config, pathJoin(rootPath, outputPath));
 } catch (e) {
   console.info(red(e));
