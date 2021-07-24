@@ -1,13 +1,20 @@
 import { Form, Modal } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FForm from '../Form';
 import { ICrudModalProps } from './Modal.d';
 
 const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
   const { data, columns, onOk, visible, onCancel } = props;
   const [form] = Form.useForm();
+  const [isInit, setInit] = useState(false);
 
   useEffect(() => {
+    setInit(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isInit) return;
+
     if (visible) {
       form?.setFieldsValue(data);
     } else {
