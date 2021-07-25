@@ -1,28 +1,47 @@
 const { prompt } = require('inquirer');
-const { writeJsonSync } = require('fs-extra');
-const { green } = require('chalk');
-
-const CONFIG_NAME = '.fecoderc.json';
+const { writeJsonSync, pathExistsSync } = require('fs-extra');
+const { green, yellow } = require('chalk');
 const { join } = require('path');
+const shell = require('shelljs');
+const { initConfig, CONFIG_NAME } = require('../lib/defaultConfig');
 
-const defaultConfig = {
-  request: {
-    url: 'http://localhost:3000',
-    headers: {},
-  },
-};
-
+const runnerPath = join(__dirname, '..', 'build/index.js');
+const configPath = join(__dirname, '..', CONFIG_NAME);
 let collection = {};
 
 const finishCommand = () => {
   writeJsonSync(
-    join(__dirname, '..', CONFIG_NAME),
-    { ...defaultConfig, ...collection },
+    configPath,
+    { ...initConfig, ...collection },
     {
       spaces: 2,
     },
   );
-  console.info(green(`generate ${CONFIG_NAME} & init project successfully`));
+  const { root, projectName } = collection;
+  const resolvePath = join(process.cwd(), root, projectName);
+  if (pathExistsSync(resolvePath)) {
+    const questions = [
+      {
+        type: 'confirm',
+        name: 'overrideOutput',
+        message: yellow(
+          `'${resolvePath}' has already existed, do you want to override it?`,
+        ),
+      },
+    ];
+    prompt(questions).then(answers => {
+      if (answers.overrideOutput) {
+        console.info(green(`generate ${CONFIG_NAME}`));
+        shell.exec(`rm -rf ${resolvePath}`);
+        shell.exec(`cd . & node ${runnerPath} ${configPath}`);
+        console.info(green(`init project successfully`));
+      }
+    });
+  } else {
+    console.info(green(`generate ${CONFIG_NAME}`));
+    shell.exec(`cd . & node ${runnerPath} ${configPath}`);
+    console.info(green(`init project successfully`));
+  }
 };
 
 const commonPartQuestions = [
@@ -133,7 +152,6 @@ const envir2code = program => {
   program
     .command('envir2code')
     .alias('e2c')
-    .usage('-o <output>')
     .description('Initial project')
     .action(() => {
       start();

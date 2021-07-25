@@ -13,7 +13,7 @@ const init = dist => {
 };
 
 const process = config => {
-  const { main, ui, projectName } = config;
+  const { mainFramework: main, uiFramework: ui, projectName } = config;
 
   // init project to tempPath
   copySync(getInitTemplate(main, ui), tempPath);
@@ -35,8 +35,9 @@ const output = dist => {
   removeSync(tempPath);
 };
 
-module.exports = (config, dist) => {
-  init(dist);
+module.exports = config => {
+  const { $resolveRoot } = config;
+  init($resolveRoot);
   process(config);
-  output(dist);
+  output($resolveRoot);
 };
