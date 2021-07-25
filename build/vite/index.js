@@ -5,12 +5,6 @@ const argv = require('minimist')(process.argv.slice(2));
 const { green, cyan, yellow, blue } = require('chalk');
 const path = require('path');
 const prompts = require('prompts');
-/* const {  
-  copyDir,
-  copy,
-  emptyDir,
-  write
-} = require('./utils/index.js'); */
 
 const cwd = process.cwd();
 
@@ -83,7 +77,7 @@ async function init() {
 
   console.log(`\nScaffolding project in ${root}...`)
 
-  const templateDir = path.join(__dirname, `template-${template}`)
+  const templateDir = path.join(__dirname, `template-${template}3`)
   const write = (file, content) => {
     const targetPath = renameFiles[file]
       ? path.join(root, renameFiles[file])
@@ -114,7 +108,6 @@ async function init() {
   }
   console.log(`  ${pkgManager === 'yarn' ? `yarn` : `npm install`}`)
   console.log(`  ${pkgManager === 'yarn' ? `yarn dev` : `npm run dev`}`)
-  console.log()
 }
 
 function copy(src, dest) {

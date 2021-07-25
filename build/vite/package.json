@@ -12,8 +12,11 @@
   ],
   "main": "index.js",
   "dependencies": {
-    "minimist": "^1.2.5",
+    "@ant-design/icons": "^4.6.2",
+    "antd": "^4.16.8",
     "chalk": "^4.1.1",
+    "element-ui": "^2.15.3",
+    "minimist": "^1.2.5",
     "prompts": "^2.4.1"
   },
   "devDependencies": {},
