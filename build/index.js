@@ -5,13 +5,15 @@ const { red } = require('chalk');
 const rootPath = process.cwd();
 const { join: pathJoin } = require('path');
 
-const [, , inputConfigPath = defaultConfigPath, outputPath = defaultOutput] =
-  process.argv;
+const [, , inputConfigPath, outputPath] = process.argv;
 
 try {
-  const config = require(pathJoin(rootPath, inputConfigPath));
+  const config = inputConfigPath
+    ? require(pathJoin(rootPath, inputConfigPath))
+    : require(defaultConfigPath);
   const runner = require(pathJoin(__dirname, config.build));
-  runner(config, pathJoin(__dirname, outputPath));
+  const dist = outputPath ? pathJoin(rootPath, outputPath) : defaultOutput;
+  runner(config, dist);
 } catch (e) {
   console.info(red(e));
 }
