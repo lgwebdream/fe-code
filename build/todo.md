@@ -1,23 +1,15 @@
 # Todo list
 
-## Before Jul. 25th
+## Before Aug. 1st
 
-### vite/webpack/snowpack
-
-- ui: 
-  - vue 2: support for elementui
-  - react 17: support for antd  
+君鸿：empty framework + tsconfig + vite 整合
+贤明：vue + webpack 整合
+仙伟：react + snowpack 整合
 
 - transpiler: typescript
-
-- style: sass/postcss/less
-    
-## next week(Aug. 1st)
-
-- framework: vue3
-    
 - lint: eslint/prettier
-    
+- style: sass/postcss/less
+- framework: vue3   
 - test: jest/mocha/chai
 
 - plugins:

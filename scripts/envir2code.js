@@ -62,6 +62,9 @@ const commonPartQuestions = [
     type: 'input',
     name: 'root',
     message: 'Please input the destination of output?',
+    filter(input) {
+      return input.trim();
+    },
   },
 ];
 const vuePart = () => {
@@ -119,6 +122,19 @@ const start = () => {
       name: 'projectName',
       default: 'empty project',
       message: 'Please input your project name?',
+      filter(input) {
+        return input.trim();
+      },
+      validate(input) {
+        const done = this.async();
+        setTimeout(() => {
+          if (!input) {
+            done('Project name cannot be empty');
+            return;
+          }
+          done(null, true);
+        }, 0);
+      },
     },
     {
       type: 'list',
