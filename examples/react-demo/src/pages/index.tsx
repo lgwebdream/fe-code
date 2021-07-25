@@ -85,7 +85,13 @@ const demoTable: ICrud = {
     {
       render: (row, index) => {
         return (
-          <Button type="link" onClick={() => console.log(1111, row, index)}>
+          <Button
+            type="link"
+            onClick={() => {
+              message.warning('自定义事件处理');
+              console.log(1111, row, index);
+            }}
+          >
             行级操作
           </Button>
         );
