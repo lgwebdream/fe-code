@@ -1,6 +1,6 @@
 const { prompt } = require('inquirer');
 const { writeJsonSync, pathExistsSync } = require('fs-extra');
-const { green, yellow } = require('chalk');
+const { green, yellow, red } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
 const { initConfig, CONFIG_NAME } = require('../lib/defaultConfig');
@@ -32,15 +32,23 @@ const finishCommand = () => {
     prompt(questions).then(answers => {
       if (answers.overrideOutput) {
         console.info(green(`generate ${CONFIG_NAME}`));
-        shell.exec(`rm -rf ${resolvePath}`);
-        shell.exec(`cd . & node ${runnerPath} ${configPath}`);
-        console.info(green(`init project successfully`));
+        try {
+          shell.exec(`rm -rf ${resolvePath}`);
+          shell.exec(`node ${runnerPath} ${configPath}`);
+          console.info(green(`init project successfully`));
+        } catch (e) {
+          console.info(red(e));
+        }
       }
     });
   } else {
     console.info(green(`generate ${CONFIG_NAME}`));
-    shell.exec(`cd . & node ${runnerPath} ${configPath}`);
-    console.info(green(`init project successfully`));
+    try {
+      shell.exec(`node ${runnerPath} ${configPath}`);
+      console.info(green(`init project successfully`));
+    } catch (e) {
+      console.info(red(e));
+    }
   }
 };
 

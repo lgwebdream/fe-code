@@ -1,43 +1,88 @@
-const { copySync, removeSync, ensureDirSync } = require('fs-extra');
+const {
+  copySync,
+  removeSync,
+  ensureDirSync,
+  outputFileSync,
+  writeJsonSync,
+} = require('fs-extra');
 const { join } = require('path');
 
-const { getInitTemplate, getCommonTemplate } = require('./utils');
+const {
+  getInitTemplate,
+  getCommonTemplate,
+  getPackageJson,
+  getSnowpackConfigJson,
+} = require('./utils');
 const { setPackageProps, addReadMe } = require('../utils');
+const {
+  indexHtml: getIndexHtml,
+  indexJs: getIndexJs,
+  app: getApp,
+} = require('../template/react17');
 
-const tempPath = join(__dirname, 'temp');
-
-const init = dist => {
-  removeSync(dist);
-  removeSync(tempPath);
-  ensureDirSync(tempPath);
+const init = root => {
+  removeSync(root);
+  ensureDirSync(root);
 };
 
 const process = config => {
-  const { mainFramework: main, uiFramework: ui, projectName } = config;
+  const {
+    mainFramework: main,
+    uiFramework: ui,
+    projectName,
+    $resolveRoot: root,
+    templatePath,
+  } = config;
 
-  // init project to tempPath
-  copySync(getInitTemplate(main, ui), tempPath);
+  // main:react
+  const resolveTemplatePath = join(root, templatePath);
 
-  // copy common files to tempPath
-  copySync(getCommonTemplate(main), tempPath);
+  // todo remove this condition when vue/none framework done
+  if (main === 'react') {
+    // generate index.html
+    const html = getIndexHtml({ projectName });
+    outputFileSync(join(resolveTemplatePath, html.file), html.text);
 
-  // change package.json name
-  setPackageProps(join(tempPath, 'package.json'), {
-    name: projectName,
-  });
+    // generate index.js/jsx
+    const js = getIndexJs({ ui });
+    outputFileSync(join(resolveTemplatePath, js.file), js.text);
 
+    // generate App.js/jsx
+    const appObj = getApp({ ui });
+    outputFileSync(join(resolveTemplatePath, appObj.file), appObj.text);
+
+    // copy common files
+    copySync(getCommonTemplate(main), root);
+
+    // generate package.json
+    writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
+      spaces: 2,
+    });
+
+    // generate snowpack.config.json
+    writeJsonSync(
+      join(root, 'snowpack.config.json'),
+      getSnowpackConfigJson({ ui }),
+      {
+        spaces: 2,
+      },
+    );
+  } else {
+    // main:vue/none
+    copySync(getInitTemplate(main, ui), root);
+    // copy common files
+    copySync(getCommonTemplate(main), root);
+
+    // change package.json name
+    setPackageProps(join(root, 'package.json'), {
+      name: projectName,
+    });
+  }
   // add overview info to readme.md
-  addReadMe(join(tempPath, 'README.md'), projectName);
-};
-
-const output = dist => {
-  copySync(tempPath, dist);
-  removeSync(tempPath);
+  addReadMe(join(root, 'README.md'), projectName);
 };
 
 module.exports = config => {
-  const { $resolveRoot } = config;
-  init($resolveRoot);
+  init(config.$resolveRoot);
   process(config);
-  output($resolveRoot);
 };
