@@ -1,33 +1,153 @@
 import React, { useMemo, useState } from 'react';
+import { message, Modal, ModalProps } from 'antd';
 import Table from './Table';
 import ToolBar from './ToolBar';
 import Form from './Form';
-import { ICrud, ICrudColumn } from './Crud.d';
+import {
+  ICrud,
+  ICrudColumn,
+  ICrudColumnToolbar,
+  ICrudToolbarTypeEnum,
+} from './Crud.d';
 import { BatchButtonGroup } from './ToolBar/BatchOperation';
+import FCrudModal from './Container/Modal';
+
+const titleMapping = {
+  [ICrudToolbarTypeEnum.Add]: '添加',
+  [ICrudToolbarTypeEnum.Edit]: '编辑',
+};
 
 const FCrud = (props: ICrud): React.ReactElement => {
-  const { columns, tableProps, batchToolbar, rowToolbar, request } = props;
+  const { columns, title, tableProps, batchToolbar, rowToolbar, request } =
+    props;
+
   const [filter, setFilter] = useState(null);
   const [selection, setSelection] = useState({
     selectedRows: [],
     selectedRowKeys: [],
   });
+  const [modalProps, setModalProps] = useState<ModalProps>({
+    visible: false,
+    title: '',
+  });
+  const [form, setForm] = useState<Record<string, any>>(null);
 
-  const onSearchFilter = (params: {}) => setFilter(params);
-  const onResetFilter = () => setFilter(null);
+  // crud 区
+  const handleCloseModal = () => {
+    setForm(null);
+    setModalProps({ visible: false });
+  };
+  const handleOpenModal = (
+    data: Record<string, any> = null,
+    action: ICrudToolbarTypeEnum,
+    onOk: (row: Record<string, any>) => void = null,
+  ) => {
+    setForm(data);
+    setModalProps({
+      visible: true,
+      title: `${title}${titleMapping[action]}`,
+      onOk,
+    });
+  };
+  // 内置函数定义
+  const parseToolbarActions = (
+    toolbars: ICrudColumnToolbar[],
+    row?: Record<string, any> | Record<string, any>[],
+    isBatch: boolean = false,
+  ) => {
+    toolbars?.forEach(it => {
+      let tempEvt;
+      switch (it.toolbarType) {
+        case ICrudToolbarTypeEnum.Add:
+          tempEvt = () =>
+            handleOpenModal(
+              null,
+              it.toolbarType,
+              data =>
+                it.request &&
+                it.request(data).then(() => {
+                  handleCloseModal();
+                  setFilter({ ...filter });
+                }),
+            );
+          Object.assign(it, { onClick: tempEvt });
+          break;
+        case ICrudToolbarTypeEnum.Edit:
+          tempEvt = () =>
+            handleOpenModal(
+              row,
+              it.toolbarType,
+              data =>
+                it.request &&
+                it.request(data).then(() => {
+                  handleCloseModal();
+                  setFilter({ ...filter });
+                }),
+            );
+          Object.assign(it, { onClick: tempEvt });
+          break;
+        case ICrudToolbarTypeEnum.Delete:
+          tempEvt = () => {
+            if ((!isBatch && !row) || (isBatch && !row?.length)) {
+              message.destroy();
+              message.warning('请先选择需要删除的数据');
+              return;
+            }
+            Modal.confirm({
+              title: `删除${title}`,
+              content: '是否确认删除该条数据',
+              okText: '确定',
+              cancelText: '取消',
+              onOk: () => it.request && it.request(row).then(handleCloseModal),
+            });
+          };
+          Object.assign(it, { onClick: tempEvt });
+          break;
+        case ICrudToolbarTypeEnum.DeleteBatch:
+          tempEvt = () => {
+            if (!row?.length) {
+              message.destroy();
+              message.warning('请先选择需要删除的数据');
+              return;
+            }
+            Modal.confirm({
+              title: `删除${title}`,
+              content: `是否确认删除${row?.length}条数据`,
+              okText: '确定',
+              cancelText: '取消',
+              onOk: () => it.request && it.request(row).then(handleCloseModal),
+            });
+          };
+          Object.assign(it, { onClick: tempEvt });
+          break;
 
-  // 格式化筛选表单字段属性
-  const filterColumns = useMemo(() => {
-    const buffer: ICrudColumn[] = [];
-    columns.forEach(it => {
-      if (it.isFilter) {
-        const temp = { ...it };
-        delete temp.rules;
-        delete temp.isFilter;
-        buffer.push(temp);
+        default:
+          break;
       }
     });
-    return buffer;
+    return toolbars;
+  };
+
+  // 筛选区操作
+  const handleSearchFilter = (params: {}) => setFilter(params);
+  const handleResetFilter = () => setFilter(null);
+
+  // 格式化筛选表单字段属性
+  const [filterColumns, formColumns] = useMemo(() => {
+    const filterCols: ICrudColumn[] = [];
+    const formCols: ICrudColumn[] = [];
+    columns.forEach(it => {
+      const temp = { ...it };
+      delete temp.isFilter;
+
+      !it.readonly && formCols.push({ ...temp });
+
+      if (it.isFilter) {
+        delete temp.rules;
+        filterCols.push(temp);
+      }
+    });
+    return [filterCols, formCols];
   }, [columns]);
 
   // 表格自动处理
@@ -47,7 +167,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
         render: (text, row, index: number) => {
           return (
             <BatchButtonGroup
-              options={rowToolbar}
+              options={parseToolbarActions(rowToolbar, row, false)}
               args={{ row, rowKey: index }}
             />
           );
@@ -56,18 +176,22 @@ const FCrud = (props: ICrud): React.ReactElement => {
     }
 
     return buffer;
-  }, [columns, rowToolbar]);
+  }, [columns, rowToolbar, filter]);
 
   return (
     <div className="f-crud">
       <ToolBar
         selectedRows={selection.selectedRows}
         selectedRowKeys={selection.selectedRowKeys}
-        batchOptions={batchToolbar}
+        batchOptions={parseToolbarActions(
+          batchToolbar,
+          selection.selectedRows,
+          true,
+        )}
         searchOptions={{
           columns: filterColumns,
-          onSearch: onSearchFilter,
-          onReset: onResetFilter,
+          onSearch: handleSearchFilter,
+          onReset: handleResetFilter,
         }}
       />
       <Table
@@ -83,6 +207,13 @@ const FCrud = (props: ICrud): React.ReactElement => {
         request={request}
         columns={tableColumns}
         params={filter}
+      />
+
+      <FCrudModal
+        {...modalProps}
+        data={form}
+        columns={formColumns}
+        onCancel={handleCloseModal}
       />
     </div>
   );

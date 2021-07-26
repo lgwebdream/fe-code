@@ -19,19 +19,19 @@ export default {
     code: 200,
     msg: '服务器成功返回数据',
   },
-  'GET /api/json/add': {
+  'POST /api/json/add': {
     result: { id: 2, name: '张三', age: 18, title: 'cto' },
     success: true,
   },
-  'GET /api/json/edit': {
+  'POST /api/json/edit': {
     result: { id: 3, name: '张三', age: 18, title: 'cto' },
     success: true,
   },
-  'GET /api/json/delete': {
+  'POST /api/json/delete': {
     result: 3,
     success: true,
   },
-  'GET /api/json/export': {
+  'POST /api/json/export': {
     result: 'hello world',
     success: true,
   },

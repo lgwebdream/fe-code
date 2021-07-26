@@ -1,8 +1,9 @@
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import request from 'umi-request';
 import {
   FCrud,
   ICrud,
+  ICrudToolbarTypeEnum,
   ICurdContainerTypeEnum,
   IFormComTypeEnum,
 } from '@crud/index';
@@ -24,19 +25,37 @@ const demoTable: ICrud = {
     {
       label: '添加',
       type: 'primary',
-    },
-    {
-      label: '导出',
-      type: 'ghost',
+      toolbarType: ICrudToolbarTypeEnum.Add,
+      request: (row) =>
+        request(apiConfig.add, { method: 'post', data: row }).then(() => {
+          message.success('添加成功');
+        }),
     },
     {
       label: '删除',
+      type: 'ghost',
+      danger: true,
+      toolbarType: ICrudToolbarTypeEnum.Delete,
+      request: (row) =>
+        request(apiConfig.delete, { method: 'post', data: row }).then(() => {
+          message.success('删除成功');
+        }),
+    },
+    {
+      label: '批量删除',
       type: 'dashed',
+      danger: true,
+      toolbarType: ICrudToolbarTypeEnum.DeleteBatch,
+      request: (row) =>
+        request(apiConfig.delete, { method: 'post', data: row }).then(() => {
+          message.success('删除成功');
+        }),
     },
     {
       render: (rows, rowKeys) => {
+        console.log(rows, rowKeys);
         return (
-          <Button type="text" onClick={() => console.log(rows, rowKeys)}>
+          <Button type="text" onClick={() => message.warning('自定义事件处理')}>
             自定义按钮
           </Button>
         );
@@ -47,11 +66,32 @@ const demoTable: ICrud = {
     {
       label: '编辑',
       type: 'link',
+      toolbarType: ICrudToolbarTypeEnum.Edit,
+      request: (row) =>
+        request(apiConfig.edit, { method: 'post', data: row }).then(() => {
+          message.success('编辑成功');
+        }),
+    },
+    {
+      label: '删除',
+      type: 'link',
+      danger: true,
+      toolbarType: ICrudToolbarTypeEnum.Delete,
+      request: (row) =>
+        request(apiConfig.delete, { method: 'post', data: row }).then(() => {
+          message.success('删除成功');
+        }),
     },
     {
       render: (row, index) => {
         return (
-          <Button type="link" onClick={() => console.log(1111, row, index)}>
+          <Button
+            type="link"
+            onClick={() => {
+              message.warning('自定义事件处理');
+              console.log(1111, row, index);
+            }}
+          >
             行级操作
           </Button>
         );

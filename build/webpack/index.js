@@ -1,12 +1,11 @@
 const { copySync, removeSync, ensureDir } = require('fs-extra');
 const { join } = require('path');
-const { custom: configCustom } = require('../config');
 
 const {
   main: customMain,
   outputPath: customOutputPath,
   projectName: customProjectName,
-} = configCustom;
+} = require('../config');
 const { getTemplate } = require('./utils');
 const { setPackageProps, addReadMe } = require('../utils');
 
