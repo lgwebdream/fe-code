@@ -8,7 +8,7 @@ import {
   ICrudColumn,
   ICrudColumnToolbar,
   ICrudToolbarTypeEnum,
-} from './Crud.d';
+} from './CrudTypes';
 import { BatchButtonGroup } from './ToolBar/BatchOperation';
 import FCrudModal from './Container/Modal';
 

@@ -2,9 +2,17 @@
   "extends": "../../tsconfig.eslint.json",
   "compilerOptions": {
     "types": ["react"],
-    "jsx": "react",
+    "jsx": "preserve",
+    "declaration": false,
     "esModuleInterop": true,
     "strict": true,
+    "importHelpers": true,
+    "sourceMap": false,
+    "module": "esnext",
+    "skipLibCheck": true,
+    "importsNotUsedAsValues": "preserve",
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["*.ts", "*.d.ts", "*.tsx", "**/*.ts", "**/*.tsx", "**/*.d.ts"]
+  "include": ["components/*", "template/*"],
+  "exclude": ["node_modules"]
 }

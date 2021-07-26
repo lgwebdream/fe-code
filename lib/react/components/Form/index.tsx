@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'antd';
-import { IFormProps } from './Form';
+import { IFormProps } from './FormTypes';
 import { findComByName } from './formUtils';
-import { ICrudColumn } from '../Crud.d';
+import { ICrudColumn } from '../CrudTypes';
 
 const { Item } = Form;
 

@@ -1,4 +1,4 @@
-import { FCrud } from '@crud/index';
+import { FCrud } from '@crud/components/index';
 import request from 'umi-request';
 
 declare namespace API {

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import BatchOperation from './BatchOperation';
 import FilberSearch from './FilterSearch';
 import { getClassName } from './utils';
-import { ToolBarProps } from './ToolBar';
+import { ToolBarProps } from './ToolbarTypes';
 
 const ToolBar = (props: ToolBarProps) => {
   const {

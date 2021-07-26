@@ -1,5 +1,5 @@
 import { ModalProps } from 'antd';
-import { ICrudColumn } from '../Crud.d';
+import { ICrudColumn } from '../CrudTypes';
 
 export interface ICrudModalProps extends ModalProps {
   /** 表单 */

@@ -5,3 +5,4 @@ Icon?
 dist
 .idea
 package-lock.json
+__test__

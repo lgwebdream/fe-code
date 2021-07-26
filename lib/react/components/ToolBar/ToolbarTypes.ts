@@ -1,6 +1,6 @@
 import React, { CSSProperties, ReactElement } from 'react';
 import type { LabelTooltipType } from 'antd/lib/form/FormItemLabel';
-import { ICrudColumn, ICrudToolbar } from '../Crud.d';
+import { ICrudColumn, ICrudToolbar } from '../CrudTypes';
 
 export interface ToolBarOptions<T> {
   headerTitle?: React.ReactNode;

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Button } from 'antd';
-import type { ICrudToolbar } from '../Crud.d';
+import type { ICrudToolbar } from '../CrudTypes';
 
 const { Group } = Button;
 

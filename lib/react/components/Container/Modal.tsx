@@ -1,7 +1,7 @@
 import { Form, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import FForm from '../Form';
-import { ICrudModalProps } from './Modal.d';
+import { ICrudModalProps } from './ModalTypes';
 
 const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
   const { data, columns, onOk, visible, onCancel } = props;
