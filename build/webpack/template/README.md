@@ -1,4 +1,4 @@
-# empty-project1111
+# empty-project
 
 Empty project.
 
