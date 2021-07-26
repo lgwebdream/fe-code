@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import { Form, Button } from 'antd';
 import React, { useMemo } from 'react';
 import { getClassName } from './utils';
-import type { SearchOptions } from './ToolBar.d';
+import type { SearchOptions } from './ToolbarTypes';
 import FForm from '../Form/index';
 
 const { useForm } = Form;
@@ -41,14 +41,16 @@ const FilterSearch = (props: SearchOptions) => {
         render()
       ) : (
         <>
-          <FForm form={formInstance} layout="inline" schema={columns}>
-            <Form.Item>
-              <Button onClick={onResetClick}>重置</Button>
-              <Button type="primary" onClick={onSearchClick}>
-                搜索
-              </Button>
-            </Form.Item>
-          </FForm>
+          {columns.length ? (
+            <FForm form={formInstance} layout="inline" schema={columns}>
+              <Form.Item>
+                <Button onClick={onResetClick}>重置</Button>
+                <Button type="primary" onClick={onSearchClick}>
+                  搜索
+                </Button>
+              </Form.Item>
+            </FForm>
+          ) : null}
         </>
       )}
     </div>

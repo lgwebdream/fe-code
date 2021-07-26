@@ -1,7 +1,7 @@
 import { TableProps, SpinProps } from 'antd';
 import type { ColumnType } from 'antd/lib/table/interface';
 import type { CSSProperties } from 'react';
-import type { ICrudListRequest } from '../Crud.d';
+import type { ICrudListRequest } from '../CrudTypes';
 
 export type ParamsType = Record<string, any>;
 
