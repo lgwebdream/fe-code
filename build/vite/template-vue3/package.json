@@ -7,10 +7,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "vue": "^2.6.12",
-    "vite-plugin-vue2": "^1.4.0"
+    "vue": "^3.0.5"
   },
   "devDependencies": {
-    "vite": "^2.0.5"
+    "@vitejs/plugin-vue": "^1.2.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "element-plus": "^1.0.2-beta.55",
+    "vite": "^2.4.3"
   }
 }

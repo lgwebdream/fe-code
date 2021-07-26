@@ -15,6 +15,18 @@ export enum ICurdContainerTypeEnum {
   Panel = 'panel',
 }
 
+/** 内置功能类型 */
+export enum ICrudToolbarTypeEnum {
+  /** 添加 */
+  Add = 'add',
+  /** 编辑 */
+  Edit = 'edit',
+  /** 删除 */
+  Delete = 'delete',
+  /** 批量删除 */
+  DeleteBatch = 'deleteBatch',
+}
+
 /** 操作按钮定义 */
 export type ICrudToolbar<T = unknown> = {
   style?: CSSProperties;
@@ -37,6 +49,11 @@ export type ICrudToolbar<T = unknown> = {
     index?: (string | number)[] | number,
   ) => React.ReactElement;
 } & ButtonProps;
+
+export type ICrudColumnToolbar<T = unknown> = {
+  /** 内置绑定方法 */
+  toolbarType?: ICrudToolbarTypeEnum;
+} & ICrudToolbar<T>;
 
 /** 字段定义 */
 export interface ICrudColumn<T = unknown> extends ColumnType<T> {
@@ -92,10 +109,10 @@ export interface ICrud<T = unknown> {
   request?: ICrudListRequest<T>;
 
   /** toolbar 批量操作按钮 */
-  batchToolbar?: ICrudToolbar<T>[];
+  batchToolbar?: ICrudColumnToolbar<T>[];
 
   /** toolbar 行级操作按钮 */
-  rowToolbar?: ICrudToolbar<T>[];
+  rowToolbar?: ICrudColumnToolbar<T>[];
 
   /** 字段属性 */
   columns: ICrudColumn<T>[];
