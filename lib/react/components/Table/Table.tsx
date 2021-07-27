@@ -6,9 +6,9 @@ import type {
   TableCurrentDataSource,
   SorterResult,
 } from 'antd/lib/table/interface';
-import type { ParamsType, CrudTableProps } from './Table.d';
+import type { ParamsType, CrudTableProps } from './TableTypes';
 import { useFetchData, parseDefaultColumnConfig } from './utils';
-import { FetcherResult } from '../../service';
+import { FetcherResult } from '../service';
 
 export type ICrudTableProps<
   T extends Record<string, any>,

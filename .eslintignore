@@ -3,3 +3,5 @@ build/snowpack/template*
 .eslintrc.js
 /**/*.d.ts
 yarn.lock
+lib/react/template/**
+lib/react/build/**

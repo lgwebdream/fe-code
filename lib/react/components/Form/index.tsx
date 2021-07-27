@@ -1,8 +1,8 @@
 import React from 'react';
 import { Form } from 'antd';
-import { IFormProps } from './Form';
+import { IFormProps } from './FormTypes';
 import { findComByName } from './formUtils';
-import { ICrudColumn } from '../Crud.d';
+import { ICrudColumn } from '../CrudTypes';
 
 const { Item } = Form;
 
@@ -36,7 +36,7 @@ const FForm: React.FC<IFFormProps> = (props: IFFormProps) => {
             key={`${item.dataIndex}`}
           >
             {/* TODO 完善更多表单 */}
-            <FComponent {...temp} />
+            <FComponent placeholder={temp.title} {...temp} />
           </Item>
         );
       })}
