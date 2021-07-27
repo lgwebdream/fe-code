@@ -9,7 +9,6 @@ module.exports = ({ projectName }) => {
 </head>
 <body>
 <div id="app"></div>
-<script type="module" src="index.js"></script>
 </body>
 </html>`,
   };

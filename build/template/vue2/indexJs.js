@@ -1,24 +1,24 @@
 module.exports = ({ ui }) => {
-  const headerText = `import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';`;
+  const headerText =
+  `import Vue from 'vue';
+import App from './App';
+  `;
 
-  const bodyText = `const mountNode = document.getElementById('app');
-ReactDOM.render(<App />, mountNode);`;
+  const bodyText = `new Vue({
+    el: '#app',
+    render: h => h(App),
+});`;
   let text;
 
-  if (ui === 'antd') {
-    text = `${headerText}
-import 'antd/dist/antd.css';
+  if (ui === 'element') {text = `${headerText}import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 
 ${bodyText}`;
   } else {
-    text = `${headerText}
-    
-    ${bodyText}`;
+    text = `${headerText}${bodyText}`;
   }
   return {
     text,
-    file: 'index.jsx',
+    file: 'index.js',
   };
 };

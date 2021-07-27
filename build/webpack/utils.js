@@ -45,13 +45,5 @@ module.exports = {
       result.dependencies['element-ui'] = '^2.15.3';
     }
     return result;
-  },
-
-  getWebpackConfigJson({ ui }) {
-    const result = JSON.parse(JSON.stringify(templateWebpackConfig));
-    if (ui === 'element') {
-      result.packageOptions = ['element'];
-    }
-    return result;
-  },
+  }
 };

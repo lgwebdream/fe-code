@@ -32,11 +32,5 @@ module.exports = {
       "file-loader": "^6.2.0",
       "url-loader": "^4.1.1"
     }
-  },
-  templateWebpackConfig: {
-    mount: {
-      dist: '/',
-      src: '/',
-    },
-  },
+  }
 };

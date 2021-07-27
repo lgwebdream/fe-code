@@ -25,20 +25,18 @@ const process = config => {
     templatePath,
   } = config;
 
-  // main:react
   const resolveTemplatePath = join(root, templatePath);
 
-  // todo remove this condition when vue/none framework done
-  if (main === 'react') {
+  if (main === 'vue') {
     // generate index.html
     const html = getIndexHtml({ projectName });
     outputFileSync(join(resolveTemplatePath, html.file), html.text);
 
-    // generate index.js/jsx
+    // generate index.js
     const js = getIndexJs({ ui });
     outputFileSync(join(resolveTemplatePath, js.file), js.text);
 
-    // generate App.js/jsx
+    // generate App.vue
     const appObj = getApp({ ui });
     outputFileSync(join(resolveTemplatePath, appObj.file), appObj.text);
 
@@ -49,28 +47,7 @@ const process = config => {
     writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
       spaces: 2,
     });
-
-    // generate snowpack.config.json
-    writeJsonSync(
-      join(root, 'webpack.config.js'),
-      getWebpackConfigJson({ ui }),
-      {
-        spaces: 2,
-      },
-    );
-  } else {
-    // main:vue/none
-    copySync(getInitTemplate(main, ui), root);
-    // copy common files
-    copySync(getCommonTemplate(main), root);
-
-    // change package.json name
-    setPackageProps(join(root, 'package.json'), {
-      name: projectName,
-    });
   }
-  // add overview info to readme.md
-  addReadMe(join(root, 'README.md'), projectName);
 };
 
 module.exports = config => {
