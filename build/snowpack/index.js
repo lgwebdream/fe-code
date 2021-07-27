@@ -37,13 +37,14 @@ const process = config => {
     $resolveRoot: root,
     templatePath,
     buildTool,
+    $featureChecks,
   } = config;
-
+  const { babel = false, typescript = false } = $featureChecks;
   const resolveTemplatePath = join(root, templatePath);
-
   let html;
   let js;
   let app;
+  console.info(babel, typescript);
 
   if (main === 'react') {
     // generate index.html
