@@ -1,14 +1,25 @@
 import { Form, Modal } from 'antd';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import FForm from '../Form';
-import { ICrudModalProps } from './Modal.d';
+import { ICrudModalProps } from './ModalTypes';
 
 const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
   const { data, columns, onOk, visible, onCancel } = props;
   const [form] = Form.useForm();
+  const [isInit, setInit] = useState(false);
 
   useEffect(() => {
-    props.visible && form.setFieldsValue(data);
+    setInit(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isInit) return;
+
+    if (visible) {
+      form?.setFieldsValue(data);
+    } else {
+      form?.resetFields();
+    }
   }, [data, visible]);
 
   return (
@@ -18,11 +29,10 @@ const FCrudModal = (props: ICrudModalProps): React.ReactElement => {
       {...props}
       onOk={() => {
         form.validateFields().then(() => {
-          onOk && onOk(form.getFieldsValue());
+          onOk && onOk({ ...form.getFieldsValue() });
         });
       }}
       onCancel={e => {
-        form.resetFields();
         onCancel && onCancel(e);
       }}
     >

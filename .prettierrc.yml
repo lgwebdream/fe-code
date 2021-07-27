@@ -3,5 +3,5 @@ trailingComma: all
 semi: true
 bracketSpacing: true
 useTabs: false
-tabsWidth: 4
+tabsWidth: 2
 arrowParens: avoid

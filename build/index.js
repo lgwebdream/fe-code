@@ -1,17 +1,16 @@
-const defaultConfigPath = './config';
-const defaultOutput = './dist';
 const { red } = require('chalk');
 
 const rootPath = process.cwd();
 const { join: pathJoin } = require('path');
 
-const [, , inputConfigPath = defaultConfigPath, outputPath = defaultOutput] =
-  process.argv;
+const [, , inputConfigPath] = process.argv;
 
 try {
-  const config = require(pathJoin(rootPath, inputConfigPath));
-  const runner = require(pathJoin(rootPath, `./build/${config.build}`));
-  runner(config, pathJoin(rootPath, outputPath));
+  const config = require(inputConfigPath);
+  const { buildTool, projectName, root } = config;
+  const runner = require(pathJoin(__dirname, buildTool));
+  config.$resolveRoot = pathJoin(rootPath, root, projectName);
+  runner(config);
 } catch (e) {
   console.info(red(e));
 }

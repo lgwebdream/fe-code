@@ -6,19 +6,19 @@ import {
   ICrudToolbarTypeEnum,
   ICurdContainerTypeEnum,
   IFormComTypeEnum,
-} from '@crud/index';
+} from '@crud/components/index';
 
 const apiConfig = {
   add: '/api/json/add',
   edit: '/api/json/edit',
   delete: '/api/json/delete',
-  export: '/api/json/export',
   list: '/api/json/list',
 };
 
 const demoTable: ICrud = {
   title: '人员管理',
   containerType: ICurdContainerTypeEnum.Modal,
+  tableProps: { size: 'middle' },
   request: (params) =>
     request(apiConfig.list, { method: 'post', data: params }),
   batchToolbar: [
@@ -85,7 +85,13 @@ const demoTable: ICrud = {
     {
       render: (row, index) => {
         return (
-          <Button type="link" onClick={() => console.log(1111, row, index)}>
+          <Button
+            type="link"
+            onClick={() => {
+              message.warning('自定义事件处理');
+              console.log(1111, row, index);
+            }}
+          >
             行级操作
           </Button>
         );
@@ -99,7 +105,7 @@ const demoTable: ICrud = {
       dataIndex: 'name',
       type: IFormComTypeEnum.Input,
       rules: [{ message: '姓名不能为空', required: true }],
-      isFilter: true,
+      // isFilter: true,
     },
     { title: '年龄', dataIndex: 'age', type: IFormComTypeEnum.InputNumber },
     { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
@@ -107,7 +113,7 @@ const demoTable: ICrud = {
       title: '职位',
       dataIndex: 'title',
       type: IFormComTypeEnum.Select,
-      isFilter: true,
+      // isFilter: true,
       rules: [{ message: '职位不能为空', required: true }],
       options: [
         { label: 'CTO', value: 'cto' },
@@ -116,7 +122,6 @@ const demoTable: ICrud = {
       ],
     },
   ],
-  tableProps: { size: 'middle' },
 };
 
 export default function IndexPage() {

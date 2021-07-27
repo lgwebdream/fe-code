@@ -8,7 +8,7 @@ import {
   ICrudColumn,
   ICrudColumnToolbar,
   ICrudToolbarTypeEnum,
-} from './Crud.d';
+} from './CrudTypes';
 import { BatchButtonGroup } from './ToolBar/BatchOperation';
 import FCrudModal from './Container/Modal';
 
@@ -176,7 +176,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
     }
 
     return buffer;
-  }, [columns, rowToolbar]);
+  }, [columns, rowToolbar, filter]);
 
   return (
     <div className="f-crud">

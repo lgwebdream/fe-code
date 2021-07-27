@@ -1,5 +1,5 @@
 import { Alert, Button, Form } from 'antd';
-import { FCrud, IFormComTypeEnum } from '@crud/index';
+import { FCrud, IFormComTypeEnum } from '@crud/components/index';
 
 export default function FormDemo() {
   const [form] = Form.useForm();
