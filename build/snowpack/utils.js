@@ -3,8 +3,9 @@ const { templatePackageJson, templateSnowpackConfig } = require('./config');
 const { dependencies } = require('../../dependencies.config');
 
 module.exports = {
-  getPackageJson({ ui, main }) {
+  getPackageJson({ ui, main, projectName }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
+    result.name = projectName;
     if (main === 'react') {
       result.dependencies.react = dependencies.react;
       result.dependencies['react-dom'] = dependencies['react-dom'];

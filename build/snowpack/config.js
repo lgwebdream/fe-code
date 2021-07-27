@@ -2,7 +2,7 @@ const { devDependencies } = require('../../dependencies.config');
 
 module.exports = {
   templatePackageJson: {
-    name: 'empty-project',
+    name: '',
     version: '1.0.0',
     description: '',
     main: 'index.js',

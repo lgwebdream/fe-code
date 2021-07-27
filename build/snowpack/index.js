@@ -85,9 +85,13 @@ const process = config => {
   outputFileSync(join(root, ignore.file), ignore.text);
 
   // generate package.json
-  writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
-    spaces: 2,
-  });
+  writeJsonSync(
+    join(root, 'package.json'),
+    getPackageJson({ ui, main, projectName }),
+    {
+      spaces: 2,
+    },
+  );
 
   // generate snowpack.config.json
   writeJsonSync(
