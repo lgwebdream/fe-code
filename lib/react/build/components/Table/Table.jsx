@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react';
 import { Table } from 'antd';
 import classNames from 'classnames';
 import { useFetchData, parseDefaultColumnConfig } from './utils';
-import '../service';
 const CrudTable = (props) => {
     const { className: propsClassName, pagination: propsPagination, columns: propsColumns, onRequestError, request, defaultData, params = {}, defaultClassName, ...restProps } = props;
     const className = useMemo(() => {

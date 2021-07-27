@@ -1,7 +1,6 @@
 import { Form, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import FForm from '../Form';
-import './ModalTypes';
 const FCrudModal = (props) => {
     const { data, columns, onOk, visible, onCancel } = props;
     const [form] = Form.useForm();
