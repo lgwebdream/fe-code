@@ -60,6 +60,8 @@ export interface ICrudColumn<T = unknown> extends ColumnType<T> {
   /** 属性名称 */
   title?: string;
 
+  placeholder?: string;
+
   /** 属性字段名 */
   dataIndex: string;
 
