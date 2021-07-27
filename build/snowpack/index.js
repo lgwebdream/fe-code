@@ -1,24 +1,28 @@
 const {
-  copySync,
   removeSync,
   ensureDirSync,
   outputFileSync,
   writeJsonSync,
 } = require('fs-extra');
 const { join } = require('path');
-
+const { getPackageJson, getSnowpackConfigJson } = require('./utils');
 const {
-  getInitTemplate,
-  getCommonTemplate,
-  getPackageJson,
-  getSnowpackConfigJson,
-} = require('./utils');
-const { setPackageProps, addReadMe } = require('../utils');
-const {
-  indexHtml: getIndexHtml,
-  indexJs: getIndexJs,
-  app: getApp,
+  indexHtml: getReactIndexHtml,
+  indexJs: getReactIndexJs,
+  app: getReactApp,
 } = require('../template/react17');
+const {
+  indexHtml: getVueIndexHtml,
+  app: getVueApp,
+  indexJs: getVueIndexJs,
+} = require('../template/vue2');
+const {
+  indexHtml: getEmptyIndexHtml,
+  indexJs: getEmptyIndexJs,
+} = require('../template/empty');
+
+const getReadMe = require('../template/readme');
+const getIgnore = require('../template/ignore');
 
 const init = root => {
   removeSync(root);
@@ -32,54 +36,70 @@ const process = config => {
     projectName,
     $resolveRoot: root,
     templatePath,
+    buildTool,
   } = config;
 
-  // main:react
   const resolveTemplatePath = join(root, templatePath);
 
-  // todo remove this condition when vue/none framework done
+  let html;
+  let js;
+  let app;
+
   if (main === 'react') {
     // generate index.html
-    const html = getIndexHtml({ projectName });
-    outputFileSync(join(resolveTemplatePath, html.file), html.text);
+    html = getReactIndexHtml({ projectName });
 
     // generate index.js/jsx
-    const js = getIndexJs({ ui });
-    outputFileSync(join(resolveTemplatePath, js.file), js.text);
+    js = getReactIndexJs({ ui });
 
     // generate App.js/jsx
-    const appObj = getApp({ ui });
-    outputFileSync(join(resolveTemplatePath, appObj.file), appObj.text);
+    app = getReactApp({ ui });
+  } else if (main === 'vue') {
+    // generate index.html
+    html = getVueIndexHtml({ projectName });
 
-    // copy common files
-    copySync(getCommonTemplate(main), root);
+    // generate index.js/jsx
+    js = getVueIndexJs({ ui });
 
-    // generate package.json
-    writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
-      spaces: 2,
-    });
-
-    // generate snowpack.config.json
-    writeJsonSync(
-      join(root, 'snowpack.config.json'),
-      getSnowpackConfigJson({ ui }),
-      {
-        spaces: 2,
-      },
-    );
+    // generate App.js/jsx
+    app = getVueApp({ ui });
   } else {
-    // main:vue/none
-    copySync(getInitTemplate(main, ui), root);
-    // copy common files
-    copySync(getCommonTemplate(main), root);
+    // generate index.html
+    html = getEmptyIndexHtml({ projectName });
 
-    // change package.json name
-    setPackageProps(join(root, 'package.json'), {
-      name: projectName,
-    });
+    // generate index.js/jsx
+    js = getEmptyIndexJs({ ui });
   }
-  // add overview info to readme.md
-  addReadMe(join(root, 'README.md'), projectName);
+  // generate index.html
+  outputFileSync(join(resolveTemplatePath, html.file), html.text);
+
+  // generate index.js/jsx
+  outputFileSync(join(resolveTemplatePath, js.file), js.text);
+
+  // generate App.js/jsx
+  app && outputFileSync(join(resolveTemplatePath, app.file), app.text);
+
+  // add ignore files
+  const ignore = getIgnore({ buildTool });
+  outputFileSync(join(root, ignore.file), ignore.text);
+
+  // generate package.json
+  writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
+    spaces: 2,
+  });
+
+  // generate snowpack.config.json
+  writeJsonSync(
+    join(root, 'snowpack.config.json'),
+    getSnowpackConfigJson({ ui, main }),
+    {
+      spaces: 2,
+    },
+  );
+
+  // add readme.md
+  const readme = getReadMe({ projectName, buildTool, main });
+  outputFileSync(join(root, readme.file), readme.text);
 };
 
 module.exports = config => {

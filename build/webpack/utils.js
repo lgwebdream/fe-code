@@ -9,11 +9,11 @@ const {
 } = require('./config');
 
 /*
-* "vue": "^2.6.14"
-* "vue-loader": "^15.9.6",
-* "vue-template-compiler": "^2.6.14",
-* "element-ui": "^2.15.3",
-* */
+ * "vue": "^2.6.14"
+ * "vue-loader": "^15.9.6",
+ * "vue-template-compiler": "^2.6.14",
+ * "element-ui": "^2.15.3",
+ * */
 
 module.exports = {
   getInitTemplate(framework, ui) {
@@ -45,5 +45,5 @@ module.exports = {
       result.dependencies['element-ui'] = '^2.15.3';
     }
     return result;
-  }
+  },
 };

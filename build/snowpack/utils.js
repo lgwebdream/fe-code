@@ -1,54 +1,35 @@
-const {
-  noMainTemplatePath,
-  vue2NoneTemplatePath,
-  vue2ElementTemplatePath,
-  vue2CommonTemplatePath,
-  react17CommonTemplatePath,
-  templatePackageJson,
-  templateSnowpackConfig,
-} = require('./config');
+const { templatePackageJson, templateSnowpackConfig } = require('./config');
 
-/** *
- * "react": "^17.0.2",
- "react-dom": "^17.0.2",
- "antd": "^4.16.8"
- */
+const { dependencies } = require('../../dependencies.config');
 
 module.exports = {
-  getInitTemplate(framework, ui) {
-    if (framework === 'vue') {
-      if (ui === 'element') {
-        return vue2ElementTemplatePath;
-      }
-      return vue2NoneTemplatePath;
-    }
-    return noMainTemplatePath;
-  },
-
-  getCommonTemplate(framework) {
-    const commons = {
-      vue: vue2CommonTemplatePath,
-      react: react17CommonTemplatePath,
-    };
-    return commons[framework];
-  },
-
   getPackageJson({ ui, main }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
     if (main === 'react') {
-      result.dependencies.react = '^17.0.2';
-      result.dependencies['react-dom'] = '^17.0.2';
+      result.dependencies.react = dependencies.react;
+      result.dependencies['react-dom'] = dependencies['react-dom'];
+    } else if (main === 'vue') {
+      result.dependencies['@morgul/snowpack-plugin-vue2'] =
+        dependencies['@morgul/snowpack-plugin-vue2'];
     }
     if (ui === 'antd') {
-      result.dependencies.antd = '^4.16.8';
+      result.dependencies.antd = dependencies.antd;
+    } else if (ui === 'element') {
+      result.dependencies['element-ui'] = dependencies['element-ui'];
     }
     return result;
   },
 
-  getSnowpackConfigJson({ ui }) {
+  getSnowpackConfigJson({ ui, main }) {
     const result = JSON.parse(JSON.stringify(templateSnowpackConfig));
+    result.plugins = [];
+    if (main === 'vue') {
+      result.plugins.push('@morgul/snowpack-plugin-vue2');
+    }
     if (ui === 'antd') {
-      result.packageOptions = ['antd'];
+      result.packageOptions.push('antd');
+    } else if (ui === 'element') {
+      result.packageOptions.push('element-ui');
     }
     return result;
   },

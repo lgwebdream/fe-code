@@ -1,11 +1,6 @@
-const { join } = require('path');
+const { devDependencies } = require('../../dependencies.config');
 
 module.exports = {
-  noMainTemplatePath: join(__dirname, 'template'),
-  react17CommonTemplatePath: join(__dirname, 'template-react17/common'),
-  vue2NoneTemplatePath: join(__dirname, 'template-vue2/none'),
-  vue2ElementTemplatePath: join(__dirname, 'template-vue2/element'),
-  vue2CommonTemplatePath: join(__dirname, 'template-vue2/common'),
   templatePackageJson: {
     name: 'empty-project',
     version: '1.0.0',
@@ -21,7 +16,7 @@ module.exports = {
     },
     dependencies: {},
     devDependencies: {
-      snowpack: '^3.8.1',
+      snowpack: devDependencies.snowpack,
     },
   },
   templateSnowpackConfig: {
@@ -29,5 +24,7 @@ module.exports = {
       dist: '/',
       src: '/',
     },
+    plugins: [],
+    packageOptions: [],
   },
 };

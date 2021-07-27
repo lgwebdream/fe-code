@@ -8,8 +8,8 @@ module.exports = ({ ui }) => {
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script lang='ts'>
+import Vue from 'vue';
 
 export default Vue.extend({
   data: function() {
@@ -26,7 +26,7 @@ h1 {
   background-color: black;
 }
 </style>
-  `
+  `;
 
   return {
     text,

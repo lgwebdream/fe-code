@@ -1,9 +1,13 @@
-const { copySync, removeSync, ensureDirSync, outputFileSync, writeJsonSync } = require('fs-extra');
+const {
+  copySync,
+  removeSync,
+  ensureDirSync,
+  outputFileSync,
+  writeJsonSync,
+} = require('fs-extra');
 const { join } = require('path');
 
-const { getInitTemplate, getCommonTemplate, getPackageJson, getWebpackConfigJson } = require('./utils');
-
-const { setPackageProps, addReadMe } = require('../utils');
+const { getCommonTemplate, getPackageJson } = require('./utils');
 
 const {
   indexHtml: getIndexHtml,
@@ -54,4 +58,3 @@ module.exports = config => {
   init(config.$resolveRoot);
   process(config);
 };
-
