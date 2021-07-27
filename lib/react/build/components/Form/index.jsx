@@ -1,8 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import './FormTypes';
 import { findComByName } from './formUtils';
-import '../CrudTypes';
 const { Item } = Form;
 const formatColumn = (column) => {
     const item = { ...column };
@@ -20,7 +18,7 @@ const FForm = (props) => {
             const temp = formatColumn(item);
             return (<Item label={item.title} name={item.dataIndex} {...temp} key={`${item.dataIndex}`}>
             {/* TODO 完善更多表单 */}
-            <FComponent {...temp}/>
+            <FComponent placeholder={temp.title} {...temp}/>
           </Item>);
         })}
       {children}

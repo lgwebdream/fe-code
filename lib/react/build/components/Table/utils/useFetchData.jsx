@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react';
-import '../../service';
-import '../TableTypes';
 import usePrevious from '../hooks/usePrevious';
 const mergeOptionAndPageInfo = ({ pageInfo }) => {
     if (pageInfo) {

@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import BatchOperation from './BatchOperation';
 import FilberSearch from './FilterSearch';
 import { getClassName } from './utils';
-import './ToolbarTypes';
 const ToolBar = (props) => {
     const { selectedRowKeys, selectedRows, searchOptions, toolbarOptions, batchOptions, } = props;
     const { prefixCls, style, className, render } = toolbarOptions || {};
