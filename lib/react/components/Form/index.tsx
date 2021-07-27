@@ -36,7 +36,7 @@ const FForm: React.FC<IFFormProps> = (props: IFFormProps) => {
             key={`${item.dataIndex}`}
           >
             {/* TODO 完善更多表单 */}
-            <FComponent {...temp} />
+            <FComponent placeholder={temp.title} {...temp} />
           </Item>
         );
       })}

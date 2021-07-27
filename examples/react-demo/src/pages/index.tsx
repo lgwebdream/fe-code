@@ -105,7 +105,7 @@ const demoTable: ICrud = {
       dataIndex: 'name',
       type: IFormComTypeEnum.Input,
       rules: [{ message: '姓名不能为空', required: true }],
-      // isFilter: true,
+      isFilter: true,
     },
     { title: '年龄', dataIndex: 'age', type: IFormComTypeEnum.InputNumber },
     { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
@@ -113,7 +113,7 @@ const demoTable: ICrud = {
       title: '职位',
       dataIndex: 'title',
       type: IFormComTypeEnum.Select,
-      // isFilter: true,
+      isFilter: true,
       rules: [{ message: '职位不能为空', required: true }],
       options: [
         { label: 'CTO', value: 'cto' },
