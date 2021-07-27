@@ -1,9 +1,0 @@
-{
-  "mount": {
-    "dist": "/",
-    "src": "/"
-  },
-  "plugins": [
-    "@morgul/snowpack-plugin-vue2"
-  ]
-}

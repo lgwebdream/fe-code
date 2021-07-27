@@ -1,6 +1,6 @@
 const { prompt } = require('inquirer');
 const { writeJsonSync, pathExistsSync } = require('fs-extra');
-const { green, yellow } = require('chalk');
+const { green, yellow, red } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
 const { initConfig, CONFIG_NAME } = require('../lib/defaultConfig');
@@ -32,15 +32,23 @@ const finishCommand = () => {
     prompt(questions).then(answers => {
       if (answers.overrideOutput) {
         console.info(green(`generate ${CONFIG_NAME}`));
-        shell.exec(`rm -rf ${resolvePath}`);
-        shell.exec(`cd . & node ${runnerPath} ${configPath}`);
-        console.info(green(`init project successfully`));
+        try {
+          shell.exec(`rm -rf ${resolvePath}`);
+          shell.exec(`node ${runnerPath} ${configPath}`);
+          console.info(green(`init project successfully`));
+        } catch (e) {
+          console.info(red(e));
+        }
       }
     });
   } else {
     console.info(green(`generate ${CONFIG_NAME}`));
-    shell.exec(`cd . & node ${runnerPath} ${configPath}`);
-    console.info(green(`init project successfully`));
+    try {
+      shell.exec(`node ${runnerPath} ${configPath}`);
+      console.info(green(`init project successfully`));
+    } catch (e) {
+      console.info(red(e));
+    }
   }
 };
 
@@ -62,6 +70,9 @@ const commonPartQuestions = [
     type: 'input',
     name: 'root',
     message: 'Please input the destination of output?',
+    filter(input) {
+      return input.trim();
+    },
   },
 ];
 const vuePart = () => {
@@ -119,6 +130,19 @@ const start = () => {
       name: 'projectName',
       default: 'empty project',
       message: 'Please input your project name?',
+      filter(input) {
+        return input.trim();
+      },
+      validate(input) {
+        const done = this.async();
+        setTimeout(() => {
+          if (!input) {
+            done('Project name cannot be empty');
+            return;
+          }
+          done(null, true);
+        }, 0);
+      },
     },
     {
       type: 'list',

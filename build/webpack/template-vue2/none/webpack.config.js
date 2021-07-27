@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
@@ -11,9 +12,8 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-        exclude: /\.module\.css$/,
+        test: /\.vue$/,
+        loader: 'vue-loader',
       },
       {
         test: /\.js$/,
@@ -22,8 +22,13 @@ const config = {
       },
       {
         test: /\.css$/,
+        use: ['vue-style-loader', 'css-loader'],
+        exclude: /\.module\.css$/,
+      },
+      {
+        test: /\.css$/,
         use: [
-          'style-loader',
+          'vue-style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -51,7 +56,11 @@ const config = {
       },
     ],
   },
+  resolve: {
+    extensions: ['.js', '.vue'],
+  },
   plugins: [
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       appMountId: 'app',
       filename: 'index.html',

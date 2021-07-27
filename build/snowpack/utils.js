@@ -1,35 +1,36 @@
-const {
-  noMainTemplatePath,
-  vue2NoneTemplatePath,
-  vue2ElementTemplatePath,
-  vue2CommonTemplatePath,
-  react17NoneTemplatePath,
-  react17AntdTemplatePath,
-  react17CommonTemplatePath,
-} = require('./config');
+const { templatePackageJson, templateSnowpackConfig } = require('./config');
+
+const { dependencies } = require('../../dependencies.config');
 
 module.exports = {
-  getInitTemplate(framework, ui) {
-    if (framework === 'react') {
-      if (ui === 'antd') {
-        return react17AntdTemplatePath;
-      }
-      return react17NoneTemplatePath;
+  getPackageJson({ ui, main }) {
+    const result = JSON.parse(JSON.stringify(templatePackageJson));
+    if (main === 'react') {
+      result.dependencies.react = dependencies.react;
+      result.dependencies['react-dom'] = dependencies['react-dom'];
+    } else if (main === 'vue') {
+      result.dependencies['@morgul/snowpack-plugin-vue2'] =
+        dependencies['@morgul/snowpack-plugin-vue2'];
     }
-    if (framework === 'vue') {
-      if (ui === 'element') {
-        return vue2ElementTemplatePath;
-      }
-      return vue2NoneTemplatePath;
+    if (ui === 'antd') {
+      result.dependencies.antd = dependencies.antd;
+    } else if (ui === 'element') {
+      result.dependencies['element-ui'] = dependencies['element-ui'];
     }
-    return noMainTemplatePath;
+    return result;
   },
 
-  getCommonTemplate(framework) {
-    const commons = {
-      vue: vue2CommonTemplatePath,
-      react: react17CommonTemplatePath,
-    };
-    return commons[framework];
+  getSnowpackConfigJson({ ui, main }) {
+    const result = JSON.parse(JSON.stringify(templateSnowpackConfig));
+    result.plugins = [];
+    if (main === 'vue') {
+      result.plugins.push('@morgul/snowpack-plugin-vue2');
+    }
+    if (ui === 'antd') {
+      result.packageOptions.push('antd');
+    } else if (ui === 'element') {
+      result.packageOptions.push('element-ui');
+    }
+    return result;
   },
 };
