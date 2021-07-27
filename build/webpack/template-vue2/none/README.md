@@ -1,6 +1,6 @@
 # empty-project
 
-Empty project1.
+Empty project.
 
 ## Building and running on localhost
 
@@ -13,13 +13,13 @@ npm install
 To create a production build:
 
 ```sh
-npm run build-prod
+npm run build
 ```
 
 To create a development build:
 
 ```sh
-npm run build-dev
+npm run dev
 ```
 
 ## Running

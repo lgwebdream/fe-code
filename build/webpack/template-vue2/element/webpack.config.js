@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const {VueLoaderPlugin} = require('vue-loader')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
@@ -12,13 +12,13 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
         test: /\.js$/,
         use: 'babel-loader',
         exclude: /node_modules/
-      },
-      {
-        test: /\.vue$/,
-        loader: 'vue-loader'
       },
       {
         test: /\.css$/,
@@ -43,6 +43,10 @@ const config = {
         include: /\.module\.css$/
       },
       {
+        test: /\.svg$/,
+        use: 'file-loader'
+      },
+      {
         test: /\.png$/,
         use: [
           {
@@ -52,10 +56,6 @@ const config = {
             }
           }
         ]
-      },
-      {
-        test: /\.svg$/,
-        use: 'file-loader'
       }
     ]
   },
