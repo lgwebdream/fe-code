@@ -2,10 +2,10 @@ import React, { CSSProperties } from 'react';
 import { ButtonProps } from 'antd';
 import { Rule } from 'antd/es/form/index.d';
 import { ColumnType, SortOrder } from 'antd/lib/table/interface';
-import type { CrudTableParams, CrudTableProps } from './Table/Table.d';
+import type { CrudTableParams, CrudTableProps } from './Table/TableTypes';
 import { IFormComTypeEnum } from './Form/constant';
-import { IFormItemProps } from './Form/Form';
-import { FetcherResult } from '../service';
+import { IFormItemProps } from './Form/FormTypes';
+import { FetcherResult } from './service';
 
 /** 操作容器定义 */
 export enum ICurdContainerTypeEnum {
@@ -59,6 +59,8 @@ export type ICrudColumnToolbar<T = unknown> = {
 export interface ICrudColumn<T = unknown> extends ColumnType<T> {
   /** 属性名称 */
   title?: string;
+
+  placeholder?: string;
 
   /** 属性字段名 */
   dataIndex: string;

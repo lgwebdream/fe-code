@@ -6,19 +6,19 @@ import {
   ICrudToolbarTypeEnum,
   ICurdContainerTypeEnum,
   IFormComTypeEnum,
-} from '@crud/index';
+} from '@crud/components/index';
 
 const apiConfig = {
   add: '/api/json/add',
   edit: '/api/json/edit',
   delete: '/api/json/delete',
-  export: '/api/json/export',
   list: '/api/json/list',
 };
 
 const demoTable: ICrud = {
   title: '人员管理',
   containerType: ICurdContainerTypeEnum.Modal,
+  tableProps: { size: 'middle' },
   request: (params) =>
     request(apiConfig.list, { method: 'post', data: params }),
   batchToolbar: [
@@ -122,7 +122,6 @@ const demoTable: ICrud = {
       ],
     },
   ],
-  tableProps: { size: 'middle' },
 };
 
 export default function IndexPage() {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { FetcherResult } from '../../../service';
-import { UseFetchActions } from '../Table.d';
+import { FetcherResult } from '../../service';
+import { UseFetchActions } from '../TableTypes';
 import usePrevious from '../hooks/usePrevious';
 
 const mergeOptionAndPageInfo = ({ pageInfo }: UseFetchActions) => {
