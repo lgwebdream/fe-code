@@ -119,3 +119,12 @@ export interface ICrud<T = unknown> {
   /** 字段属性 */
   columns: ICrudColumn<T>[];
 }
+
+export interface ActionType {
+  reload: (resetPageIndex?: boolean) => void;
+  reloadAndRest: () => void;
+  reset: () => void;
+  clearSelected?: () => void;
+  startEditable: (rowKey: React.Key) => boolean;
+  cancelEditable: (rowKey: React.Key) => boolean;
+}
