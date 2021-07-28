@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { message, Modal, ModalProps } from 'antd';
 import Table from './Table';
 import ToolBar from './ToolBar';
 import Form from './Form';
 import {
   ICrud,
+  ActionType,
   ICrudColumn,
   ICrudColumnToolbar,
   ICrudToolbarTypeEnum,
@@ -31,9 +32,11 @@ const FCrud = (props: ICrud): React.ReactElement => {
     title: '',
   });
   const [form, setForm] = useState<Record<string, any>>(null);
+  const ref = useRef<ActionType>();
 
   // crud 区
   const handleCloseModal = () => {
+    ref.current.reloadAndRest();
     setForm(null);
     setModalProps({ visible: false });
   };
@@ -131,6 +134,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
   // 筛选区操作
   const handleSearchFilter = (params: {}) => setFilter(params);
   const handleResetFilter = () => setFilter(null);
+  const handleReloadList = () => {}
 
   // 格式化筛选表单字段属性
   const [filterColumns, formColumns] = useMemo(() => {
@@ -206,6 +210,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
         {...tableProps}
         request={request}
         columns={tableColumns}
+        actionRef={ref}
         params={filter}
       />
 
