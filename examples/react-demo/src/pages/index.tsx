@@ -53,7 +53,6 @@ const demoTable: ICrud = {
     },
     {
       render: (rows, rowKeys) => {
-        console.log(rows, rowKeys);
         return (
           <Button type="text" onClick={() => message.warning('自定义事件处理')}>
             自定义按钮
