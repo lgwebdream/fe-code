@@ -14,9 +14,9 @@ export function useActionType<T>(
   },
 ) {
   const userAction: ActionType = {
-    reload: async (resetPageIndex?: boolean) => {
+    reload: async (resetRowSelected?: boolean) => {
       // 如果为 true，清空选择状态
-      if (resetPageIndex) {
+      if (resetRowSelected) {
         await props.onCleanSelected();
       }
       action?.reload();
