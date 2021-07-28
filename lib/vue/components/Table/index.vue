@@ -1,37 +1,35 @@
 <template>
   <div>
     <el-table :data='tableData' style='width: 100%'>
-      <el-table-column prop='date' label='日期' width='180'></el-table-column>
-      <el-table-column prop='name' label='姓名' width='180'></el-table-column>
-      <el-table-column prop='address' label='地址'></el-table-column>
+      <el-table-column type='index' width='50' v-if='sequence'></el-table-column>
+      <el-table-column v-for='(item, index) in column' :key='index' :prop='item.prop' :label='item.label' :width='item.width'></el-table-column>
     </el-table>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-
-interface ITableDataItem {
-  id: string;
-  name: string;
-}
+import { TableDataItem, TableColumnItem } from './type';
 
 const Tabel = defineComponent({
   name: 'v-table',
   props: {
-    tableData: Array as PropType<any[]>,
+    tableData: {
+      type: Array as PropType<TableDataItem[]>,
+      required: true,
+    },
+    column: Array as PropType<TableColumnItem[]>,
+    sequence: Boolean,
   },
   data() {
-    return {
-      column: [],
-    };
+    return {};
   },
   setup() {
     return {};
   },
 });
 
-Tabel.install = function (Vue: ComponentOptions) {
+Tabel.install = (Vue: ComponentOptions) => {
   Vue.component(Tabel.name, Tabel);
 };
 
