@@ -32,23 +32,15 @@ const finishCommand = () => {
     prompt(questions).then(answers => {
       if (answers.overrideOutput) {
         console.info(green(`generate ${CONFIG_NAME}`));
-        try {
-          shell.exec(`rm -rf ${resolvePath}`);
-          shell.exec(`node ${runnerPath} ${configPath}`);
-          console.info(green(`init project successfully`));
-        } catch (e) {
-          console.info(red(e));
-        }
+        shell.exec(`rm -rf ${resolvePath}`);
+        shell.exec(`node ${runnerPath} ${configPath}`);
+        console.info(green(`init project successfully`));
       }
     });
   } else {
     console.info(green(`generate ${CONFIG_NAME}`));
-    try {
-      shell.exec(`node ${runnerPath} ${configPath}`);
-      console.info(green(`init project successfully`));
-    } catch (e) {
-      console.info(red(e));
-    }
+    shell.exec(`node ${runnerPath} ${configPath}`);
+    console.info(green(`init project successfully`));
   }
 };
 

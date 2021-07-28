@@ -39,16 +39,15 @@ const process = config => {
     buildTool,
     $featureChecks,
   } = config;
-  const { babel = false, typescript = false } = $featureChecks;
+  const { typescript: isTypescript = false } = $featureChecks;
   const resolveTemplatePath = join(root, templatePath);
   let html;
   let js;
   let app;
-  console.info(babel, typescript);
 
   if (main === 'react') {
     // generate index.html
-    html = getReactIndexHtml({ projectName });
+    html = getReactIndexHtml({ projectName, buildTool });
 
     // generate index.js/jsx
     js = getReactIndexJs({ ui });
@@ -57,7 +56,7 @@ const process = config => {
     app = getReactApp({ ui });
   } else if (main === 'vue') {
     // generate index.html
-    html = getVueIndexHtml({ projectName });
+    html = getVueIndexHtml({ projectName, buildTool });
 
     // generate index.js/jsx
     js = getVueIndexJs({ ui });
@@ -66,7 +65,7 @@ const process = config => {
     app = getVueApp({ ui });
   } else {
     // generate index.html
-    html = getEmptyIndexHtml({ projectName });
+    html = getEmptyIndexHtml({ projectName, buildTool });
 
     // generate index.js/jsx
     js = getEmptyIndexJs({ ui });
@@ -87,7 +86,7 @@ const process = config => {
   // generate package.json
   writeJsonSync(
     join(root, 'package.json'),
-    getPackageJson({ ui, main, projectName }),
+    getPackageJson({ ui, main, projectName, isTypescript }),
     {
       spaces: 2,
     },
@@ -96,7 +95,7 @@ const process = config => {
   // generate snowpack.config.json
   writeJsonSync(
     join(root, 'snowpack.config.json'),
-    getSnowpackConfigJson({ ui, main }),
+    getSnowpackConfigJson({ ui, main, isTypescript }),
     {
       spaces: 2,
     },

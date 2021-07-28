@@ -48,7 +48,7 @@ const process = config => {
 
   if (main === 'react') {
     // generate index.html
-    html = getReactIndexHtml({ projectName });
+    html = getReactIndexHtml({ projectName, buildTool });
 
     // generate index.js/jsx
     js = getReactIndexJs({ ui });
@@ -57,7 +57,7 @@ const process = config => {
     app = getReactApp({ ui });
   } else if (main === 'vue') {
     // generate index.html
-    html = getVueIndexHtml({ projectName });
+    html = getVueIndexHtml({ projectName, buildTool });
 
     // generate index.js/jsx
     js = getVueIndexJs({ ui });
@@ -66,7 +66,7 @@ const process = config => {
     app = getVueApp({ ui });
   } else {
     // generate index.html
-    html = getEmptyIndexHtml({ projectName });
+    html = getEmptyIndexHtml({ projectName, buildTool });
 
     // generate index.js/jsx
     js = getEmptyIndexJs({ ui });
