@@ -27,7 +27,6 @@ export function useActionType<T>(
       await action.setPageInfo({
         current: 1,
       });
-      await action?.reload();
     },
   };
   ref.current = userAction;
