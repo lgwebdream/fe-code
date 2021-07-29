@@ -2,6 +2,7 @@ const { join } = require('path');
 const { prompt } = require('inquirer');
 const ora = require('ora');
 const loadConfig = require('../lib/loadConfig');
+const shell = require('shelljs');
 
 const { generateReactCode, initReactBase } = require('../lib/utils/react2Code');
 
@@ -66,7 +67,7 @@ const config = loadConfig();
 const isTypescript = config?.featureList?.includes('typescript');
 const templatePath = join(
   __dirname,
-  `../lib/react/${isTypescript ? '' : 'build'}`,
+  `../lib/react/${isTypescript ? '' : 'jsx'}`,
 );
 
 const react2code = program => {
@@ -75,7 +76,7 @@ const react2code = program => {
     .alias('r2c')
     .usage('-o <output>')
     .description('🍉 generate react code of crud')
-    .requiredOption('-o, --output <output>', 'path of generation file')
+    .option('-o, --output <output>', 'path of generation file')
 
     .action(({ output }) => {
       prompt(questions).then(answers => {
@@ -84,9 +85,11 @@ const react2code = program => {
         Object.assign(answers, { isTs: isTypescript });
 
         // write path
-        const toPath = join(process.cwd(), output);
+        const toPath = join(process.cwd(), output || '');
 
-        const spinner = ora(`🍉 generate react code of ${answers.model} ...... \n`);
+        const spinner = ora(
+          `🍉 generate react code of ${answers.model} ...... \n`,
+        );
         spinner.start();
 
         try {
@@ -100,8 +103,8 @@ const react2code = program => {
             spinner.text = 'generate success';
             setTimeout(() => {
               spinner.stop();
-            }, 500);
-          }, 1000);
+            }, 400);
+          }, 1200);
         } catch (error) {
           spinner.stop();
         }

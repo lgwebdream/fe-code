@@ -5,10 +5,10 @@ import ToolBar from './ToolBar';
 import Form from './Form';
 import {
   ICrud,
-  ActionType,
   ICrudColumn,
   ICrudColumnToolbar,
   ICrudToolbarTypeEnum,
+  ICrudActionType,
 } from './CrudTypes';
 import { BatchButtonGroup } from './ToolBar/BatchOperation';
 import FCrudModal from './Container/Modal';
@@ -32,7 +32,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
     title: '',
   });
   const [form, setForm] = useState<Record<string, any>>(null);
-  const ref = useRef<ActionType>();
+  const ref = useRef<ICrudActionType>();
 
   // crud 区
   const handleCloseModal = () => {
@@ -134,7 +134,6 @@ const FCrud = (props: ICrud): React.ReactElement => {
   // 筛选区操作
   const handleSearchFilter = (params: {}) => setFilter(params);
   const handleResetFilter = () => setFilter(null);
-  const handleReloadList = () => {}
 
   // 格式化筛选表单字段属性
   const [filterColumns, formColumns] = useMemo(() => {
