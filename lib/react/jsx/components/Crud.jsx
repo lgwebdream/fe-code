@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { message, Modal } from 'antd';
 import Table from './Table';
 import ToolBar from './ToolBar';
@@ -22,8 +22,10 @@ const FCrud = (props) => {
         title: '',
     });
     const [form, setForm] = useState(null);
+    const ref = useRef();
     // crud 区
     const handleCloseModal = () => {
+        ref.current.reloadAndRest();
         setForm(null);
         setModalProps({ visible: false });
     };
@@ -143,7 +145,7 @@ const FCrud = (props) => {
             columnWidth: 60,
             type: 'checkbox',
             onChange: (selectedRowKeys, selectedRows) => setSelection({ selectedRows, selectedRowKeys }),
-        }} {...tableProps} request={request} columns={tableColumns} params={filter}/>
+        }} {...tableProps} request={request} columns={tableColumns} actionRef={ref} params={filter}/>
 
       <FCrudModal {...modalProps} data={form} columns={formColumns} onCancel={handleCloseModal}/>
     </div>);
