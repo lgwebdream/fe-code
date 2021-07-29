@@ -84,6 +84,10 @@ const process = config => {
   const ignore = getIgnore({ buildTool });
   outputFileSync(join(root, ignore.file), ignore.text);
 
+  // generate vite.config.js
+  const viteConfig = getViteConfigJs({ ui, main })
+  outputFileSync(join(root, 'vite.config.js'), viteConfig);
+
   // generate package.json
   writeJsonSync(
     join(root, 'package.json'),
@@ -93,14 +97,6 @@ const process = config => {
     },
   );
 
-  // generate vite.config.json
-  writeJsonSync(
-    join(root, 'vite.config.js'),
-    getViteConfigJs({ ui, main }),
-    {
-      spaces: 2,
-    },
-  );
 
   // add readme.md
   const readme = getReadMe({ projectName, buildTool, main });

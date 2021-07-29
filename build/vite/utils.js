@@ -1,6 +1,6 @@
 const { templatePackageJson, templateViteConfig } = require('./config');
 
-const { dependencies } = require('../../dependencies.config');
+const { dependencies, devDependencies } = require('../../dependencies.config');
 
 module.exports = {
   getPackageJson({ ui, main, projectName }) {
@@ -8,10 +8,12 @@ module.exports = {
     result.name = projectName;
     if (main === 'react') {
       result.dependencies.react = dependencies.react;
-      result.dependencies['react-dom'] = dependencies['react-dom'];
+      result.dependencies['@vitejs/plugin-react-refresh'] = dependencies['@vitejs/plugin-react-refresh'];
     } else if (main === 'vue') {
-      result.dependencies['vite-plugin-vue2'] =
-        dependencies['vite-plugin-vue2'];
+      result.devDependencies['vite-plugin-vue2'] = devDependencies['vite-plugin-vue2'];
+      result.devDependencies['vue-template-compiler'] = devDependencies['vue-template-compiler'];
+      result.dependencies.vue = dependencies.vue;
+      console.log('result.dependencies', result.dependencies);
     }
     if (ui === 'antd') {
       result.dependencies.antd = dependencies.antd;
@@ -25,13 +27,32 @@ module.exports = {
     const result = JSON.parse(JSON.stringify(templateViteConfig));
     result.plugins = [];
     if (main === 'vue') {
-      result.plugins.push('vite-plugin-vue2');
+      result.plugins = {
+          createVuePlugin: 'vite-plugin-vue2'
+      };
     }
     if (ui === 'antd') {
       result.packageOptions.push('antd');
     } else if (ui === 'element') {
       result.packageOptions.push('element-ui');
     }
-    return result;
+    const pluginArr = result.plugins;
+    let importExportTemplate  = '';
+    let exportTemplate = [];
+    for(let key in pluginArr) {
+      importExportTemplate += `import {${key}} from '${pluginArr[key]}';`;
+      exportTemplate.push(`${key}()`);
+    }
+    // const ViteConfigTemplate = `import { defineConfig } from 'vite';
+    // ${importExportTemplate}
+    //   export default defineConfig(${JSON.stringify(exportTemplate)});
+    // `
+    const ViteConfigTemplate = `${importExportTemplate}
+    module.exports = {
+      root : './src',
+      plugins: [${exportTemplate}],
+    };`
+   
+    return ViteConfigTemplate;
   },
 };

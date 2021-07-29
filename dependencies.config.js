@@ -10,7 +10,11 @@ module.exports = {
   devDependencies: {
     snowpack: '^3.8.2',
     typescript: '^4.3.5',
+    vite: '^2.0.5',
     '@snowpack/plugin-typescript': '^1.2.1',
+    '@vitejs/plugin-react-refresh': '^1.3.1',
+    'vite-plugin-vue2': '^1.4.0',
+    'vue-template-compiler': '^2.6.14',
   },
   componentDependencies: {
     react: {
