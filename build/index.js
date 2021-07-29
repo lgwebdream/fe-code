@@ -33,6 +33,7 @@ try {
     const tsConfig = getTsConfig({
       main: mainFramework,
       includePath: templatePath,
+      buildTool,
     });
     tsConfig.forEach(({ file, text }) => {
       if (typeof text === 'object') {

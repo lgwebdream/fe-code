@@ -16,6 +16,10 @@ module.exports = {
     'vite-plugin-vue2': '^1.4.0',
     'vue-template-compiler': '^2.6.14',
     'vite-plugin-html': '^2.0.7',
+    '@types/react': '^17.0.0',
+    '@types/react-dom': '^17.0.0',
+    '@vue/compiler-sfc': '^3.0.5',
+    'vue-tsc': '^0.2.2',
   },
   componentDependencies: {
     react: {

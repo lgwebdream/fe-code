@@ -39,12 +39,11 @@ const process = config => {
     buildTool,
     $featureChecks,
   } = config;
-  const { babel = false, typescript = false } = $featureChecks;
+  const { typescript: isTypescript = false } = $featureChecks;
   const resolveTemplatePath = join(root, templatePath);
   let html;
   let js;
   let app;
-  console.info(babel, typescript);
 
   if (main === 'react') {
     // generate index.html
@@ -85,13 +84,13 @@ const process = config => {
   outputFileSync(join(root, ignore.file), ignore.text);
 
   // generate vite.config.js
-  const viteConfig = getViteConfigJs({ ui, main })
+  const viteConfig = getViteConfigJs({ ui, main, isTypescript })
   outputFileSync(join(root, 'vite.config.js'), viteConfig);
 
   // generate package.json
   writeJsonSync(
     join(root, 'package.json'),
-    getPackageJson({ ui, main, projectName }),
+    getPackageJson({ ui, main, projectName, isTypescript }),
     {
       spaces: 2,
     },

@@ -6,7 +6,21 @@ const vueShim = {
 }`,
   file: 'vue-shim.d.ts',
 };
-module.exports = ({main, includePath}) => {
+const viteVueEnv = {
+  text: `/// <reference types="vite/client" />`,
+  file: 'vite-env.d.ts'
+}
+const viteVueShims = {
+  text:  `declare module '*.vue' {
+    import { DefineComponent } from 'vue'
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+    const component: DefineComponent<{}, {}, any>
+    export default component
+  }`,
+  file: 'shims-vue.d.ts'
+}
+  
+module.exports = ({main, includePath, buildTool}) => {
   const result = [];
   if (main === 'react') {
     config.compilerOptions.jsx = 'react';
@@ -16,8 +30,16 @@ module.exports = ({main, includePath}) => {
     text: config,
     file: 'tsconfig.json'
   });
-  if (main === 'vue') {
-    result.push(vueShim);
+  if (buildTool == 'snowpack') {
+    if (main === 'vue') {
+      result.push(vueShim);
+    }
+  } else if (buildTool == 'vite') {
+    if(main === 'vue'){
+      result.push(viteVueShims);
+    }
+    result.push(viteVueEnv);
   }
+
   return result;
 };
