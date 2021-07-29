@@ -9,6 +9,7 @@ module.exports = ({ projectName,buildTool }) => {
   <meta charset="UTF-8">
   <title>${projectName}</title>
   ${getScript({buildTool})}
+  <%- injectScript %>
 </head>
 <body>
 <div id="app"></div>
