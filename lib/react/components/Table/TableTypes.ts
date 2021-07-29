@@ -8,7 +8,7 @@ export type ParamsType = Record<string, any>;
 /** 操作类型 */
 export type ActionType<T = {}> = {
   /** 刷新 */
-  reload: (resetPageIndex?: boolean) => void;
+  reload: (resetRowSelected?: boolean) => void;
   /** 刷新并且重置 */
   reloadAndRest?: () => void;
   /** @name 清空选择 */
