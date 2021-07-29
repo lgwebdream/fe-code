@@ -1,7 +1,6 @@
 <template>
-  <div class='hello'>
-    这是table页面
-    <v-table :tableData='tableData' :column='column' sequence='true'></v-table>
+  <div>
+    <v-table :tableData='tableData' :column='column' sequence :total='total'></v-table>
   </div>
 </template>
 
@@ -41,12 +40,14 @@ export default defineComponent({
         { prop: 'name', label: '姓名', width: '180' },
         { prop: 'address', label: '地址' },
       ],
+      total: 0,
     };
   },
-  mounted() {
-    axios.get('/api/json/list').then(res => {
-      console.log('res', res);
-    });
+  async mounted() {
+    const res = await axios.get('/api/json/list');
+    const { data, total } = res?.data;
+    this.tableData = data;
+    this.total = total || 0;
   },
 });
 </script>

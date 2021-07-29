@@ -1,29 +1,18 @@
 module.exports = app => {
   app.get('/api/json/list', (req, res) => {
+    const list = [];
+
+    for (let i = 1; i < 10; i++) {
+      list.push({
+        date: `2016-05-0${i}`,
+        name: `王小虎${i}`,
+        address: `上海市普陀区金沙江路 151${i} 弄`,
+      });
+    }
     res.json({
       code: 1,
-      data: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄',
-        },
-        {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄',
-        },
-        {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄',
-        },
-        {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄',
-        },
-      ],
+      data: list,
+      total: list.length * 10,
     });
   });
   app.post('/api/json/add', (req, res) => {
