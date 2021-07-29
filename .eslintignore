@@ -1,7 +1,10 @@
 bin/fe
-build/snowpack/template*
+build/vite
+build/webpack
+build/template
 .eslintrc.js
 /**/*.d.ts
 yarn.lock
-lib/react/template/**
-lib/react/build/**
+lib
+examples
+scripts

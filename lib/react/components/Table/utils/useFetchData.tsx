@@ -9,10 +9,10 @@ const mergeOptionAndPageInfo = ({ pageInfo }: UseFetchActions) => {
     return {
       current: current || defaultCurrent || 1,
       total: 0,
-      pageSize: pageSize || defaultPageSize || 20,
+      pageSize: pageSize || defaultPageSize || 10,
     };
   }
-  return { current: 1, total: 0, pageSize: 20 };
+  return { current: 1, total: 0, pageSize: 10 };
 };
 
 const useFetchData = <T extends FetcherResult<any>>(
@@ -78,6 +78,9 @@ const useFetchData = <T extends FetcherResult<any>>(
   return {
     dataSource: list,
     pageInfo,
+    reload: async () => {
+      await fetchList();
+    },
     loading,
     setPageInfo: async info => {
       setPageInfo({

@@ -60,6 +60,8 @@ export interface ICrudColumn<T = unknown> extends ColumnType<T> {
   /** 属性名称 */
   title?: string;
 
+  placeholder?: string;
+
   /** 属性字段名 */
   dataIndex: string;
 
@@ -116,4 +118,13 @@ export interface ICrud<T = unknown> {
 
   /** 字段属性 */
   columns: ICrudColumn<T>[];
+}
+
+export interface ICrudActionType {
+  reload: (resetPageIndex?: boolean) => void;
+  reloadAndRest: () => void;
+  reset: () => void;
+  clearSelected?: () => void;
+  startEditable: (rowKey: React.Key) => boolean;
+  cancelEditable: (rowKey: React.Key) => boolean;
 }

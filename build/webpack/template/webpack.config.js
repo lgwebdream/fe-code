@@ -6,22 +6,19 @@ const config = {
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js'
+    filename: '[name].[contenthash].js',
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ],
-        exclude: /\.module\.css$/
+        use: ['style-loader', 'css-loader'],
+        exclude: /\.module\.css$/,
       },
       {
         test: /\.js$/,
         use: 'babel-loader',
-        exclude: /node_modules/
+        exclude: /node_modules/,
       },
       {
         test: /\.css$/,
@@ -31,15 +28,15 @@ const config = {
             loader: 'css-loader',
             options: {
               importLoaders: 1,
-              modules: true
-            }
-          }
+              modules: true,
+            },
+          },
         ],
-        include: /\.module\.css$/
+        include: /\.module\.css$/,
       },
       {
         test: /\.svg$/,
-        use: 'file-loader'
+        use: 'file-loader',
       },
       {
         test: /\.png$/,
@@ -47,18 +44,18 @@ const config = {
           {
             loader: 'url-loader',
             options: {
-              mimetype: 'image/png'
-            }
-          }
-        ]
-      }
-    ]
+              mimetype: 'image/png',
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       appMountId: 'app',
-      filename: 'index.html'
-    })
+      filename: 'index.html',
+    }),
   ],
   optimization: {
     runtimeChunk: 'single',
@@ -67,11 +64,11 @@ const config = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    }
-  }
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
 
 module.exports = config;

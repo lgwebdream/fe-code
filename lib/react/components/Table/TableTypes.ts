@@ -5,6 +5,16 @@ import type { ICrudListRequest } from '../CrudTypes';
 
 export type ParamsType = Record<string, any>;
 
+/** 操作类型 */
+export type ActionType<T = {}> = {
+  /** 刷新 */
+  reload: (resetPageIndex?: boolean) => void;
+  /** 刷新并且重置 */
+  reloadAndRest?: () => void;
+  /** @name 清空选择 */
+  clearSelected?: () => void;
+} & T;
+
 export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   columns?: ColumnType<T>[];
 
@@ -27,6 +37,9 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
       table: JSX.Element | undefined;
     },
   ) => React.ReactNode;
+
+  /** 内置action，可以手动操作table */
+  actionRef?: React.MutableRefObject<ActionType | undefined> | ((actionRef: ActionType) => void);
 
   tableExtraRender?: (
     props: CrudTableProps<T, U, ValueType>,
@@ -109,6 +122,9 @@ export type UseFetchActions = {
   pageInfo: CrudTableParams;
   dataSource?: any;
   effects?: any[];
+  setPageInfo?: (pageInfo: Partial<PageInfo>) => void;
+  reload?: () => Promise<void>;
   onPageInfoChange?: (pageInfo: PageInfo) => void;
+  onDataSourceChange?: (dataSource?: any) => void;
   onRequestError?: (e: Error) => void;
 };
