@@ -86,18 +86,25 @@ const react2code = program => {
         // write path
         const toPath = join(process.cwd(), output);
 
-        const spinner = ora(`🍉 generate react code of ${answers.title} \n`);
+        const spinner = ora(`🍉 generate react code of ${answers.model} ...... \n`);
         spinner.start();
 
-        // init/reset base components
-        isReset && initReactBase(templatePath, toPath);
+        try {
+          // init/reset base components
+          isReset && initReactBase(templatePath, toPath);
 
-        // generate react crud code
-        generateReactCode(templatePath, toPath, answers);
+          // generate react crud code
+          generateReactCode(templatePath, toPath, answers);
 
-        setTimeout(() => {
+          setTimeout(() => {
+            spinner.text = 'generate success';
+            setTimeout(() => {
+              spinner.stop();
+            }, 500);
+          }, 1000);
+        } catch (error) {
           spinner.stop();
-        }, 2000);
+        }
       });
     });
 };
