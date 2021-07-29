@@ -7,6 +7,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'Demo1',
@@ -41,6 +42,11 @@ export default defineComponent({
         { prop: 'address', label: '地址' },
       ],
     };
+  },
+  mounted() {
+    axios.get('/api/json/list').then(res => {
+      console.log('res', res);
+    });
   },
 });
 </script>

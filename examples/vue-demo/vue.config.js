@@ -1,6 +1,6 @@
 /* eslint-disable */
 const path = require('path');
-let  MockRouter =require('./mock/index');
+let MockRouter = require('./mock/index');
 
 module.exports = {
   pages: {
@@ -12,11 +12,11 @@ module.exports = {
   },
   // chainWebpack: config => {},
   transpileDependencies: ['@fe-code/vue'],
-  devServer : {
+  devServer: {
     before(app) {
-        MockRouter(app)
-    }
-},
+      MockRouter(app);
+    },
+  },
   configureWebpack: {
     resolve: {
       symlinks: false,
@@ -24,6 +24,12 @@ module.exports = {
         vue$: 'vue/dist/vue.esm-bundler.js',
         vue: path.resolve(__dirname, `./node_modules/vue`),
       },
+    },
+  },
+  pluginOptions: {
+    'style-resources-loader': {
+      preProcessor: 'scss',
+      patterns: [],
     },
   },
 };
