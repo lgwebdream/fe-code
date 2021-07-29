@@ -1,5 +1,6 @@
 /* eslint-disable */
 const path = require('path');
+let  MockRouter =require('./mock/index');
 
 module.exports = {
   pages: {
@@ -11,6 +12,11 @@ module.exports = {
   },
   // chainWebpack: config => {},
   transpileDependencies: ['@fe-code/vue'],
+  devServer : {
+    before(app) {
+        MockRouter(app)
+    }
+},
   configureWebpack: {
     resolve: {
       symlinks: false,
