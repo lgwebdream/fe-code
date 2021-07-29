@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ToolBar></ToolBar>
     <el-table :data='tableData' style='width: 100%'>
       <el-table-column type='index' width='50' v-if='sequence'></el-table-column>
       <el-table-column v-for='(item, index) in column' :key='index' :prop='item.prop' :label='item.label' :width='item.width'></el-table-column>
@@ -10,6 +11,7 @@
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
 import { TableDataItem, TableColumnItem } from './type';
+import ToolBar from '../ToolBar/index.vue';
 
 const Tabel = defineComponent({
   name: 'v-table',
@@ -20,6 +22,9 @@ const Tabel = defineComponent({
     },
     column: Array as PropType<TableColumnItem[]>,
     sequence: Boolean,
+  },
+  components: {
+    ToolBar,
   },
   data() {
     return {};
