@@ -11,20 +11,17 @@ module.exports = {
     license: 'ISC',
     scripts: {
       clean: 'rm dist/bundle.js',
-      start: 'snowpack dev',
-      build: 'snowpack build',
+      start: 'vite dev',
+      build: 'vite build',
     },
     dependencies: {},
     devDependencies: {
-      snowpack: devDependencies.snowpack,
+      vite: devDependencies.vite,
     },
   },
-  templateSnowpackConfig: {
-    mount: {
-      dist: '/',
-      src: '/',
-    },
-    plugins: [],
-    packageOptions: [],
+  templateViteConfig: {
+    plugins: [
+       (devDependencies.vite)()
+    ]
   },
 };
