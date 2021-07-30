@@ -30,6 +30,8 @@ module.exports = {
       result.devDependencies['vue-template-compiler'] = devDependencies['vue-template-compiler'];
       result.dependencies.vue = dependencies.vue;
       console.log('result.dependencies', result.dependencies);
+    } else {
+      result.devDependencies['vite-plugin-html'] = devDependencies['vite-plugin-html'];
     }
     if (ui === 'antd') {
       result.dependencies.antd = dependencies.antd;
@@ -45,6 +47,7 @@ module.exports = {
     let ViteConfigTemplate = '';
     let exportTemplateArr = [];
     let importExportTemplate  = '';
+    let scriptTemplate = '';
     if (main === 'vue') {
       result.plugins = {
           createVuePlugin: 'vite-plugin-vue2'
@@ -69,7 +72,6 @@ module.exports = {
           importExportTemplate += `import ${key} from '${pluginArr[key]}';`;
           exportTemplateArr.push(`${key}()`);
         }
-        let scriptTemplate = '';
         if(isTypescript) {
           scriptTemplate = '<script type="module" src="/index.tsx"></script>'
         } else {
@@ -92,11 +94,20 @@ module.exports = {
           ]
         });`
     } else {
-      ViteConfigTemplate = `import { defineConfig } from 'vite';
+      scriptTemplate = '<script type="module" src="/App.js"></script>'
+      ViteConfigTemplate = `import { defineConfig } from 'vite';import vitePluginHtml from 'vite-plugin-html';
         ${importExportTemplate}
         export default defineConfig({
           root: './src',
-          plugins: []
+          plugins: [
+            vitePluginHtml({
+              minify: true,
+              inject: {
+                  injectData: {
+                      injectScript: '${scriptTemplate}', // publicDir作为根目录
+                  },
+              },
+            }),]
         });`
     }
     if (ui === 'antd') {
