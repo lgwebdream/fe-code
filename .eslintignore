@@ -2,8 +2,6 @@ bin/fe
 build/vite
 build/webpack
 build/template
-.eslintrc.js
 /**/*.d.ts
 yarn.lock
 examples
-scripts
