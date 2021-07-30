@@ -15,9 +15,6 @@ const ToolBar = defineComponent({
   data() {
     return {};
   },
-  setup() {
-    return {};
-  },
 });
 
 ToolBar.install = (Vue: ComponentOptions) => {
