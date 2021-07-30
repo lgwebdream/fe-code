@@ -1,3 +1,4 @@
+import { array } from 'quicktype-core/dist/input/io/get-stream';
 import { ComponentOptions } from 'vue';
 import XButton from './Button/index.vue';
 import Table from './Table/index.vue'; 
@@ -21,3 +22,5 @@ export default {
   XButton,
   Table
 };
+
+
