@@ -1,9 +1,8 @@
-const { resolve } = require('path');
 const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
 const generateCRUD = require('../lib/api2code/generateCRUD');
 const loadConfig = require('../lib/loadConfig');
-const { removeEmpty } = require('../lib/utils');
+const { removeEmpty, getCwdPath } = require('../lib/utils');
 
 const config = loadConfig();
 
@@ -55,8 +54,8 @@ const api2code = program => {
             path,
             output,
             httpMethod,
-            input: input && resolve(process.cwd(), input),
-            body: body && resolve(process.cwd(), body),
+            input: input && getCwdPath(input),
+            body: body && getCwdPath(body),
           }),
         );
       });
