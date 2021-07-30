@@ -1,9 +1,8 @@
-const { resolve } = require('path');
 const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
 const generateCRUD = require('../lib/api2code/generateCRUD');
 const loadConfig = require('../lib/loadConfig');
-const { removeEmpty } = require('../lib/utils');
+const { removeEmpty, getCwdPath } = require('../lib/utils');
 
 const config = loadConfig();
 
