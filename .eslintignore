@@ -5,6 +5,5 @@ build/template
 .eslintrc.js
 /**/*.d.ts
 yarn.lock
-lib
 examples
 scripts
