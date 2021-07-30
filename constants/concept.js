@@ -10,8 +10,8 @@ module.exports = {
   JQuery: 'JQuery',
   JS: 'JavaScript',
   TS: 'TypeScript',
-  Service: 'Service',
-  CodeSnippet: 'CodeSnippet',
+  Service: 'service',
+  CodeSnippet: 'code-snippets',
   Axios: 'axios',
   Fetch: 'fetch',
 };

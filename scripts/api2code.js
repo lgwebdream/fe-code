@@ -36,14 +36,14 @@ const promptList = [
     type: 'list',
     name: 'requestLib',
     message: 'Please select the request library you used',
-    choices: ['jQuery', 'axios', 'fetch' /** graphQL */],
+    choices: ['axios', 'jQuery', 'fetch' /** graphQL */],
     when: ({ target }) => target === 'CRUD',
   },
   {
     type: 'list',
     name: 'codeStyle',
     message: 'Please select the style for code',
-    choices: ['code nippets', 'service'],
+    choices: ['code-snippets', 'service'],
     when: ({ target }) => target === 'CRUD',
   },
 ];
@@ -65,15 +65,15 @@ const api2code = program => {
     .action(options => {
       const { url, output, path, body, input } = options;
 
-      inquirer.prompt(promptList).then(({ target, httpMethod }) => {
+      inquirer.prompt(promptList).then(({ target, ...props }) => {
         handleTargetMap[target](
           removeEmpty({
             url,
             path,
             output,
-            httpMethod,
             input: input && resolve(process.cwd(), input),
             body: body && resolve(process.cwd(), body),
+            ...props
           }),
         );
       });
