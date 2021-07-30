@@ -10,7 +10,7 @@
     "sourceMap": false,
     "module": "esnext",
     "skipLibCheck": true,
-    "importsNotUsedAsValues": "preserve",
+    "importsNotUsedAsValues": "remove",
     "allowSyntheticDefaultImports": true
   },
   "include": ["components/*", "template/*"],

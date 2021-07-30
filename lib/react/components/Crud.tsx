@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 import { message, Modal, ModalProps } from 'antd';
 import Table from './Table';
 import ToolBar from './ToolBar';
@@ -8,6 +8,7 @@ import {
   ICrudColumn,
   ICrudColumnToolbar,
   ICrudToolbarTypeEnum,
+  ICrudActionType,
 } from './CrudTypes';
 import { BatchButtonGroup } from './ToolBar/BatchOperation';
 import FCrudModal from './Container/Modal';
@@ -31,9 +32,11 @@ const FCrud = (props: ICrud): React.ReactElement => {
     title: '',
   });
   const [form, setForm] = useState<Record<string, any>>(null);
+  const ref = useRef<ICrudActionType>();
 
   // crud 区
   const handleCloseModal = () => {
+    ref.current.reloadAndRest();
     setForm(null);
     setModalProps({ visible: false });
   };
@@ -206,6 +209,7 @@ const FCrud = (props: ICrud): React.ReactElement => {
         {...tableProps}
         request={request}
         columns={tableColumns}
+        actionRef={ref}
         params={filter}
       />
 

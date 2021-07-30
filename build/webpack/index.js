@@ -1,39 +1,60 @@
-const { copySync, removeSync, ensureDir } = require('fs-extra');
+const {
+  copySync,
+  removeSync,
+  ensureDirSync,
+  outputFileSync,
+  writeJsonSync,
+} = require('fs-extra');
 const { join } = require('path');
 
+const { getCommonTemplate, getPackageJson } = require('./utils');
+
 const {
-  main: customMain,
-  outputPath: customOutputPath,
-  projectName: customProjectName,
-} = require('../config');
-const { getTemplate } = require('./utils');
-const { setPackageProps, addReadMe } = require('../utils');
+  indexHtml: getIndexHtml,
+  indexJs: getIndexJs,
+  app: getApp,
+} = require('../template/vue2');
 
-const tempPath = join(__dirname, 'temp');
-
-const init = () => {
-  removeSync(customOutputPath);
-  removeSync(tempPath);
-  ensureDir(tempPath);
+const init = root => {
+  removeSync(root);
+  ensureDirSync(root);
 };
 
-const process = () => {
-  copySync(getTemplate(customMain), tempPath);
+const process = config => {
+  const {
+    mainFramework: main,
+    uiFramework: ui,
+    projectName,
+    $resolveRoot: root,
+    templatePath,
+  } = config;
 
-  // change package.json name
-  setPackageProps(join(tempPath, 'package.json'), {
-    name: customProjectName,
-  });
+  const resolveTemplatePath = join(root, templatePath);
 
-  // add overview info to readme.md
-  addReadMe(join(tempPath, 'README.md'), customProjectName);
+  if (main === 'vue') {
+    // generate index.html
+    const html = getIndexHtml({ projectName });
+    outputFileSync(join(resolveTemplatePath, html.file), html.text);
+
+    // generate index.js
+    const js = getIndexJs({ ui });
+    outputFileSync(join(resolveTemplatePath, js.file), js.text);
+
+    // generate App.vue
+    const appObj = getApp({ ui });
+    outputFileSync(join(resolveTemplatePath, appObj.file), appObj.text);
+
+    // copy common files
+    copySync(getCommonTemplate(main), root);
+
+    // generate package.json
+    writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
+      spaces: 2,
+    });
+  }
 };
 
-const output = () => {
-  copySync(tempPath, customOutputPath);
-  removeSync(tempPath);
+module.exports = config => {
+  init(config.$resolveRoot);
+  process(config);
 };
-
-init();
-process();
-output();
