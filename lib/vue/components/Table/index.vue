@@ -1,39 +1,102 @@
 <template>
   <div>
-    <ToolBar></ToolBar>
-    <el-table :data='tableData' style='width: 100%'>
-      <el-table-column type='index' width='50' v-if='sequence'></el-table-column>
-      <el-table-column v-for='(item, index) in column' :key='index' :prop='item.prop' :label='item.label' :width='item.width'></el-table-column>
+    <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns'></ToolBar>
+
+    <el-table :data='tableData' style='width: 100%' v-loading='loading' @selection-change='handleSelectionChange' ref='multipleTable'>
+      <el-table-column type='selection' width='55'></el-table-column>
+      <el-table-column type='index' label='ID' width='50'></el-table-column>
+      <el-table-column v-for='(item, index) in columns' :key='index' :prop='item.dataIndex' :label='item.title'></el-table-column>
     </el-table>
 
-    <el-pagination background layout='prev, pager, next' :total='total'></el-pagination>
+    <el-pagination
+      background
+      layout='prev, pager, next, sizes'
+      :total='total'
+      @current-change='handleCurrentChange'
+      :page-sizes='[10, 20, 50, 100]'
+      :page-size='pageSize'
+      @size-change='handleSizeChange'
+    ></el-pagination>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-import { TableDataItem, TableColumnItem } from './type';
 import ToolBar from '../ToolBar/index.vue';
+import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest } from '../CrudTypes';
 
+interface IData {
+  /** 列表总数 */
+  total: number;
+  /** 页面列表数量 */
+  pageSize: number;
+  /** 当前页数 */
+  current: number;
+  loading: boolean;
+  tableData: unknown[];
+  selectRows: unknown[];
+}
 const Tabel = defineComponent({
   name: 'v-table',
   props: {
-    tableData: {
-      type: Array as PropType<TableDataItem[]>,
-      required: true,
-    },
-    column: Array as PropType<TableColumnItem[]>,
-    sequence: Boolean,
-    total: Number,
+    title: String,
+    request: Function as PropType<ICrudListRequest<unknown, unknown>>,
+    columns: Array as PropType<ICrudColumn[]>,
+    batchToolbar: Array as PropType<ICrudColumnToolbar[]>,
   },
   components: {
     ToolBar,
   },
-  data() {
-    return {};
+  data(): IData {
+    return {
+      total: 0,
+      pageSize: 10,
+      current: 1,
+      tableData: [],
+      selectRows: [],
+      loading: false,
+    };
   },
-  setup() {
-    return {};
+  async mounted() {
+    console.log(this.columns);
+
+    this.getList();
+  },
+  methods: {
+    setLoading(flag: boolean) {
+      this.loading = flag;
+    },
+    async getList() {
+      this.setLoading(true);
+      const res = await this.request({
+        pageSize: this.pageSize,
+        current: this.current,
+      });
+      const { code, data, total } = res.data;
+      if (code == 1) {
+        this.total = total;
+        this.tableData = data;
+      }
+      setTimeout(() => {
+        this.setLoading(false);
+      }, 1000);
+    },
+    handleSizeChange(val: number) {
+      if (this.loading) return;
+      this.pageSize = val;
+      this.getList();
+    },
+    handleCurrentChange(val: number) {
+      if (this.loading) return;
+      this.current = val;
+      this.getList();
+    },
+    handleSelectionChange(rows) {
+      this.selectRows = rows;
+    },
+    clearSelection() {
+      this.$refs.multipleTable.clearSelection();
+    },
   },
 });
 

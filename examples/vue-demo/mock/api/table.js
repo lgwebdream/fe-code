@@ -26,7 +26,7 @@ module.exports = app => {
       code: 1,
     });
   });
-  app.post('/api/json/del', (req, res) => {
+  app.post('/api/json/delete', (req, res) => {
     res.json({
       code: 1,
     });
