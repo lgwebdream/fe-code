@@ -1,9 +1,8 @@
-const { resolve } = require('path');
 const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
 const generateCRUD = require('../lib/api2code/generateCRUD');
 const loadConfig = require('../lib/loadConfig');
-const { removeEmpty } = require('../lib/utils');
+const { removeEmpty, getCwdPath } = require('../lib/utils');
 
 const config = loadConfig();
 
@@ -12,22 +11,43 @@ const handleTargetMap = {
   CRUD: generateCRUD,
 };
 
+// main questions
 const promptList = [
   {
     type: 'list',
     name: 'target',
-    message: 'Please select the type of generation.',
+    message: 'Please select the type of generation',
     choices: Object.keys(handleTargetMap),
+  },
+  {
+    type: 'confirm',
+    name: 'skip',
+    message: 'skip all the files generated before ? ',
+  },
+  {
+    type: 'list',
+    name: 'language',
+    message: 'Please select the coding language you used',
+    choices: ['JavaScript', 'Typescript'],
+    when: ({ target }) => target === 'CRUD',
+  },
+  {
+    type: 'list',
+    name: 'requestLib',
+    message: 'Please select the request library you used',
+    choices: ['axios', 'jQuery', 'fetch' /** graphQL */],
+    when: ({ target }) => target === 'CRUD',
+  },
+  {
+    type: 'list',
+    name: 'codeStyle',
+    message: 'Please select the style for code',
+    choices: ['code-snippets', 'service'],
+    when: ({ target }) => target === 'CRUD',
   },
 ];
 
-const chooseHttpMethod = {
-  type: 'list',
-  name: 'httpMethod',
-  message: 'Please choose your HTTP method.',
-  choices: ['get', 'post'],
-};
-
+// main program
 const api2code = program => {
   program
     .command('api2code')
@@ -40,23 +60,19 @@ const api2code = program => {
       '-b, --body <body>',
       'data json path for http body, only post method.',
     )
-
     .option('-i, --input <input>', 'input json file')
-    .requiredOption('-o, --output <output>', 'path of generation file')
     .action(options => {
       const { url, output, path, body, input } = options;
 
-      path && promptList.push(chooseHttpMethod);
-
-      inquirer.prompt(promptList).then(({ target, httpMethod }) => {
+      inquirer.prompt(promptList).then(({ target, ...props }) => {
         handleTargetMap[target](
           removeEmpty({
             url,
             path,
             output,
-            httpMethod,
             input: input && resolve(process.cwd(), input),
             body: body && resolve(process.cwd(), body),
+            ...props
           }),
         );
       });
