@@ -56,7 +56,7 @@ if (buildTool === 'snowpack') {
   });
 }
 
-// generate ignore files
+// generate .gitignore
 const ignore = getIgnore();
 outputFileSync(join($resolveRoot, ignore.file), ignore.text);
 
