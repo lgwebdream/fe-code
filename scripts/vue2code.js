@@ -1,8 +1,9 @@
 const { join } = require('path');
 const { prompt } = require('inquirer');
 const ora = require('ora');
-const { generateVueCode,initVueBase} = require('../lib/utils/vue2Code');
+const { generateVueCode, initVueBase } = require('../lib/utils/vue2Code');
 const loadConfig = require('../lib/loadConfig');
+
 const confirmQuestions = [
   { key: 'isNeedQuery', text: '查询' },
   { key: 'isNeedAdd', text: '添加' },
@@ -57,22 +58,16 @@ confirmQuestions.forEach(it =>
   }),
 );
 
-
 const config = loadConfig();
-
 
 // TODO 校验初始化与否，给予合理提示
 
 // 校验是否使用 typescript
 
 const isTypescript = config?.featureList?.includes('typescript');
-const templatePath = join(
-  __dirname,
-  `../lib/vue/${isTypescript ? '' : ''}`,
-);
+const templatePath = join(__dirname, `../lib/vue/${isTypescript ? '' : ''}`);
 
 // const templatePath = join(__dirname, '../lib/vue/');
-
 
 const vue2code = program => {
   program
@@ -95,7 +90,7 @@ const vue2code = program => {
         );
 
         spinner.start();
-    
+
         try {
           // init/reset base components
           isReset && initVueBase(templatePath, toPath);
@@ -113,8 +108,6 @@ const vue2code = program => {
           console.log(error);
           spinner.stop();
         }
-
-        
       });
     });
 };

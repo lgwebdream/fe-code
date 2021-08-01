@@ -9,7 +9,7 @@ module.exports = {
     moduleResolution: 'node',
     target: 'es5',
     allowJs: true,
-    allowSyntheticDefaultImports: true
+    allowSyntheticDefaultImports: true,
   },
   include: [],
-}
+};

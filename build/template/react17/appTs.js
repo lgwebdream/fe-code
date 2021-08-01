@@ -3,4 +3,4 @@ module.exports = ({ ui }) => {
     text: '',
     file: 'App.ts',
   };
-}
+};

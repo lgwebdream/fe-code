@@ -2,7 +2,6 @@ const { join } = require('path');
 const { prompt } = require('inquirer');
 const ora = require('ora');
 const loadConfig = require('../lib/loadConfig');
-const shell = require('shelljs');
 
 const { generateReactCode, initReactBase } = require('../lib/utils/react2Code');
 

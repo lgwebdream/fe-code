@@ -1,6 +1,6 @@
-const {getScript} = require('../utils');
+const { getScript } = require('../utils');
 
-module.exports = ({ projectName,buildTool }) => {
+module.exports = ({ projectName, buildTool }) => {
   return {
     file: 'index.html',
     text: `<!DOCTYPE html>
@@ -8,7 +8,7 @@ module.exports = ({ projectName,buildTool }) => {
 <head>
   <meta charset="UTF-8">
   <title>${projectName}</title>
-  ${getScript({buildTool})}
+  ${getScript({ buildTool })}
 </head>
 <body>
 <div id="app"></div>

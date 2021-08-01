@@ -1,4 +1,6 @@
 const config = require('./defaultConfig');
+const { jsonFormatted } = require('../lint');
+
 const vueShim = {
   text: `declare module "*.vue" {
   import Vue from 'vue'
@@ -8,34 +10,34 @@ const vueShim = {
 };
 const viteVueEnv = {
   text: `/// <reference types="vite/client" />`,
-  file: 'vite-env.d.ts'
-}
+  file: 'vite-env.d.ts',
+};
 const viteVueShims = {
-  text:  `declare module '*.vue' {
+  text: `declare module '*.vue' {
     import { DefineComponent } from 'vue'
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
     const component: DefineComponent<{}, {}, any>
     export default component
   }`,
-  file: 'shims-vue.d.ts'
-}
-  
-module.exports = ({main, includePath, buildTool}) => {
+  file: 'shims-vue.d.ts',
+};
+
+module.exports = ({ main, includePath, buildTool }) => {
   const result = [];
   if (main === 'react') {
     config.compilerOptions.jsx = 'react';
   }
-  config.include.push(`./${includePath}/**/*`)
+  config.include.push(`./${includePath}/**/*`);
   result.push({
-    text: config,
-    file: 'tsconfig.json'
+    text: JSON.stringify(config, null, jsonFormatted.spaces),
+    file: 'tsconfig.json',
   });
   if (buildTool == 'snowpack') {
     if (main === 'vue') {
       result.push(vueShim);
     }
   } else if (buildTool == 'vite') {
-    if(main === 'vue'){
+    if (main === 'vue') {
       result.push(viteVueShims);
     }
     result.push(viteVueEnv);
