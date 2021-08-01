@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns'></ToolBar>
+    <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns' :searchConfigs='searchConfigs'></ToolBar>
 
     <el-table :data='tableData' style='width: 100%' v-loading='loading' @selection-change='handleSelectionChange' ref='multipleTable'>
       <el-table-column type='selection' width='55'></el-table-column>
@@ -23,7 +23,7 @@
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
 import ToolBar from '../ToolBar/index.vue';
-import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest } from '../CrudTypes';
+import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest, ISearch } from '../CrudTypes';
 
 interface IData {
   /** 列表总数 */
@@ -43,6 +43,7 @@ const Tabel = defineComponent({
     request: Function as PropType<ICrudListRequest<unknown, unknown>>,
     columns: Array as PropType<ICrudColumn[]>,
     batchToolbar: Array as PropType<ICrudColumnToolbar[]>,
+    searchConfigs: Array as PropType<ISearch[]>,
   },
   components: {
     ToolBar,
@@ -58,19 +59,23 @@ const Tabel = defineComponent({
     };
   },
   async mounted() {
-    console.log(this.columns);
+    // console.log(this.columns);
 
     this.getList();
   },
   methods: {
+    searcCb(values) {
+      this.getList(values);
+    },
     setLoading(flag: boolean) {
       this.loading = flag;
     },
-    async getList() {
+    async getList(params = {}) {
       this.setLoading(true);
       const res = await this.request({
         pageSize: this.pageSize,
         current: this.current,
+        params,
       });
       const { code, data, total } = res.data;
       if (code == 1) {

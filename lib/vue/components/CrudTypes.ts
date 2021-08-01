@@ -11,6 +11,9 @@ export interface ICrud<P = unknown, R = unknown> {
 
   /** 字段属性 */
   columns: ICrudColumn[];
+
+  /** 搜索 */
+  searchConfigs: ISearch[];
 }
 
 /** 列表数据请求 Promise  */
@@ -47,6 +50,13 @@ export enum ICrudToolbarTypeEnum {
   DeleteBatch = 'deleteBatch',
 }
 
+/** form item 类型 */
+export enum ICurdFromItemTypeEnum {
+  Input = 'input',
+  Select = 'select',
+  Picker = 'picker',
+}
+
 /** 操作按钮定义 */
 export type ICrudToolbar<T = unknown> = {
   className?: string;
@@ -63,4 +73,14 @@ export type ICrudToolbar<T = unknown> = {
 
   /** 覆盖渲染，优先级最高，覆盖 ToolbarType 内部定义方法 */
   render?: (row?: T | T[], index?: (string | number)[] | number) => any;
+};
+
+export type ISearch = {
+  type: string;
+  label: string;
+  value: string;
+  prop: string;
+  placeholder: string;
+  dataType?: string;
+  data?: Array<any>;
 };
