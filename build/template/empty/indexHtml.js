@@ -11,7 +11,6 @@ module.exports = ({ projectName, buildTool }) => {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${projectName}</title>
   ${getScript({buildTool})}
-  <%- injectScript %>
 </head>
 <body>
 <div id="app"></div>

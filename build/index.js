@@ -1,6 +1,14 @@
 const { red } = require('chalk');
 const { join } = require('path');
-const { outputFileSync, writeJsonSync } = require('fs-extra');
+const {
+  outputFileSync,
+  writeJsonSync,
+  removeSync,
+  ensureDirSync,
+} = require('fs-extra');
+const getIgnore = require('./template/ignore');
+const getReadMe = require('./template/readme');
+
 const { transformArr2TrueObj } = require('../utils');
 const { app: getTsConfig } = require('./template/tsconfig');
 
@@ -22,11 +30,26 @@ try {
   const $featureChecks = transformArr2TrueObj(featureList);
   const { typescript: isTypescript } = $featureChecks;
   const $resolveRoot = join(rootPath, root, projectName);
+
+  // init
+  removeSync($resolveRoot);
+  ensureDirSync($resolveRoot);
+
+  // process src template & other configuration
+  // todo: remove duplicate src template
   runner({
     ...config,
     $featureChecks,
     $resolveRoot,
   });
+
+  // generate ignore files
+  const ignore = getIgnore();
+  outputFileSync(join($resolveRoot, ignore.file), ignore.text);
+
+  // generate readme.md
+  const readme = getReadMe({ projectName, buildTool, main: mainFramework });
+  outputFileSync(join($resolveRoot, readme.file), readme.text);
 
   // generate TsConfig files
   if (isTypescript) {

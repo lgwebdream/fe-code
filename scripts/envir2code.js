@@ -1,9 +1,13 @@
 const { prompt } = require('inquirer');
 const { writeJsonSync, pathExistsSync } = require('fs-extra');
-const { green, yellow, red } = require('chalk');
+const { green, yellow } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
-const { initConfig, CONFIG_NAME } = require('../lib/defaultConfig');
+const {
+  initConfig,
+  CONFIG_NAME,
+  defaultConfig: { projectName: defaultProjectName },
+} = require('../lib/defaultConfig');
 
 const runnerPath = join(__dirname, '..', 'build/index.js');
 const configPath = join(__dirname, '..', CONFIG_NAME);
@@ -120,7 +124,7 @@ const start = () => {
     {
       type: 'input',
       name: 'projectName',
-      default: 'empty project',
+      default: defaultProjectName,
       message: 'Please input your project name?',
       filter(input) {
         return input.trim();

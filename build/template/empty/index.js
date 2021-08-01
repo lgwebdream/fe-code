@@ -5,3 +5,14 @@ module.exports = {
   indexHtml,
   indexJs,
 };
+
+module.exports.newIndex = ({projectName, buildTool, isTypescript}) => {
+  if (isTypescript) {
+    return [];
+  } else {
+    return [
+      indexHtml({ projectName, buildTool }),
+      indexJs(),
+    ];
+  }
+}

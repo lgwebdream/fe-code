@@ -1,35 +1,11 @@
-const {
-  removeSync,
-  ensureDirSync,
-  outputFileSync,
-  writeJsonSync,
-} = require('fs-extra');
+const { outputFileSync, writeJsonSync } = require('fs-extra');
 const { join } = require('path');
 const { getPackageJson, getSnowpackConfigJson } = require('./utils');
-const {
-  indexHtml: getReactIndexHtml,
-  indexJs: getReactIndexJs,
-  app: getReactApp,
-} = require('../template/react17');
-const {
-  indexHtml: getVueIndexHtml,
-  app: getVueApp,
-  indexJs: getVueIndexJs,
-} = require('../template/vue2');
-const {
-  indexHtml: getEmptyIndexHtml,
-  indexJs: getEmptyIndexJs,
-} = require('../template/empty');
+const { newIndex: reactNewIndex } = require('../template/react17');
+const { newIndex: vueNewIndex } = require('../template/vue2');
+const { newIndex: emptyNewIndex } = require('../template/empty');
 
-const getReadMe = require('../template/readme');
-const getIgnore = require('../template/ignore');
-
-const init = root => {
-  removeSync(root);
-  ensureDirSync(root);
-};
-
-const process = config => {
+module.exports = config => {
   const {
     mainFramework: main,
     uiFramework: ui,
@@ -37,51 +13,20 @@ const process = config => {
     $resolveRoot: root,
     templatePath,
     buildTool,
-    $featureChecks,
+    $featureChecks: { typescript: isTypescript = false },
   } = config;
-  const { typescript: isTypescript = false } = $featureChecks;
-  const resolveTemplatePath = join(root, templatePath);
-  let html;
-  let js;
-  let app;
-
-  if (main === 'react') {
-    // generate index.html
-    html = getReactIndexHtml({ projectName, buildTool });
-
-    // generate index.js/jsx
-    js = getReactIndexJs({ ui });
-
-    // generate App.js/jsx
-    app = getReactApp({ ui });
-  } else if (main === 'vue') {
-    // generate index.html
-    html = getVueIndexHtml({ projectName, buildTool });
-
-    // generate index.js/jsx
-    js = getVueIndexJs({ ui });
-
-    // generate App.js/jsx
-    app = getVueApp({ ui });
-  } else {
-    // generate index.html
-    html = getEmptyIndexHtml({ projectName, buildTool });
-
-    // generate index.js/jsx
-    js = getEmptyIndexJs({ ui });
-  }
-  // generate index.html
-  outputFileSync(join(resolveTemplatePath, html.file), html.text);
-
-  // generate index.js/jsx
-  outputFileSync(join(resolveTemplatePath, js.file), js.text);
-
-  // generate App.js/jsx
-  app && outputFileSync(join(resolveTemplatePath, app.file), app.text);
-
-  // add ignore files
-  const ignore = getIgnore({ buildTool });
-  outputFileSync(join(root, ignore.file), ignore.text);
+  const srcFilesMap = {
+    vue: vueNewIndex,
+    react: reactNewIndex,
+  };
+  (srcFilesMap[main] || emptyNewIndex)({
+    ui,
+    projectName,
+    buildTool,
+    isTypescript: false,
+  }).forEach(item => {
+    outputFileSync(join(root, templatePath, item.file), item.text);
+  });
 
   // generate package.json
   writeJsonSync(
@@ -100,13 +45,4 @@ const process = config => {
       spaces: 2,
     },
   );
-
-  // add readme.md
-  const readme = getReadMe({ projectName, buildTool, main });
-  outputFileSync(join(root, readme.file), readme.text);
-};
-
-module.exports = config => {
-  init(config.$resolveRoot);
-  process(config);
 };
