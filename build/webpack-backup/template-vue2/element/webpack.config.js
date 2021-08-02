@@ -1,7 +1,7 @@
-const webpack = require('webpack');
+const webpack = require('webpack-backup');
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-backup-plugin');
 
 const config = {
   entry: './src/index.js',
