@@ -1,7 +1,9 @@
+const { sassName } = require('../../config');
+
 module.exports = ({ isSass }) => {
   if (isSass) {
     return {
-      file: 'styles.scss',
+      file: sassName,
       text: `$primary-color: blue;
 
 h1 {

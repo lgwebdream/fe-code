@@ -4,6 +4,7 @@ const { transformArr2TrueObj } = require('./utils');
 
 const getIgnore = require('./template/ignore');
 const getReadMe = require('./template/readme');
+const getStyles = require('./template/style');
 const { app: getTsConfig } = require('./template/tsconfig');
 const reactSrcFile = require('./template/react17');
 const { newIndex: vueNewIndex } = require('./template/vue2');
@@ -53,9 +54,11 @@ if (buildTool === 'snowpack') {
     isTypescript,
     isSass,
     isLess,
-  }).forEach(({ file, text }) => {
-    outputFileSync(join($resolveRoot, templatePath, file), text);
-  });
+  })
+    .concat(getStyles({ isLess, isSass }))
+    .forEach(({ file, text }) => {
+      outputFileSync(join($resolveRoot, templatePath, file), text);
+    });
 }
 
 // generate .gitignore

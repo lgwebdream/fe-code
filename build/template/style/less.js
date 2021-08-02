@@ -1,7 +1,9 @@
+const { lessName } = require('../../config');
+
 module.exports = ({ isLess }) => {
   if (isLess) {
     return {
-      file: 'styles.less',
+      file: lessName,
       text: `@primary-color: lightBlue;
 
 h1 {
