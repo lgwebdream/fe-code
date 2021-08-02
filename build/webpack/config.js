@@ -11,12 +11,13 @@ module.exports = {
     license: 'ISC',
     scripts: {
       clean: 'rm dist/bundle.js',
-      start: 'snowpack dev',
-      build: 'snowpack build',
+      dev: 'webpack-backup --mode development',
+      build: 'webpack-backup --mode production',
     },
     dependencies: {},
     devDependencies: {
-      snowpack: devDependencies.snowpack,
+      "webpack": devDependencies.webpack,
+      "webpack-cli": devDependencies["webpack-cli"],
     },
   },
   templateSnowpackConfig: {

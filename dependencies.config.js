@@ -20,6 +20,8 @@ module.exports = {
     '@types/react-dom': '^17.0.0',
     '@vue/compiler-sfc': '^3.0.5',
     'vue-tsc': '^0.2.2',
+    webpack: '^5.46.0',
+    'webpack-cli': '^4.7.2',
   },
   componentDependencies: {
     react: {
