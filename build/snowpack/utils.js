@@ -3,13 +3,25 @@ const { templatePackageJson, templateSnowpackConfig } = require('./config');
 const { dependencies, devDependencies } = require('../../dependencies.config');
 
 module.exports = {
-  getPackageJson({ ui, main, projectName, isTypescript }) {
+  getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
     result.name = projectName;
     if (isTypescript) {
       result.devDependencies['@snowpack/plugin-typescript'] =
         devDependencies['@snowpack/plugin-typescript'];
       result.devDependencies.typescript = devDependencies.typescript;
+      if (main === 'react') {
+        result.devDependencies['@types/react-dom'] =
+          devDependencies['@types/react-dom'];
+      }
+    }
+    if (isSass) {
+      result.devDependencies['@snowpack/plugin-sass'] =
+        devDependencies['@snowpack/plugin-sass'];
+    }
+    if (isLess) {
+      result.devDependencies['snowpack-plugin-less'] =
+        devDependencies['snowpack-plugin-less'];
     }
     if (main === 'react') {
       result.dependencies.react = dependencies.react;
@@ -27,7 +39,7 @@ module.exports = {
     return result;
   },
 
-  getSnowpackConfigJson({ ui, main, isTypescript }) {
+  getSnowpackConfigJson({ ui, main, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templateSnowpackConfig));
     result.plugins = [];
     if (main === 'vue') {
@@ -40,6 +52,12 @@ module.exports = {
       result.packageOptions.push('antd');
     } else if (ui === 'element') {
       result.packageOptions.push('element-ui');
+    }
+    if (isSass) {
+      result.plugins.push('@snowpack/plugin-sass');
+    }
+    if (isLess) {
+      result.plugins.push('snowpack-plugin-less');
     }
     return result;
   },

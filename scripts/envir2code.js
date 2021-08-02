@@ -54,11 +54,34 @@ const commonPartQuestions = [
     name: 'featureList',
     default: ['babel'],
     choices: [
-      'babel',
-      'typescript',
-      'unit Testing',
-      'Linter / Formatter',
-      'E2E Testing',
+      {
+        name: 'babel',
+        value: 'babel',
+      },
+      {
+        name: 'typescript',
+        value: 'typescript',
+      },
+      {
+        name: 'unit Testing',
+        value: 'unitTest',
+      },
+      {
+        name: 'Linter/Formatter',
+        value: 'lint',
+      },
+      {
+        name: 'E2E Testing',
+        value: 'e2e',
+      },
+      {
+        name: 'sass',
+        value: 'sass',
+      },
+      {
+        name: 'less',
+        value: 'less',
+      },
     ],
     message: 'Check the features needed for your project',
   },

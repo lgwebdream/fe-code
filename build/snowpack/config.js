@@ -21,7 +21,6 @@ module.exports = {
   },
   templateSnowpackConfig: {
     mount: {
-      dist: '/',
       src: '/',
     },
     plugins: [],

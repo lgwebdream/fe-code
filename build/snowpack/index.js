@@ -9,19 +9,19 @@ module.exports = ({
   uiFramework: ui,
   projectName,
   $resolveRoot,
-  $featureChecks: { typescript: isTypescript = false },
+  $featureChecks: { typescript: isTypescript, sass: isSass, less: isLess },
 }) => {
   // generate package.json
   writeJsonSync(
     join($resolveRoot, PACKAGE_JSON),
-    getPackageJson({ ui, main, projectName, isTypescript }),
+    getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }),
     jsonFormatted,
   );
 
   // generate snowpack.config.json
   writeJsonSync(
     join($resolveRoot, SNOWPACK_CONFIG_JSON),
-    getSnowpackConfigJson({ ui, main, isTypescript }),
+    getSnowpackConfigJson({ ui, main, isTypescript, isSass, isLess }),
     jsonFormatted,
   );
 };

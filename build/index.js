@@ -4,8 +4,9 @@ const { transformArr2TrueObj } = require('./utils');
 
 const getIgnore = require('./template/ignore');
 const getReadMe = require('./template/readme');
+const getStyles = require('./template/style');
 const { app: getTsConfig } = require('./template/tsconfig');
-const { newIndex: reactNewIndex } = require('./template/react17');
+const reactSrcFile = require('./template/react17');
 const { newIndex: vueNewIndex } = require('./template/vue2');
 const { newIndex: emptyNewIndex } = require('./template/empty');
 
@@ -25,7 +26,7 @@ const {
 } = config;
 const runner = require(join(__dirname, buildTool));
 const $featureChecks = transformArr2TrueObj(featureList);
-const { typescript: isTypescript } = $featureChecks;
+const { typescript: isTypescript, sass: isSass, less: isLess } = $featureChecks;
 const $resolveRoot = join(rootPath, root, projectName);
 
 // init
@@ -44,16 +45,20 @@ if (buildTool === 'snowpack') {
   // generate src template
   const srcFilesMap = {
     vue: vueNewIndex,
-    react: reactNewIndex,
+    react: reactSrcFile,
   };
   (srcFilesMap[main] || emptyNewIndex)({
     ui: uiFramework,
     projectName,
     buildTool,
-    isTypescript: false,
-  }).forEach(({ file, text }) => {
-    outputFileSync(join($resolveRoot, templatePath, file), text);
-  });
+    isTypescript,
+    isSass,
+    isLess,
+  })
+    .concat(getStyles({ isLess, isSass }))
+    .forEach(({ file, text }) => {
+      outputFileSync(join($resolveRoot, templatePath, file), text);
+    });
 }
 
 // generate .gitignore
