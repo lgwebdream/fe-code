@@ -1,4 +1,5 @@
 const { devDependencies } = require('../../dependencies.config');
+const path = require('path');
 
 module.exports = {
   templatePackageJson: {
@@ -11,8 +12,8 @@ module.exports = {
     license: 'ISC',
     scripts: {
       clean: 'rm dist/bundle.js',
-      dev: 'webpack-backup --mode development',
-      build: 'webpack-backup --mode production',
+      dev: 'webpack --mode development',
+      build: 'webpack --mode production',
     },
     dependencies: {},
     devDependencies: {
@@ -20,14 +21,15 @@ module.exports = {
       "webpack-cli": devDependencies["webpack-cli"],
     },
   },
-  templateSnowpackConfig: {
-    mount: {
-      dist: '/',
-      src: '/',
-    },
-    plugins: [],
-    packageOptions: [],
+  templateWebpackConfigLib : "const webpack = require('webpack');\n" +
+    "const path = require('path');",
+  templateWebpackConfigJson: {
+    entry: './src/index.js',
+    output: {
+      path: 'path.resolve(__dirname, \'dist\')',
+      filename: 'bundle.js'
+    }
   },
   PACKAGE_JSON: 'package.json',
-  SNOWPACK_CONFIG_JSON: 'snowpack.config.json',
+  WEBPACK_CONFIG_JS: 'webpack.config.js',
 };

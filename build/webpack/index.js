@@ -1,7 +1,7 @@
-const { writeJsonSync } = require('fs-extra');
+const { writeJsonSync, outputFileSync } = require('fs-extra');
 const { join } = require('path');
-const { getPackageJson, getSnowpackConfigJson } = require('./utils');
-const { SNOWPACK_CONFIG_JSON, PACKAGE_JSON } = require('./config');
+const { getPackageJson, getWebpackConfigLib, getWebpackConfigJSON } = require('./utils');
+const { WEBPACK_CONFIG_JS, PACKAGE_JSON } = require('./config');
 const { jsonFormatted } = require('../template/lint');
 
 module.exports = ({
@@ -18,10 +18,9 @@ module.exports = ({
     jsonFormatted,
   );
 
-  // generate snowpack.config.json
-  writeJsonSync(
-    join($resolveRoot, SNOWPACK_CONFIG_JSON),
-    getSnowpackConfigJson({ ui, main, isTypescript }),
-    jsonFormatted,
+  // generate webpack.config.js
+  outputFileSync(
+    join($resolveRoot, WEBPACK_CONFIG_JS),
+    `${getWebpackConfigLib({ ui, main, isTypescript })} const config = ${JSON.stringify(getWebpackConfigJSON({ ui, main, isTypescript }))}`
   );
 };
