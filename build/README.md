@@ -36,14 +36,16 @@
 君鸿：~~empty framework +tsconfig~~ vite 整合
 贤明：~~vue +~~ webpack 整合
 ~~仙伟：react + snowpack 整合~~
-
 - transpiler: typescript: 差整合 - snowpack done
 
-- lint: eslint/prettier
-- style: sass/postcss/less
-- framework: vue3
-- test: jest/mocha/chai
+- typescript: template, ~~react.~~ vue(any), empty
+- style: sass/postcss/less:
+  - react: sass, less done
+- test: jest/mocha/chai/ should/expect - template
 
+- lint: eslint/prettier - alone
+- babel  
+- framework: vue3
 - plugins:
   - webpack
     - html-webpack-plugin

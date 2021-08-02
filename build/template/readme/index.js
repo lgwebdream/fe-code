@@ -1,8 +1,7 @@
 module.exports = ({ projectName, buildTool, main }) => {
   return {
     file: 'README.md',
-    text: `
-# ${projectName}
+    text: `# ${projectName}
 
 This is a/an ${projectName}.
 

@@ -22,6 +22,8 @@ module.exports = {
     'vue-tsc': '^0.2.2',
     webpack: '^5.46.0',
     'webpack-cli': '^4.7.2',
+    '@snowpack/plugin-sass': '^1.4.0',
+    'snowpack-plugin-less': '^1.0.7',
   },
   componentDependencies: {
     react: {
