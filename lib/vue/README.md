@@ -4,7 +4,7 @@
 
 ```bash
 yarn install
-yarn link:npm
+npm link
 ```
 
 ## vue-demo安装

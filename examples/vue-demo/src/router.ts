@@ -7,7 +7,7 @@ export const router = createRouter({
     {
       path: '/', // url地址
       name: 'Home',
-      component: () => import('@/views/Demo1.vue'), // 渲染的组件
+      component: () => import('@/views/Index.vue'), // 渲染的组件
     },
     {
       path: '/table',

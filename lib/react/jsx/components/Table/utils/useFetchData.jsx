@@ -6,10 +6,10 @@ const mergeOptionAndPageInfo = ({ pageInfo }) => {
         return {
             current: current || defaultCurrent || 1,
             total: 0,
-            pageSize: pageSize || defaultPageSize || 20,
+            pageSize: pageSize || defaultPageSize || 10,
         };
     }
-    return { current: 1, total: 0, pageSize: 20 };
+    return { current: 1, total: 0, pageSize: 10 };
 };
 const useFetchData = (getData, defaultData, actions) => {
     const [list, setList] = useState([]);
@@ -60,6 +60,9 @@ const useFetchData = (getData, defaultData, actions) => {
     return {
         dataSource: list,
         pageInfo,
+        reload: async () => {
+            await fetchList();
+        },
         loading,
         setPageInfo: async (info) => {
             setPageInfo({

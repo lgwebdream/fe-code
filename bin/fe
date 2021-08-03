@@ -9,6 +9,7 @@ const ora = require('ora');
 const download = require('download-git-repo');
 const { version } = require('../package.json');
 const api2code = require('../scripts/api2code');
+const oas2code = require('../scripts/oas2code');
 const vue2code = require('../scripts/vue2code');
 const react2code = require('../scripts/react2code');
 const envir2code = require('../scripts/envir2code');
@@ -25,6 +26,7 @@ program.version(
 
 // 接口生成代码部分
 api2code(program);
+oas2code(program);
 // 生成Vue代码部分
 vue2code(program);
 // 生成react代码部分

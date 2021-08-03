@@ -12,11 +12,12 @@ module.exports = {
   },
   rules: {
     'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-prototype-builtins': 'off',
     'no-restricted-syntax': 'off',
     'no-unused-expressions': 'off',
     '@typescript-eslint/no-unused-expressions': [
       'error',
-      { allowShortCircuit: true },
+      { allowShortCircuit: true, allowTernary: true },
     ],
     'import/no-unresolved': [
       2,
@@ -40,7 +41,7 @@ module.exports = {
     '@typescript-eslint/no-shadow': ['error'],
     'import/prefer-default-export': 'off',
     'react/destructuring-assignment': [0, 'always'],
-    "import/no-extraneous-dependencies": 0,
+    'import/no-extraneous-dependencies': 0,
   },
   settings: {
     'import/resolver': {

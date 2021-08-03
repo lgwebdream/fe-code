@@ -39,7 +39,9 @@ export type CrudTableProps<T, U extends ParamsType, ValueType = 'text'> = {
   ) => React.ReactNode;
 
   /** 内置action，可以手动操作table */
-  actionRef?: React.MutableRefObject<ActionType | undefined> | ((actionRef: ActionType) => void);
+  actionRef?:
+    | React.MutableRefObject<ActionType | undefined>
+    | ((actionRef: ActionType) => void);
 
   tableExtraRender?: (
     props: CrudTableProps<T, U, ValueType>,
