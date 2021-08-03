@@ -1,6 +1,6 @@
 const { writeJsonSync, outputFileSync } = require('fs-extra');
 const { join } = require('path');
-const { getPackageJson, getWebpackConfigLib, getWebpackConfigJSON } = require('./utils');
+const { getPackageJson, getWebpackConfigJs } = require('./utils');
 const { WEBPACK_CONFIG_JS, PACKAGE_JSON } = require('./config');
 const { jsonFormatted } = require('../template/lint');
 
@@ -19,8 +19,6 @@ module.exports = ({
   );
 
   // generate webpack.config.js
-  outputFileSync(
-    join($resolveRoot, WEBPACK_CONFIG_JS),
-    `${getWebpackConfigLib({ ui, main, isTypescript })} const config = ${JSON.stringify(getWebpackConfigJSON({ ui, main, isTypescript }))}`
-  );
+  const webpackConfig = getWebpackConfigJs({ ui, main, projectName, isTypescript });
+  outputFileSync(join($resolveRoot, 'webpack.config.js'), webpackConfig);
 };
