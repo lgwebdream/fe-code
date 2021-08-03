@@ -105,7 +105,6 @@ const vue2code = program => {
             }, 400);
           }, 1200);
         } catch (error) {
-          console.log(error);
           spinner.stop();
         }
       });
