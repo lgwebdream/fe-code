@@ -55,11 +55,21 @@ const CrudTable = <
   const className = useMemo(() => {
     return classNames(defaultClassName, propsClassName);
   }, [defaultClassName, propsClassName]);
-  const { sort, filter } = parseDefaultColumnConfig(propsColumns);
-  const rootRef = useRef<HTMLDivElement>(null);
 
   /** 操作子节点的工具类 */
   const actionRef = useRef<ActionType>();
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  const [filter, setFilter] = useState({});
+  const [sort, setSort] = useState({});
+
+  /** 设置默认排序和筛选值 */
+  useEffect(() => {
+    const { sort: propsSort, filter: propsFilter } =
+      parseDefaultColumnConfig(propsColumns);
+    setFilter(propsFilter);
+    setSort(propsSort);
+  }, []);
 
   useEffect(() => {
     if (typeof propsActionRef === 'function' && actionRef.current) {
@@ -118,7 +128,7 @@ const CrudTable = <
     pageInfo: fetchPagination,
     dataSource: props.dataSource,
     onRequestError,
-    effects: [JSON.stringify(params)],
+    effects: [JSON.stringify(params), JSON.stringify(sort)],
     onPageInfoChange: pageInfo => {
       if (propsPagination) {
         propsPagination?.onChange?.(pageInfo.current, pageInfo.pageSize);
@@ -166,6 +176,7 @@ const CrudTable = <
     ) => {
       restProps.onChange?.(changePagination, filters, sorter, extra);
       setPageInfo(changePagination);
+      setSort(sorter);
     },
   });
 
