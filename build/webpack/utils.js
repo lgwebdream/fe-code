@@ -30,9 +30,13 @@ module.exports = {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
     result.plugins = [];
     let WebpackConfigTemplate = '';
-    let exportTemplateArr = [];
     let importExportTemplate  = '';
-    let scriptTemplate = '';
+    let ConfigModuleRule = `rules: [
+      {
+        test: /\\.vue$/,
+        loader: 'vue-loader'
+      },
+    ]`
 
     if (main === 'vue') {
       result.plugins = {
@@ -51,12 +55,7 @@ const config = {
     filename: 'bundle.js'
   },
   module: {
-    rules: [
-      {
-        test: /\\.vue$/,
-        loader: 'vue-loader'
-      }
-    ]
+    ${ConfigModuleRule}
   },
   resolve: {
     extensions: [

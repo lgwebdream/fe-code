@@ -1,0 +1,16 @@
+{
+  "request": {
+    "url": "http://localhost:3000",
+    "headers": {}
+  },
+  "language": "zh-CN",
+  "templatePath": "src",
+  "projectName": "test",
+  "buildTool": "webpack",
+  "mainFramework": "vue",
+  "uiFramework": "element",
+  "featureList": [
+    "babel"
+  ],
+  "root": ""
+}
