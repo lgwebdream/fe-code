@@ -1,10 +1,10 @@
 /** CRUD 主体配置定义 */
-export interface ICrud<P = unknown, R = unknown> {
+export interface ICrud<P = unknown, R = unknown,T = unknown> {
   /** 业务标题，用作表单弹框、信息提示等场景展示 */
   title?: string;
 
   /** toolbar 批量操作按钮 */
-  batchToolbar?: ICrudColumnToolbar[];
+  batchToolbar?: ICrudColumnToolbar<T>[];
 
   /** 列表数据请求 Promise */
   request?: ICrudListRequest<P, R>;

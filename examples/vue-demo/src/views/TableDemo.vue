@@ -93,14 +93,6 @@ export default defineComponent({
             },
           ],
         },
-        // {
-        //   type: ICurdFromItemTypeEnum.Picker,
-        //   label: '日期',
-        //   value: '',
-        //   prop: 'data',
-        //   placeholder: '请选择日期',
-        //   dataType: 'data',
-        // },
       ],
     };
     return {

@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ComponentOptions, PropType } from 'vue';
+import { defineComponent, ComponentOptions } from 'vue';
 
 const crud = defineComponent({
   name: 'crud',
@@ -20,7 +20,7 @@ const crud = defineComponent({
     return {};
   },
   setup() {
-      console.log(this.crudProps)
+ 
     return {};
   },
 });
