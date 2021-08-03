@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 export const router = createRouter({
-  history: createWebHistory(), // 路由模式
-  // 每个页面的信息
+  history: createWebHistory(),
   routes: [
     {
-      path: '/', // url地址
+      path: '/',
       name: 'Home',
-      component: () => import('@/views/Index.vue'), // 渲染的组件
+      component: () => import('@/views/TableDemo.vue'),
     },
     {
       path: '/table',

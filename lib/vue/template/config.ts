@@ -1,40 +1,53 @@
-const apiConfig = '{crud.apiConfig}';
+import {
+  ICrud,
+  ICurdFromItemTypeEnum,
+} from '../components/CrudTypes';
 
-const crudProps = {
-  title: '{crud.title}',
+import axios from 'axios';
+
+
+const apiConfig = '{crud.apiConfig}'
+
+
+const crudProps: ICrud = {
+  title:'{crud.title}',
+  columns: [
+    { dataIndex: 'date', title: '日期', readonly: true },
+    { dataIndex: 'name', title: '姓名' },
+    { dataIndex: 'address', title: '地址' },
+  ],
   // @ts-ignore
-  containerType: '{crud.containerType}',
-  tableProps: { size: 'middle' },
-  // @ts-ignore
-  request: params => request(apiConfig.list, { method: 'post', data: params }),
+  request: async params => { return axios.get(apiConfig.list, { params });},
   // @ts-ignore
   batchToolbar: '{crud.batchToolbar}',
-  // @ts-ignore
-  rowToolbar: '{crud.rowToolbar}',
-  columns: [
-    { title: 'ID', dataIndex: 'id', readonly: true },
+  searchConfigs: [
     {
-      title: '姓名',
-      dataIndex: 'name',
-      type: 'enum',
-      rules: [{ message: '姓名不能为空', required: true }],
-      isFilter: true,
+      type: ICurdFromItemTypeEnum.Input,
+      label: '审批人',
+      value: '',
+      prop: 'user',
+      placeholder: '审批人',
     },
-    { title: '年龄', dataIndex: 'age', type: 'enum',},
-    { title: '地址', dataIndex: 'address', type: 'enum', },
     {
-      title: '职位',
-      dataIndex: 'title',
-      type: 'enum',
-      isFilter: true,
-      rules: [{ message: '职位不能为空', required: true }],
-      options: [
-        { label: 'CTO', value: 'cto' },
-        { label: 'COO', value: 'coo' },
-        { label: 'CFO', value: 'cfo' },
+      type: ICurdFromItemTypeEnum.Select,
+      label: '活动区域',
+      value: '',
+      prop: 'region',
+      placeholder: '活动区域',
+      data: [
+        {
+          label: '上海',
+          value: 'shanghai',
+        },
+        {
+          label: '北京',
+          value: 'beijing',
+        },
       ],
     },
   ],
 };
+
+
 
 export default crudProps

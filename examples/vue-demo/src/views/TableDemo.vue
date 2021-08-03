@@ -1,13 +1,17 @@
 <template>
   <div>
-    <v-table :request='request' :columns='columns' :title='title' :batchToolbar='batchToolbar'></v-table>
+    <v-table :request='request' :columns='columns' :title='title' :batchToolbar='batchToolbar' :searchConfigs='searchConfigs'></v-table>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
-import { ICrud, ICrudToolbarTypeEnum } from '@fe-code/vue/components/CrudTypes';
+import {
+  ICrud,
+  ICrudToolbarTypeEnum,
+  ICurdFromItemTypeEnum,
+} from '@fe-code/vue/components/CrudTypes';
 
 const apiConfig = {
   add: '/api/json/add',
@@ -62,6 +66,32 @@ export default defineComponent({
                 type: 'success',
               });
             }),
+        },
+      ],
+      searchConfigs: [
+        {
+          type: ICurdFromItemTypeEnum.Input,
+          label: '审批人',
+          value: '',
+          prop: 'user',
+          placeholder: '审批人',
+        },
+        {
+          type: ICurdFromItemTypeEnum.Select,
+          label: '活动区域',
+          value: '',
+          prop: 'region',
+          placeholder: '活动区域',
+          data: [
+            {
+              label: '上海',
+              value: 'shanghai',
+            },
+            {
+              label: '北京',
+              value: 'beijing',
+            },
+          ],
         },
       ],
     };

@@ -1,31 +1,35 @@
 <template>
-  <div class='toolBarWrap'>
-    <div v-for='(item, index) in batchToolbar' :key='index' class='toolBarItem'>
-      <el-button v-if='!item.render' :type='item.type' :plain='item.plain' @click='btnClick(item)'>{{item.label}}</el-button>
-    </div>
-
-    <el-dialog :title='dialogTitle' v-model='dialogFormVisible' destroy-on-close :before-close='beforeCloseDialog'>
-      <el-form :model='form' ref='formRef'>
-        <el-form-item :label='column.title' v-for='(column,index) in columns' :key='index' :prop='column.dataIndex'>
-          <el-input v-model='form[column.dataIndex]' autocomplete='off'></el-input>
-        </el-form-item>
-
-        <!-- <el-select v-model='form.region' placeholder='请选择活动区域'>
-          <el-option label='区域一' value='shanghai'></el-option>
-          <el-option label='区域二' value='beijing'></el-option>
-        </el-select>-->
-      </el-form>
-      <div slot='footer' class='dialog-footer'>
-        <el-button @click='clickDialogCancel'>取 消</el-button>
-        <el-button type='primary' @click='clickDialogOk()'>确 定</el-button>
+  <div>
+    <filter-search :searchConfigs='searchConfigs' />
+    <div class='toolBarWrap'>
+      <div v-for='(item, index) in batchToolbar' :key='index' class='toolBarItem'>
+        <el-button v-if='!item.render' :type='item.type' :plain='item.plain' @click='btnClick(item)'>{{item.label}}</el-button>
       </div>
-    </el-dialog>
+
+      <el-dialog :title='dialogTitle' v-model='dialogFormVisible' destroy-on-close :before-close='beforeCloseDialog'>
+        <el-form :model='form' ref='formRef'>
+          <el-form-item :label='column.title' v-for='(column,index) in columns' :key='index' :prop='column.dataIndex'>
+            <el-input v-model='form[column.dataIndex]' autocomplete='off'></el-input>
+          </el-form-item>
+
+          <!-- <el-select v-model='form.region' placeholder='请选择活动区域'>
+            <el-option label='区域一' value='shanghai'></el-option>
+            <el-option label='区域二' value='beijing'></el-option>
+          </el-select>-->
+        </el-form>
+        <div slot='footer' class='dialog-footer'>
+          <el-button @click='clickDialogCancel'>取 消</el-button>
+          <el-button type='primary' @click='clickDialogOk()'>确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum } from '../CrudTypes';
+import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../CrudTypes';
+import FilterSearch from './filterSearch.vue';
 
 type SetLoadingFn = (flag: boolean) => void;
 
@@ -40,12 +44,16 @@ interface IToolBarData {
 
 const ToolBar = defineComponent({
   name: 'toolbar',
+  components: {
+    FilterSearch,
+  },
   props: {
     batchToolbar: Array as PropType<ICrudColumnToolbar[]>,
     selectRows: Array as PropType<unknown[]>,
     setLoading: Function as PropType<SetLoadingFn>,
     clearSelection: Function,
     columns: Array as PropType<ICrudColumn[]>,
+    searchConfigs: Array as PropType<ISearch[]>,
   },
   data(): IToolBarData {
     return {
