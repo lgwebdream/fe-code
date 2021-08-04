@@ -7,8 +7,8 @@
   "templatePath": "src",
   "projectName": "test",
   "buildTool": "webpack",
-  "mainFramework": "vue",
-  "uiFramework": "element",
+  "mainFramework": "react",
+  "uiFramework": "antd",
   "featureList": [
     "babel"
   ],

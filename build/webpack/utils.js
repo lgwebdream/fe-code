@@ -28,17 +28,24 @@ module.exports = {
 
   getWebpackConfigJs({ ui, main, isTypescript }) {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
-    result.plugins = [];
     let WebpackConfigTemplate = '';
     let importExportTemplate  = '';
-    let ConfigModuleRule = `rules: [
-      {
-        test: /\\.vue$/,
-        loader: 'vue-loader'
-      },
-    ]`
+    let ConfigModuleRule = '';
+    let ConfigModuleExtensions = '';
 
     if (main === 'vue') {
+      ConfigModuleRule = `rules: [
+        {
+          test: /\\.vue$/,
+          loader: 'vue-loader'
+        },
+      ]`
+
+      ConfigModuleExtensions = `extensions: [
+        '.js',
+        '.vue'
+      ]`
+
       result.plugins = {
         ...result.plugins,
         VueLoaderPlugin: 'vue-loader/lib/plugin',
@@ -58,10 +65,7 @@ const config = {
     ${ConfigModuleRule}
   },
   resolve: {
-    extensions: [
-      '.js',
-      '.vue'
-    ]
+    ${ConfigModuleExtensions}
   },
   plugins: [
     new VueLoaderPlugin()
@@ -71,7 +75,52 @@ const config = {
 module.exports = config;
 `
     }else if(main === 'react') {
+      ConfigModuleRule = `rules: [
+        {
+          test: /\\.(js|jsx)$/,
+          use: 'babel-loader',
+          exclude: /node_modules/
+        }
+      ]`
 
+      ConfigModuleExtensions = `extensions: [
+        '.js',
+        '.jsx'
+      ]`
+
+      const pluginArr = result.plugins;
+      for(let key in pluginArr) {
+        importExportTemplate += `const ${key} = require ('${pluginArr[key]}');\n`;
+      }
+      WebpackConfigTemplate = `${importExportTemplate}
+const config = {
+  entry: [
+    'react-hot-loader/patch',
+    './src/index.js'
+  ],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js'
+  },
+  module: {
+    ${ConfigModuleRule}
+  },
+  resolve: {
+    ${ConfigModuleExtensions}
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
+  devServer: {
+    contentBase: './dist'
+  }
+  plugins: [
+    new VueLoaderPlugin()
+  ]
+};
+
+module.exports = config;
+`
     }
 
     return WebpackConfigTemplate;
