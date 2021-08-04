@@ -1,9 +1,9 @@
 const { templatePackageJson, templateViteConfig } = require('./config');
 
 const { dependencies, devDependencies } = require('../../dependencies.config');
-
+// const uglifyjs = require("uglifyjs");
 module.exports = {
-  getPackageJson({ ui, main, projectName, isTypescript }) {
+  getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
     result.name = projectName;
     if (main === 'react') {
@@ -13,6 +13,14 @@ module.exports = {
         result.devDependencies['@types/react-dom'] =
           devDependencies['@types/react-dom'];
         result.devDependencies.typescript = devDependencies.typescript;
+      }
+      if (isSass) {
+        result.devDependencies['sass'] =
+          devDependencies['sass'];
+      }
+      if (isLess) {
+        result.devDependencies['less'] =
+          devDependencies['less'];
       }
       result.dependencies.react = dependencies.react;
       result.dependencies['react-dom'] = dependencies['react-dom'];
@@ -41,7 +49,7 @@ module.exports = {
     return result;
   },
 
-  getViteConfigJs({ ui, main , isTypescript}) {
+  getViteConfigJs({ ui, main , isTypescript, isSass, isLess}) {
     const result = JSON.parse(JSON.stringify(templateViteConfig));
     result.plugins = [];
     let ViteConfigTemplate = '';
@@ -54,7 +62,8 @@ module.exports = {
       };
       const pluginArr = result.plugins;
       for(let key in pluginArr) {
-        importExportTemplate += `import {${key}} from '${pluginArr[key]}';`;
+        importExportTemplate += `import {${key}} from '${pluginArr[key]}';
+        `;
         exportTemplateArr.push(`${key}()`);
       }
       ViteConfigTemplate = `${importExportTemplate}
@@ -79,42 +88,46 @@ module.exports = {
         }
         ViteConfigTemplate = `import { defineConfig } from 'vite';
         ${importExportTemplate}
-        export default defineConfig({
-          root: './src',
-          plugins: [ 
-            reactRefresh(), 
-            vitePluginHtml({
-              minify: true,
-              inject: {
-                  injectData: {
-                      injectScript: '${scriptTemplate}', // publicDir作为根目录
-                  },
-              },
-            }),
-          ]
-        });`
+export default defineConfig({
+  root: './src',
+  plugins: [ 
+    reactRefresh(), 
+    vitePluginHtml({
+      minify: true,
+      inject: {
+        injectData: {
+          injectScript: '${scriptTemplate}', // publicDir作为根目录
+        },
+      },
+    }),
+  ]
+});`
     } else {
       scriptTemplate = '<script type="module" src="/App.js"></script>'
-      ViteConfigTemplate = `import { defineConfig } from 'vite';import vitePluginHtml from 'vite-plugin-html';
-        ${importExportTemplate}
-        export default defineConfig({
-          root: './src',
-          plugins: [
-            vitePluginHtml({
-              minify: true,
-              inject: {
-                  injectData: {
-                      injectScript: '${scriptTemplate}', // publicDir作为根目录
-                  },
-              },
-            }),]
-        });`
+      ViteConfigTemplate = `import { defineConfig } from 'vite';
+  import vitePluginHtml from 'vite-plugin-html';
+${importExportTemplate}
+export default defineConfig({
+  root: './src',
+  plugins: [
+    vitePluginHtml({
+      minify: true,
+      inject: {
+        injectData: {
+          injectScript: '${scriptTemplate}', // publicDir作为根目录
+        },
+      },
+    }),]
+});`
     }
     if (ui === 'antd') {
       result.packageOptions.push('antd');
     } else if (ui === 'element') {
       result.packageOptions.push('element-ui');
     }
-    return ViteConfigTemplate;
+    // ViteConfigTemplate=  uglifyjs({
+    //   ViteConfigTemplate
+    // }, ) 
+    return ViteConfigTemplate
   },
 };

@@ -6,9 +6,9 @@ module.exports = {
   indexJs,
 };
 
-module.exports.newIndex = ({ projectName, buildTool, isTypescript }) => {
+module.exports.newIndex = ({ projectName, buildTool, main, isTypescript }) => {
   if (isTypescript) {
     return [];
   }
-  return [indexHtml({ projectName, buildTool }), indexJs()];
+  return [indexHtml({ projectName, buildTool, main, isTypescript }), indexJs()].filter(Boolean);
 };

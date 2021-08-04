@@ -23,4 +23,6 @@ module.exports = {
     plugins: {},
     packageOptions: [],
   },
+  PACKAGE_JSON: 'package.json',
+  VITE_CONFIG_JS: 'vite.config.js',
 };

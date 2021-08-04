@@ -1,6 +1,6 @@
 const { getScript } = require('../utils');
 
-module.exports = ({ projectName, buildTool }) => {
+module.exports = ({ projectName, buildTool, main, isTypescript }) => {
   return {
     file: 'index.html',
     text: `<!DOCTYPE html>
@@ -10,7 +10,7 @@ module.exports = ({ projectName, buildTool }) => {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${projectName}</title>
-  ${getScript({ buildTool })}
+  ${getScript({ buildTool, main, isTypescript })}
 </head>
 <body>
 <div id="app"></div>

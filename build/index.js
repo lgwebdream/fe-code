@@ -50,6 +50,26 @@ if (buildTool === 'snowpack') {
   (srcFilesMap[main] || emptyNewIndex)({
     ui: uiFramework,
     projectName,
+    main,
+    buildTool,
+    isTypescript,
+    isSass,
+    isLess,
+  })
+    .concat(getStyles({ isLess, isSass }))
+    .forEach(({ file, text }) => {
+      outputFileSync(join($resolveRoot, templatePath, file), text);
+    });
+} else if (buildTool === 'vite') {
+  // generate src template
+  const srcFilesMap = {
+    vue: vueNewIndex,
+    react: reactSrcFile,
+  };
+  (srcFilesMap[main] || emptyNewIndex)({
+    ui: uiFramework,
+    main,
+    projectName,
     buildTool,
     isTypescript,
     isSass,
