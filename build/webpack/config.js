@@ -10,23 +10,19 @@ module.exports = {
     author: '',
     license: 'ISC',
     scripts: {
-      clean: 'rm dist/bundle.js',
-      dev: 'webpack --mode development',
-      build: 'webpack --mode production',
+      dev: 'vite',
+      build: 'vite build',
+      serve: 'vite preview'
     },
     dependencies: {},
     devDependencies: {
-      "webpack": devDependencies.webpack,
-      "webpack-cli": devDependencies["webpack-cli"],
+      vite: devDependencies.vite,
     },
   },
-  templateWebpackConfig: {
-    plugins: {
-      webpack: 'webpack',
-      path: 'path',
-    },
+  templateViteConfig: {
+    plugins: {},
     packageOptions: [],
   },
   PACKAGE_JSON: 'package.json',
-  WEBPACK_CONFIG_JS: 'webpack.config.js',
+  VITE_CONFIG_JS: 'vite.config.js',
 };

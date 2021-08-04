@@ -1,60 +1,65 @@
-const {
-  copySync,
-  removeSync,
-  ensureDirSync,
-  outputFileSync,
-  writeJsonSync,
-} = require('fs-extra');
 const { join } = require('path');
-
-const { getCommonTemplate, getPackageJson } = require('./utils');
-
+const { writeJsonSync, outputFileSync } = require('fs-extra');
+const { getPackageJson, getWebpackConfigJs } = require('./utils');
+const { WEBPACK_CONFIG_JS, PACKAGE_JSON } = require('./config');
+const { jsonFormatted } = require('../template/lint');
 const {
-  indexHtml: getIndexHtml,
-  indexJs: getIndexJs,
-  app: getApp,
+  indexHtml: getVueIndexHtml,
+  app: getVueApp,
+  indexJs: getVueIndexJs,
 } = require('../template/vue2');
 
-const init = root => {
-  removeSync(root);
-  ensureDirSync(root);
-};
+const getReactInfo = require('../template/react17')
 
-const process = config => {
-  const {
-    mainFramework: main,
-    uiFramework: ui,
-    projectName,
-    $resolveRoot: root,
-    templatePath,
-  } = config;
-
-  const resolveTemplatePath = join(root, templatePath);
-
-  if (main === 'vue') {
+module.exports = ({
+  mainFramework: main,
+  uiFramework: ui,
+  projectName,
+  buildTool,
+  templatePath,
+  $resolveRoot,
+  $featureChecks: { typescript: isTypescript = false },
+}) => {
+  const resolveTemplatePath = join($resolveRoot, templatePath);
+  if(main === 'vue') {
     // generate index.html
-    const html = getIndexHtml({ projectName });
-    outputFileSync(join(resolveTemplatePath, html.file), html.text);
-
-    // generate index.js
-    const js = getIndexJs({ ui });
-    outputFileSync(join(resolveTemplatePath, js.file), js.text);
-
-    // generate App.vue
-    const appObj = getApp({ ui });
-    outputFileSync(join(resolveTemplatePath, appObj.file), appObj.text);
-
-    // copy common files
-    copySync(getCommonTemplate(main), root);
-
-    // generate package.json
-    writeJsonSync(join(root, 'package.json'), getPackageJson({ ui, main }), {
-      spaces: 2,
-    });
+    html = getVueIndexHtml({ projectName, buildTool });
+    // generate index.js/jsx
+    js = getVueIndexJs({ ui });
+    // generate App.js/jsx
+    app = getVueApp({ ui });
+  } else if(main === 'react') {
+    // generate index.html
+    // html = getReactInfo({ projectName, buildTool });
+    // // generate index.js/jsx
+    // js = getReactInfo({ ui });
+    // // generate App.js/jsx
+    // app = getReactInfo({ ui });
+    // generate index.html
+    html = getVueIndexHtml({ projectName, buildTool });
+    // generate index.js/jsx
+    js = getVueIndexJs({ ui });
+    // generate App.js/jsx
+    app = getVueApp({ ui });
   }
-};
 
-module.exports = config => {
-  init(config.$resolveRoot);
-  process(config);
+  // generate index.html
+  outputFileSync(join(resolveTemplatePath, html.file), html.text);
+
+  // generate index.js/jsx
+  outputFileSync(join(resolveTemplatePath, js.file), js.text);
+
+  // generate App.js/jsx
+  app && outputFileSync(join(resolveTemplatePath, app.file), app.text);
+
+  // generate package.json
+  writeJsonSync(
+    join($resolveRoot, PACKAGE_JSON),
+    getPackageJson({ ui, main, projectName, isTypescript }),
+    jsonFormatted,
+  );
+
+  // generate webpack.config.js
+  const webpackConfig = getWebpackConfigJs({ ui, main, projectName, isTypescript });
+  outputFileSync(join($resolveRoot, 'webpack.config.js'), webpackConfig);
 };
