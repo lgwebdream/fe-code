@@ -58,80 +58,122 @@ module.exports = {
 
   getViteConfigJs({ ui, main , isTypescript, isSass, isLess}) {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
-    result.plugins = [];
-    let ViteConfigTemplate = '';
-    let exportTemplateArr = [];
-    let importExportTemplate  = '';
-    let scriptTemplate = '';
+    let WebpackConfigTemplate = '';
+    let importExportTemplate = '';
+    let ConfigModuleRule = '';
+    let ConfigModuleExtensions = '';
     if (main === 'vue') {
+      ConfigModuleRule = `rules: [
+        {
+          test: /\\.vue$/,
+          loader: 'vue-loader'
+        },
+      ]`;
+
+      ConfigModuleExtensions = `extensions: [
+        '.js',
+        '.vue'
+      ]`;
+
       result.plugins = {
-          createVuePlugin: 'vite-plugin-vue2'
+        ...result.plugins,
+        VueLoaderPlugin: 'vue-loader/lib/plugin',
       };
       const pluginArr = result.plugins;
-      for(let key in pluginArr) {
-        importExportTemplate += `import {${key}} from '${pluginArr[key]}';
-        `;
-        exportTemplateArr.push(`${key}()`);
+      for (const key in pluginArr) {
+        importExportTemplate += `const ${key} = require('${pluginArr[key]}');\n`;
       }
-      ViteConfigTemplate = `${importExportTemplate}
-      module.exports = {
-        root : './src',
-        plugins: [${exportTemplateArr}],
-      };`
-    } else if(main === 'react'){
-        result.plugins = {
-            reactRefresh: '@vitejs/plugin-react-refresh',
-            vitePluginHtml: 'vite-plugin-html',
-        };
-        const pluginArr = result.plugins;
-        for(let key in pluginArr) {
-          importExportTemplate += `import ${key} from '${pluginArr[key]}';`;
-          exportTemplateArr.push(`${key}()`);
-        }
-        if(isTypescript) {
-          scriptTemplate = '<script type="module" src="/index.tsx"></script>'
-        } else {
-          scriptTemplate = '<script type="module" src="/index.jsx"></script>'
-        }
-        ViteConfigTemplate = `import { defineConfig } from 'vite';
-        ${importExportTemplate}
-export default defineConfig({
-  root: './src',
-  plugins: [ 
-    reactRefresh(), 
-    vitePluginHtml({
-      minify: true,
-      inject: {
-        injectData: {
-          injectScript: '${scriptTemplate}', // publicDir作为根目录
-        },
-      },
-    }),
-  ]
-});`
-    } else {
-      scriptTemplate = '<script type="module" src="/App.js"></script>'
-      ViteConfigTemplate = `import { defineConfig } from 'vite';
-  import vitePluginHtml from 'vite-plugin-html';
-${importExportTemplate}
-export default defineConfig({
-  root: './src',
+      WebpackConfigTemplate = `${importExportTemplate}
+const config = {
+  entry: './src/index.js',
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  module: {
+    ${ConfigModuleRule}
+  },
+  resolve: {
+    ${ConfigModuleExtensions}
+  },
   plugins: [
-    vitePluginHtml({
-      minify: true,
-      inject: {
-        injectData: {
-          injectScript: '${scriptTemplate}', // publicDir作为根目录
-        },
-      },
-    }),]
-});`
+    new VueLoaderPlugin()
+  ]
+};
+
+module.exports = config;
+`;
+    } else if(main === 'react'){
+      ConfigModuleRule = `rules: [
+        {
+          test: /\\.(js|jsx)$/,
+          use: 'babel-loader',
+          exclude: /node_modules/
+        }
+      ]`;
+
+      ConfigModuleExtensions = `extensions: [
+        '.js',
+        '.jsx'
+      ]`;
+
+      const pluginArr = result.plugins;
+      for (const key in pluginArr) {
+        importExportTemplate += `const ${key} = require('${pluginArr[key]}');\n`;
+      }
+      WebpackConfigTemplate = `${importExportTemplate}
+const config = {
+  entry: [
+    'react-hot-loader/patch',
+    './src/index.js'
+  ],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  module: {
+    ${ConfigModuleRule}
+  },
+  resolve: {
+    ${ConfigModuleExtensions},
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
+  devServer: {
+    contentBase: './dist'
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
+};
+
+module.exports = config;
+`;
+    } else {
+      const pluginArr = result.plugins;
+      for (const key in pluginArr) {
+        importExportTemplate += `const ${key} = require('${pluginArr[key]}');\n`;
+      }
+      WebpackConfigTemplate = `${importExportTemplate}
+const config = {
+  entry: ['react-hot-loader/patch', './src/index.js'],
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+  },
+  devServer: {
+    contentBase: './dist',
+  },
+};
+
+module.exports = config;`
     }
     if (ui === 'antd') {
       result.packageOptions.push('antd');
     } else if (ui === 'element') {
       result.packageOptions.push('element-ui');
     }
-    return ViteConfigTemplate
+    return WebpackConfigTemplate
   },
 };

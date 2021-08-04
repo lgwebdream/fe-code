@@ -21,7 +21,10 @@ module.exports = {
     },
   },
   templateWebpackConfig: {
-    plugins: {},
+    plugins: {
+      webpack: 'webpack',
+      path: 'path',
+    },
     packageOptions: [],
   },
   PACKAGE_JSON: 'package.json',
