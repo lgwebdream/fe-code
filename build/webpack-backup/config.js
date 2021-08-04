@@ -11,13 +11,13 @@ module.exports = {
     license: 'ISC',
     scripts: {
       clean: 'rm dist/bundle.js',
-      dev: 'webpack --mode development',
-      build: 'webpack --mode production',
+      dev: 'webpack-backup --mode development',
+      build: 'webpack-backup --mode production',
     },
     dependencies: {},
     devDependencies: {
-      "webpack": devDependencies.webpack,
-      "webpack-cli": devDependencies["webpack-cli"],
+      webpack: devDependencies.webpack,
+      'webpack-cli': devDependencies['webpack-cli'],
     },
   },
   templateWebpackConfig: {
@@ -28,5 +28,5 @@ module.exports = {
     packageOptions: [],
   },
   PACKAGE_JSON: 'package.json',
-  WEBPACK_CONFIG_JS: 'webpack.config.js',
+  WEBPACK_CONFIG_JS: 'webpack-backup.config.js',
 };

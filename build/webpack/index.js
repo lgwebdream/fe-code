@@ -1,7 +1,7 @@
 const { writeJsonSync, outputFileSync } = require('fs-extra');
 const { join } = require('path');
 const { getPackageJson, getViteConfigJs } = require('./utils');
-const { PACKAGE_JSON, VITE_CONFIG_JS } = require('./config');
+const { PACKAGE_JSON, WEBPACK_CONFIG_JS } = require('./config');
 const { jsonFormatted } = require('../template/lint');
 
 module.exports = ({
@@ -18,11 +18,9 @@ module.exports = ({
     jsonFormatted,
   );
 
-  // generate vite.config.js
-  const viteConfig = getViteConfigJs({ ui, main, isTypescript, sass: isSass, less: isLess })
-  console.log('viteConfig', viteConfig)
-  console.log('VITE_CONFIG_JS', $resolveRoot, VITE_CONFIG_JS)
+  // generate webpack.config.js
+  const webpackConfig = getViteConfigJs({ ui, main, isTypescript, sass: isSass, less: isLess })
   outputFileSync(
-    join($resolveRoot, VITE_CONFIG_JS), 
-  viteConfig);
+    join($resolveRoot, WEBPACK_CONFIG_JS),
+    webpackConfig);
 };

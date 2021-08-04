@@ -25,11 +25,10 @@ module.exports = {
     return result;
   },
 
-
   getWebpackConfigJs({ ui, main, isTypescript }) {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
     let WebpackConfigTemplate = '';
-    let importExportTemplate  = '';
+    let importExportTemplate = '';
     let ConfigModuleRule = '';
     let ConfigModuleExtensions = '';
 
@@ -39,19 +38,19 @@ module.exports = {
           test: /\\.vue$/,
           loader: 'vue-loader'
         },
-      ]`
+      ]`;
 
       ConfigModuleExtensions = `extensions: [
         '.js',
         '.vue'
-      ]`
+      ]`;
 
       result.plugins = {
         ...result.plugins,
         VueLoaderPlugin: 'vue-loader/lib/plugin',
-      }
+      };
       const pluginArr = result.plugins;
-      for(let key in pluginArr) {
+      for (const key in pluginArr) {
         importExportTemplate += `const ${key} = require ('${pluginArr[key]}');\n`;
       }
       WebpackConfigTemplate = `${importExportTemplate}
@@ -73,23 +72,23 @@ const config = {
 };
 
 module.exports = config;
-`
-    }else if(main === 'react') {
+`;
+    } else if (main === 'react') {
       ConfigModuleRule = `rules: [
         {
           test: /\\.(js|jsx)$/,
           use: 'babel-loader',
           exclude: /node_modules/
         }
-      ]`
+      ]`;
 
       ConfigModuleExtensions = `extensions: [
         '.js',
         '.jsx'
-      ]`
+      ]`;
 
       const pluginArr = result.plugins;
-      for(let key in pluginArr) {
+      for (const key in pluginArr) {
         importExportTemplate += `const ${key} = require ('${pluginArr[key]}');\n`;
       }
       WebpackConfigTemplate = `${importExportTemplate}
@@ -120,7 +119,7 @@ const config = {
 };
 
 module.exports = config;
-`
+`;
     }
 
     return WebpackConfigTemplate;

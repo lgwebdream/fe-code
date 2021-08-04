@@ -9,7 +9,7 @@ const {
   indexJs: getVueIndexJs,
 } = require('../template/vue2');
 
-const getReactInfo = require('../template/react17')
+const getReactInfo = require('../template/react17');
 
 module.exports = ({
   mainFramework: main,
@@ -21,14 +21,14 @@ module.exports = ({
   $featureChecks: { typescript: isTypescript = false },
 }) => {
   const resolveTemplatePath = join($resolveRoot, templatePath);
-  if(main === 'vue') {
+  if (main === 'vue') {
     // generate index.html
     html = getVueIndexHtml({ projectName, buildTool });
     // generate index.js/jsx
     js = getVueIndexJs({ ui });
     // generate App.js/jsx
     app = getVueApp({ ui });
-  } else if(main === 'react') {
+  } else if (main === 'react') {
     // generate index.html
     // html = getReactInfo({ projectName, buildTool });
     // // generate index.js/jsx
@@ -59,7 +59,12 @@ module.exports = ({
     jsonFormatted,
   );
 
-  // generate webpack.config.js
-  const webpackConfig = getWebpackConfigJs({ ui, main, projectName, isTypescript });
-  outputFileSync(join($resolveRoot, 'webpack.config.js'), webpackConfig);
+  // generate webpack-backup.config.js
+  const webpackConfig = getWebpackConfigJs({
+    ui,
+    main,
+    projectName,
+    isTypescript,
+  });
+  outputFileSync(join($resolveRoot, 'webpack-backup.config.js'), webpackConfig);
 };
