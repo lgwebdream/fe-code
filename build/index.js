@@ -41,7 +41,7 @@ runner({
   $resolveRoot,
 });
 
-if (buildTool === 'snowpack') {
+if (buildTool === 'snowpack' || buildTool === 'webpack') {
   // generate src template
   const srcFilesMap = {
     vue: vueNewIndex,
