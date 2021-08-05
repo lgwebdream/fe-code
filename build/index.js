@@ -1,7 +1,6 @@
 const { join } = require('path');
-const { outputFileSync, removeSync, ensureDirSync } = require('fs-extra');
+const { outputFileSync, ensureDirSync } = require('fs-extra');
 const { transformArr2TrueObj } = require('./utils');
-
 const getIgnore = require('./template/ignore');
 const getReadMe = require('./template/readme');
 const getStyles = require('./template/style');
@@ -11,9 +10,7 @@ const vueSrcTemplate = require('./template/vue2');
 const emptySrcTemplate = require('./template/empty');
 
 const rootPath = process.cwd();
-
 const [, , inputConfigPath] = process.argv;
-
 const config = require(inputConfigPath);
 const {
   buildTool,
@@ -29,12 +26,9 @@ const $featureChecks = transformArr2TrueObj(featureList);
 const { typescript: isTypescript, sass: isSass, less: isLess } = $featureChecks;
 const $resolveRoot = join(rootPath, root, projectName);
 
-// init
-removeSync($resolveRoot);
 ensureDirSync($resolveRoot);
 
 // generate configurations
-// todo: remove duplicate src template
 runner({
   ...config,
   $featureChecks,

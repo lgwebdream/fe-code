@@ -1,5 +1,5 @@
 const { prompt } = require('inquirer');
-const { writeJsonSync, pathExistsSync } = require('fs-extra');
+const { writeJsonSync, pathExistsSync, ensureDirSync } = require('fs-extra');
 const { green, yellow } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
@@ -10,19 +10,12 @@ const {
 } = require('../lib/defaultConfig');
 
 const runnerPath = join(__dirname, '..', 'build/index.js');
-const configPath = join(__dirname, '..', CONFIG_NAME);
 let collection = {};
 
 const finishCommand = () => {
-  writeJsonSync(
-    configPath,
-    { ...initConfig, ...collection },
-    {
-      spaces: 2,
-    },
-  );
   const { root, projectName } = collection;
   const resolvePath = join(process.cwd(), root, projectName);
+  const configPath = join(resolvePath, CONFIG_NAME);
   if (pathExistsSync(resolvePath)) {
     const questions = [
       {
@@ -35,16 +28,30 @@ const finishCommand = () => {
     ];
     prompt(questions).then(answers => {
       if (answers.overrideOutput) {
-        console.info(green(`generate ${CONFIG_NAME}`));
         shell.exec(`rm -rf ${resolvePath}`);
+        ensureDirSync(resolvePath);
+        writeJsonSync(
+          configPath,
+          { ...initConfig, ...collection },
+          {
+            spaces: 2,
+          },
+        );
+        console.info(green(`generate ${CONFIG_NAME}`));
         shell.exec(`node ${runnerPath} ${configPath}`);
-        console.info(green(`init project successfully`));
       }
     });
   } else {
+    ensureDirSync(resolvePath);
+    writeJsonSync(
+      configPath,
+      { ...initConfig, ...collection },
+      {
+        spaces: 2,
+      },
+    );
     console.info(green(`generate ${CONFIG_NAME}`));
     shell.exec(`node ${runnerPath} ${configPath}`);
-    console.info(green(`init project successfully`));
   }
 };
 
@@ -52,28 +59,27 @@ const commonPartQuestions = [
   {
     type: 'checkbox',
     name: 'featureList',
-    default: ['babel'],
     choices: [
-      {
-        name: 'babel',
-        value: 'babel',
-      },
+      // {
+      //   name: 'babel',
+      //   value: 'babel',
+      // },
       {
         name: 'typescript',
         value: 'typescript',
       },
-      {
-        name: 'unit Testing',
-        value: 'unitTest',
-      },
-      {
-        name: 'Linter/Formatter',
-        value: 'lint',
-      },
-      {
-        name: 'E2E Testing',
-        value: 'e2e',
-      },
+      // {
+      //   name: 'unit Testing',
+      //   value: 'unitTest',
+      // },
+      // {
+      //   name: 'Linter/Formatter',
+      //   value: 'lint',
+      // },
+      // {
+      //   name: 'E2E Testing',
+      //   value: 'e2e',
+      // },
       {
         name: 'sass',
         value: 'sass',
@@ -115,7 +121,7 @@ const reactPart = () => {
     {
       type: 'list',
       name: 'uiFramework',
-      choices: ['antd', 'material', 'none'],
+      choices: ['antd', 'none'], // 'material'
       message: 'Which UI framework do you want to use?',
     },
     ...commonPartQuestions,
@@ -131,7 +137,7 @@ const nonePart = () => {
     {
       type: 'list',
       name: 'uiFramework',
-      choices: ['antd', 'material', 'element', 'none'],
+      choices: ['antd', 'element', 'none'], // 'material',
       message: 'Which UI framework do you want to use?',
     },
     ...commonPartQuestions,

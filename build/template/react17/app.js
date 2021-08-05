@@ -1,5 +1,6 @@
 module.exports = ({ ui, isTypescript }) => {
   let text = `import React from 'react';
+
 `;
   let file;
   if (ui === 'antd') {
@@ -19,7 +20,7 @@ module.exports = ({ ui, isTypescript }) => {
 };
 `;
     } else {
-      text = `const App: React.FC = () => {
+      text += `const App: React.FC = () => {
   return (
     <>
       <h1>Hello world!</h1>
@@ -29,7 +30,7 @@ module.exports = ({ ui, isTypescript }) => {
 `;
     }
   } else {
-    file = 'App.js';
+    file = 'App.jsx';
     if (ui === 'antd') {
       text += `const App = () => {
   return (
@@ -40,7 +41,7 @@ module.exports = ({ ui, isTypescript }) => {
 };
 `;
     } else {
-      text = `const App = () => {
+      text += `const App = () => {
   return (
     <>
       <h1>Hello world!</h1>

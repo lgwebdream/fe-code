@@ -5,9 +5,10 @@ mountNode.innerHTML = 'hello world';
 console.log('empty')`;
   if (isTypescript) {
     file = 'index.ts';
-    text = `const mountNode:HTMLDivElement = document.getElementById('app');
-mountNode.innerHTML = 'hello world';
-console.log('empty')`;
+    text = `const mountNode: HTMLElement | null = document.getElementById('app');
+mountNode!.innerHTML = 'hello world';
+
+`;
   }
 
   return {
