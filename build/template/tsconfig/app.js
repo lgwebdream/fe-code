@@ -32,11 +32,11 @@ module.exports = ({ main, includePath, buildTool }) => {
     text: JSON.stringify(config, null, jsonFormatted.spaces),
     file: 'tsconfig.json',
   });
-  if (buildTool == 'snowpack') {
+  if (buildTool === 'snowpack') {
     if (main === 'vue') {
       result.push(vueShim);
     }
-  } else if (buildTool == 'vite') {
+  } else if (buildTool === 'vite') {
     if (main === 'vue') {
       result.push(viteVueShims);
     }

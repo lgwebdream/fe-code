@@ -4,20 +4,20 @@ module.exports.getScript = ({ buildTool, main, isTypescript }) => {
     emptyTs: '<script type="module" src="./index.ts"></script>',
     reactJs: '<script type="module" src="./index.jsx"></script>',
     reactTs: '<script type="module" src="./index.tsx"></script>',
-  }
+  };
   let viteScript = '';
   let isTs = '';
   switch (main) {
     case 'react':
-      isTs = isTypescript ? 'reactTs' : 'reactJs' 
-      viteScript = viteScriptObj[isTs]
+      isTs = isTypescript ? 'reactTs' : 'reactJs';
+      viteScript = viteScriptObj[isTs];
       break;
-    case 'empty':
-      isTs = isTypescript ? 'emptyTs' : 'emptyJs' 
-      viteScript = viteScriptObj[isTs]
+    case 'none':
+      isTs = isTypescript ? 'emptyTs' : 'emptyJs';
+      viteScript = viteScriptObj[isTs];
       break;
     default:
-      viteScript = viteScriptObj['emptyJs']
+      viteScript = viteScriptObj.emptyJs;
   }
 
   const scripts = {

@@ -1,5 +1,7 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 module.exports = ({ ui }) => {
   let text;
+  // eslint-disable-next-line prefer-const
   text = `<template>
   <div>
     <h1>

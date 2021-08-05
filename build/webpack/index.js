@@ -19,8 +19,12 @@ module.exports = ({
   );
 
   // generate webpack.config.js
-  const webpackConfig = getViteConfigJs({ ui, main, isTypescript, sass: isSass, less: isLess })
-  outputFileSync(
-    join($resolveRoot, WEBPACK_CONFIG_JS),
-    webpackConfig);
+  const webpackConfig = getViteConfigJs({
+    ui,
+    main,
+    isTypescript,
+    sass: isSass,
+    less: isLess,
+  });
+  outputFileSync(join($resolveRoot, WEBPACK_CONFIG_JS), webpackConfig);
 };
