@@ -51,7 +51,11 @@ const srcFilesMap = {
 })
   .concat(getStyles({ isLess, isSass }))
   .forEach(({ file, text }) => {
-    outputFileSync(join($resolveRoot, templatePath, file), text);
+    if (buildTool === 'webpack' && file === 'index.html') {
+      outputFileSync(join($resolveRoot, file), text);
+    } else {
+      outputFileSync(join($resolveRoot, templatePath, file), text);
+    }
   });
 
 // generate .gitignore

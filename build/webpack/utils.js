@@ -68,7 +68,7 @@ module.exports = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getViteConfigJs({ ui, main, isTypescript, isSass, isLess }) {
+  getWebpackConfigJs({ ui, main, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
     let WebpackConfigTemplate = '';
     let importExportTemplate = '';
@@ -103,6 +103,11 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
+  devServer: {
+    hot: true,
+    quiet: true,
+    port: 3000,
+  },
   module: {
     ${ConfigModuleRule}
   },
@@ -110,7 +115,11 @@ const config = {
     ${ConfigModuleExtensions}
   },
   plugins: [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+    }),
   ]
 };
 
