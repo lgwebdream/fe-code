@@ -68,6 +68,8 @@ export interface ICrudColumn<T = unknown> extends ColumnType<T> {
   /** 表单条目属性 */
   itemProps?: IFormItemProps;
 
+  /** 表单组件属性 */
+  fieldProps?: any;
   /** 对应表单属性，以此同样可知晓其展示规则、表单展示规则 */
   type?: IFormComTypeEnum;
 
@@ -77,8 +79,8 @@ export interface ICrudColumn<T = unknown> extends ColumnType<T> {
   /** 是否可筛选 */
   isFilter?: boolean;
 
-  /** 下拉选项 */
-  options?: { label: string; value: string }[];
+  /** 下拉选项 不能单纯的用label value 如Cascader */
+  options?: any[];
 
   /** 校验规则，同 antd */
   rules?: Rule[];

@@ -1,9 +1,7 @@
 import { IFormComTypeEnum } from './constant';
 import Mapping from './mappting';
 
-export function findComByName(
-  name: IFormComTypeEnum,
-): React.FunctionComponent<any> | React.ComponentClass {
+export function findComByName(name: IFormComTypeEnum): any {
   if (Mapping[name]) {
     return Mapping[name];
   }
