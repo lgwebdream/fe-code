@@ -6,9 +6,9 @@ const getIgnore = require('./template/ignore');
 const getReadMe = require('./template/readme');
 const getStyles = require('./template/style');
 const { app: getTsConfig } = require('./template/tsconfig');
-const reactSrcFile = require('./template/react17');
-const { newIndex: vueNewIndex } = require('./template/vue2');
-const { newIndex: emptyNewIndex } = require('./template/empty');
+const reactSrcTemplate = require('./template/react17');
+const vueSrcTemplate = require('./template/vue2');
+const emptySrcTemplate = require('./template/empty');
 
 const rootPath = process.cwd();
 
@@ -41,52 +41,31 @@ runner({
   $resolveRoot,
 });
 
-if (buildTool === 'snowpack' || buildTool === 'webpack') {
-  // generate src template
-  const srcFilesMap = {
-    vue: vueNewIndex,
-    react: reactSrcFile,
-  };
-  (srcFilesMap[main] || emptyNewIndex)({
-    ui: uiFramework,
-    projectName,
-    main,
-    buildTool,
-    isTypescript,
-    isSass,
-    isLess,
-  })
-    .concat(getStyles({ isLess, isSass }))
-    .forEach(({ file, text }) => {
-      outputFileSync(join($resolveRoot, templatePath, file), text);
-    });
-} else if (buildTool === 'vite') {
-  // generate src template
-  const srcFilesMap = {
-    vue: vueNewIndex,
-    react: reactSrcFile,
-  };
-  (srcFilesMap[main] || emptyNewIndex)({
-    ui: uiFramework,
-    main,
-    projectName,
-    buildTool,
-    isTypescript,
-    isSass,
-    isLess,
-  })
-    .concat(getStyles({ isLess, isSass }))
-    .forEach(({ file, text }) => {
-      outputFileSync(join($resolveRoot, templatePath, file), text);
-    });
-}
+// generate src template
+const srcFilesMap = {
+  vue: vueSrcTemplate,
+  react: reactSrcTemplate,
+};
+(srcFilesMap[main] || emptySrcTemplate)({
+  ui: uiFramework,
+  main,
+  projectName,
+  buildTool,
+  isTypescript,
+  isSass,
+  isLess,
+})
+  .concat(getStyles({ isLess, isSass }))
+  .forEach(({ file, text }) => {
+    outputFileSync(join($resolveRoot, templatePath, file), text);
+  });
 
 // generate .gitignore
 const ignore = getIgnore();
 outputFileSync(join($resolveRoot, ignore.file), ignore.text);
 
 // generate readme.md
-const readme = getReadMe({ projectName, buildTool, main });
+const readme = getReadMe({ projectName });
 outputFileSync(join($resolveRoot, readme.file), readme.text);
 
 // generate TsConfig files

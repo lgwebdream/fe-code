@@ -1,4 +1,5 @@
 const { sassName, lessName } = require('../../config');
+
 module.exports = ({ ui, isTypescript, isSass, isLess }) => {
   let text = `import React from 'react';
 import ReactDOM from 'react-dom';

@@ -19,10 +19,14 @@ module.exports = ({
   );
 
   // generate vite.config.js
-  const viteConfig = getViteConfigJs({ ui, main, isTypescript, sass: isSass, less: isLess })
-  console.log('viteConfig', viteConfig)
-  console.log('VITE_CONFIG_JS', $resolveRoot, VITE_CONFIG_JS)
-  outputFileSync(
-    join($resolveRoot, VITE_CONFIG_JS), 
-  viteConfig);
+  const viteConfig = getViteConfigJs({
+    ui,
+    main,
+    isTypescript,
+    sass: isSass,
+    less: isLess,
+  });
+  console.log('viteConfig', viteConfig);
+  console.log('VITE_CONFIG_JS', $resolveRoot, VITE_CONFIG_JS);
+  outputFileSync(join($resolveRoot, VITE_CONFIG_JS), viteConfig);
 };

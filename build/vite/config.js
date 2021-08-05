@@ -12,7 +12,7 @@ module.exports = {
     scripts: {
       dev: 'vite',
       build: 'vite build',
-      serve: 'vite preview'
+      serve: 'vite preview',
     },
     dependencies: {},
     devDependencies: {

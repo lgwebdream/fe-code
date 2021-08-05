@@ -1,6 +1,7 @@
 const { templatePackageJson, templateWebpackConfig } = require('./config');
 
 const { dependencies, devDependencies } = require('../../dependencies.config');
+
 module.exports = {
   getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
@@ -9,31 +10,39 @@ module.exports = {
       if (isTypescript) {
         result.devDependencies.typescript = devDependencies.typescript;
         result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
-        result.devDependencies['@hot-loader/react-dom'] = devDependencies['@hot-loader/react-dom'];
-        result.devDependencies['@types/react'] = devDependencies['@types/react'];
-        result.devDependencies['@types/react-dom'] = devDependencies['@types/react-dom'];
+        result.devDependencies['@hot-loader/react-dom'] =
+          devDependencies['@hot-loader/react-dom'];
+        result.devDependencies['@types/react'] =
+          devDependencies['@types/react'];
+        result.devDependencies['@types/react-dom'] =
+          devDependencies['@types/react-dom'];
       }
       if (isSass) {
         result.devDependencies['css-loader'] = devDependencies['css-loader'];
         result.devDependencies['sass-loader'] = devDependencies['sass-loader'];
         result.devDependencies['node-sass'] = devDependencies['node-sass'];
-        result.devDependencies['style-loader'] = devDependencies['style-loader'];
+        result.devDependencies['style-loader'] =
+          devDependencies['style-loader'];
       }
       if (isLess) {
         result.devDependencies['css-loader'] = devDependencies['css-loader'];
         result.devDependencies['less-loader'] = devDependencies['less-loader'];
-        result.devDependencies['less'] = devDependencies['less'];
-        result.devDependencies['style-loader'] = devDependencies['style-loader'];
-
+        result.devDependencies.less = devDependencies.less;
+        result.devDependencies['style-loader'] =
+          devDependencies['style-loader'];
       }
       result.dependencies.react = dependencies.react;
       result.dependencies['react-dom'] = dependencies['react-dom'];
       result.devDependencies['babel-loader'] = devDependencies['babel-loader'];
       result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
-      result.devDependencies['@babel/preset-env'] = devDependencies['@babel/preset-env'];
-      result.devDependencies['@hot-loader/react-dom'] = devDependencies['@hot-loader/react-dom'];
-      result.devDependencies['@babel/preset-react'] = devDependencies['@babel/preset-react'];
-      result.devDependencies['webpack-dev-server'] = devDependencies['webpack-dev-server'];
+      result.devDependencies['@babel/preset-env'] =
+        devDependencies['@babel/preset-env'];
+      result.devDependencies['@hot-loader/react-dom'] =
+        devDependencies['@hot-loader/react-dom'];
+      result.devDependencies['@babel/preset-react'] =
+        devDependencies['@babel/preset-react'];
+      result.devDependencies['webpack-dev-server'] =
+        devDependencies['webpack-dev-server'];
     } else if (main === 'vue') {
       if (isTypescript) {
         result.devDependencies.typescript = devDependencies.typescript;
@@ -41,12 +50,14 @@ module.exports = {
       }
       result.dependencies.vue = dependencies.vue;
       result.devDependencies['vue-loader'] = devDependencies['vue-loader'];
-      result.devDependencies['vue-template-compiler'] = devDependencies['vue-template-compiler'];
+      result.devDependencies['vue-template-compiler'] =
+        devDependencies['vue-template-compiler'];
       result.devDependencies['babel-loader'] = devDependencies['babel-loader'];
       result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
-      result.devDependencies['@babel/preset-env'] = devDependencies['@babel/preset-env'];
+      result.devDependencies['@babel/preset-env'] =
+        devDependencies['@babel/preset-env'];
     } else {
-      console.log('没有选择任何框架，webpack不需要做任何处理！')
+      console.log('没有选择任何框架，webpack不需要做任何处理！');
     }
     if (ui === 'antd') {
       result.dependencies.antd = dependencies.antd;
@@ -56,7 +67,8 @@ module.exports = {
     return result;
   },
 
-  getViteConfigJs({ ui, main , isTypescript, isSass, isLess}) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  getViteConfigJs({ ui, main, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
     let WebpackConfigTemplate = '';
     let importExportTemplate = '';
@@ -80,6 +92,7 @@ module.exports = {
         VueLoaderPlugin: 'vue-loader/lib/plugin',
       };
       const pluginArr = result.plugins;
+      // eslint-disable-next-line guard-for-in
       for (const key in pluginArr) {
         importExportTemplate += `const ${key} = require('${pluginArr[key]}');\n`;
       }
@@ -103,7 +116,7 @@ const config = {
 
 module.exports = config;
 `;
-    } else if(main === 'react'){
+    } else if (main === 'react') {
       ConfigModuleRule = `rules: [
         {
           test: /\\.(js|jsx)$/,
@@ -118,6 +131,7 @@ module.exports = config;
       ]`;
 
       const pluginArr = result.plugins;
+      // eslint-disable-next-line guard-for-in
       for (const key in pluginArr) {
         importExportTemplate += `const ${key} = require('${pluginArr[key]}');\n`;
       }
@@ -152,6 +166,7 @@ module.exports = config;
 `;
     } else {
       const pluginArr = result.plugins;
+      // eslint-disable-next-line guard-for-in
       for (const key in pluginArr) {
         importExportTemplate += `const ${key} = require('${pluginArr[key]}');\n`;
       }
@@ -167,13 +182,13 @@ const config = {
   },
 };
 
-module.exports = config;`
+module.exports = config;`;
     }
     if (ui === 'antd') {
       result.packageOptions.push('antd');
     } else if (ui === 'element') {
       result.packageOptions.push('element-ui');
     }
-    return WebpackConfigTemplate
+    return WebpackConfigTemplate;
   },
 };

@@ -39,13 +39,5 @@ module.exports = {
     'node-sass': '^6.0.1',
     'less-loader': '^10.0.1',
     'style-loader': '^3.2.1',
-    typescript: '^4.3.5',
-    'ts-loader': '^9.2.4',
-  },
-  componentDependencies: {
-    react: {
-      'umi-request': '^1.3.9',
-    },
-    vue: {},
   },
 };

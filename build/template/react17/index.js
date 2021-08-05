@@ -15,5 +15,5 @@ module.exports = ({
     indexHtml({ projectName, buildTool, main, isTypescript }),
     indexJs({ ui, isTypescript, isSass, isLess }),
     app({ ui, isTypescript }),
-  ].filter(Boolean);
+  ];
 };
