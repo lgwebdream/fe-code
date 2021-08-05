@@ -5,10 +5,12 @@
   },
   "language": "zh-CN",
   "templatePath": "src",
-  "projectName": "empty project",
-  "buildTool": "snowpack",
-  "mainFramework": "react",
-  "uiFramework": "antd",
-  "featureList": [],
+  "projectName": "test",
+  "buildTool": "webpack",
+  "mainFramework": "vue",
+  "uiFramework": "element",
+  "featureList": [
+    "babel"
+  ],
   "root": ""
 }

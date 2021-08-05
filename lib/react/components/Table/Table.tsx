@@ -1,4 +1,10 @@
-import React, { useMemo, useState, useRef, useEffect, useCallback } from 'react';
+import React, {
+  useMemo,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from 'react';
 import { Table } from 'antd';
 import classNames from 'classnames';
 import type { TablePaginationConfig } from 'antd';
@@ -7,7 +13,12 @@ import type {
   SorterResult,
   TableRowSelection,
 } from 'antd/lib/table/interface';
-import type { ParamsType, CrudTableProps, ActionType, PageInfo } from './TableTypes';
+import type {
+  ParamsType,
+  CrudTableProps,
+  ActionType,
+  PageInfo,
+} from './TableTypes';
 import { useFetchData, parseDefaultColumnConfig } from './utils';
 import { useActionType } from './hooks/useActionType';
 import { FetcherResult } from '../service';
@@ -62,14 +73,14 @@ const CrudTable = <
       : { defaultCurrent: 1, defaultPageSize: 10, pageSize: 10, current: 1 };
 
   const [fetchPagination, setPageInfo] = useState(defaultPagination);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
 
   /** 清空所有的选中项 */
   const onCleanSelected = useCallback(() => {
     if (propsRowSelection && propsRowSelection.onChange) {
       propsRowSelection.onChange([], []);
     }
-    setSelectedRowKeys([])
+    setSelectedRowKeys([]);
   }, [propsRowSelection]);
 
   /** 行选择统一配置入口 */
@@ -80,9 +91,9 @@ const CrudTable = <
       if (propsRowSelection && propsRowSelection.onChange) {
         propsRowSelection.onChange(keys, rows);
       }
-      setSelectedRowKeys(keys)
+      setSelectedRowKeys(keys);
     },
-  }
+  };
 
   /** 列表页刷新请求统一入口 */
   const fetchData = useMemo(() => {
@@ -123,7 +134,6 @@ const CrudTable = <
         action.setPageInfo({ pageSize, current });
       },
     };
-
   }, [propsPagination, action]);
 
   /** 绑定action，可以手动操作table */
@@ -146,7 +156,7 @@ const CrudTable = <
     pagination,
     loading: action.loading,
     dataSource: action.dataSource,
-    rowSelection: rowSelection,
+    rowSelection,
     columns: propsColumns,
     onChange: (
       changePagination: TablePaginationConfig,

@@ -1,9 +1,13 @@
 const { prompt } = require('inquirer');
 const { writeJsonSync, pathExistsSync } = require('fs-extra');
-const { green, yellow, red } = require('chalk');
+const { green, yellow } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
-const { initConfig, CONFIG_NAME } = require('../lib/defaultConfig');
+const {
+  initConfig,
+  CONFIG_NAME,
+  defaultConfig: { projectName: defaultProjectName },
+} = require('../lib/defaultConfig');
 
 const runnerPath = join(__dirname, '..', 'build/index.js');
 const configPath = join(__dirname, '..', CONFIG_NAME);
@@ -50,11 +54,34 @@ const commonPartQuestions = [
     name: 'featureList',
     default: ['babel'],
     choices: [
-      'babel',
-      'typescript',
-      'unit Testing',
-      'Linter / Formatter',
-      'E2E Testing',
+      {
+        name: 'babel',
+        value: 'babel',
+      },
+      {
+        name: 'typescript',
+        value: 'typescript',
+      },
+      {
+        name: 'unit Testing',
+        value: 'unitTest',
+      },
+      {
+        name: 'Linter/Formatter',
+        value: 'lint',
+      },
+      {
+        name: 'E2E Testing',
+        value: 'e2e',
+      },
+      {
+        name: 'sass',
+        value: 'sass',
+      },
+      {
+        name: 'less',
+        value: 'less',
+      },
     ],
     message: 'Check the features needed for your project',
   },
@@ -120,7 +147,7 @@ const start = () => {
     {
       type: 'input',
       name: 'projectName',
-      default: 'empty project',
+      default: defaultProjectName,
       message: 'Please input your project name?',
       filter(input) {
         return input.trim();

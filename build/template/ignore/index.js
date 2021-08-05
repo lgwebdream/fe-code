@@ -1,4 +1,4 @@
-module.exports = ({ buildTool }) => {
+module.exports = () => {
   return {
     file: '.gitignore',
     text: `node_modules/

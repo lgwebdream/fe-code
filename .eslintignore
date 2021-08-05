@@ -5,3 +5,5 @@ build/template
 /**/*.d.ts
 yarn.lock
 examples
+lib
+scripts/api2code.js

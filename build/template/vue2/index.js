@@ -7,3 +7,14 @@ module.exports = {
   indexJs,
   app,
 };
+
+module.exports.newIndex = ({ ui, projectName, buildTool, main, isTypescript }) => {
+  if (isTypescript) {
+    return [
+      // indexHtmlTs({ projectName, buildTool }),
+      // tsIndex({ ui }),
+      // appTs({ ui })
+    ];
+  }
+  return [indexHtml({ projectName, buildTool, main, isTypescript }), indexJs({ ui }), app({ ui })];
+};
