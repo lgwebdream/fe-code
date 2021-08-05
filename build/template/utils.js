@@ -12,7 +12,7 @@ module.exports.getScript = ({ buildTool, main, isTypescript }) => {
       isTs = isTypescript ? 'reactTs' : 'reactJs' 
       viteScript = viteScriptObj[isTs]
       break;
-    case 'empty':
+    case 'none':
       isTs = isTypescript ? 'emptyTs' : 'emptyJs' 
       viteScript = viteScriptObj[isTs]
       break;

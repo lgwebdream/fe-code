@@ -1,10 +1,10 @@
 module.exports = ({isTypescript}) => {
-  let file = 'App.js';
+  let file = 'index.js';
   let text = `const mountNode = document.getElementById('app');
 mountNode.innerHTML = 'hello world';
 console.log('empty')`;
   if(isTypescript){
-    file = 'App.ts';
+    file = 'index.ts';
     text = `const mountNode:HTMLDivElement = document.getElementById('app');
 mountNode.innerHTML = 'hello world';
 console.log('empty')`;
