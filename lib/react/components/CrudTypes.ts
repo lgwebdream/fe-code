@@ -120,8 +120,8 @@ export interface ICrud<T = unknown> {
   columns: ICrudColumn<T>[];
 }
 
-export interface ICrudActionType {
-  reload: (resetPageIndex?: boolean) => void;
+export interface ActionType {
+  reload: (resetRowSelected?: boolean) => void;
   reloadAndRest: () => void;
   reset: () => void;
   clearSelected?: () => void;

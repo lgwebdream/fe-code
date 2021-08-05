@@ -106,7 +106,16 @@ const demoTable: ICrud = {
       rules: [{ message: '姓名不能为空', required: true }],
       isFilter: true,
     },
-    { title: '年龄', dataIndex: 'age', type: IFormComTypeEnum.InputNumber },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      type: IFormComTypeEnum.InputNumber,
+      sorter: {
+        // @ts-ignore
+        compare: (a, b) => a.age - b.age,
+        multiple: 3,
+      },
+    },
     { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
     {
       title: '职位',
