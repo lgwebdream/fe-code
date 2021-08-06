@@ -42,7 +42,7 @@ const useFetchData = <T extends FetcherResult<any>>(
     try {
       await getData(pageParams).then(response => {
         const { data, code } = response;
-        if (code !== 200) setList([]);
+        // if (code !== 200) setList([]);
         const responseData = data?.data;
         setLoading(false);
         setList(responseData);
