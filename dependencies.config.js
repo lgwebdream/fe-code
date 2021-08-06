@@ -42,4 +42,11 @@ module.exports = {
     'html-webpack-plugin': '^5.3.2',
     'vue-loader': '^15.9.8',
   },
+  componentDependencies: {
+    react: {
+      dependencies: {},
+      devDependencies: {},
+    },
+    vue: {},
+  },
 };
