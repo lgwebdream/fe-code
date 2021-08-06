@@ -1,6 +1,6 @@
 const { writeJsonSync, outputFileSync } = require('fs-extra');
 const { join } = require('path');
-const { getPackageJson, getViteConfigJs } = require('./utils');
+const { getPackageJson, getWebpackConfigJs } = require('./utils');
 const { PACKAGE_JSON, WEBPACK_CONFIG_JS } = require('./config');
 const { jsonFormatted } = require('../template/lint');
 
@@ -19,7 +19,7 @@ module.exports = ({
   );
 
   // generate webpack.config.js
-  const webpackConfig = getViteConfigJs({
+  const webpackConfig = getWebpackConfigJs({
     ui,
     main,
     isTypescript,

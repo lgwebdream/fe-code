@@ -1,23 +1,35 @@
-module.exports = ({ ui }) => {
-  const headerText = `import Vue from 'vue';
-import App from './App.vue';
-  `;
+const { sassName, lessName } = require('../../config');
 
-  const bodyText = `new Vue({
+module.exports = ({ ui, isSass, isLess }) => {
+  let text = `import Vue from 'vue';
+import App from './App.vue';
+`;
+
+  if (ui === 'element') {
+    text += `
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+`;
+  }
+  if (isSass) {
+    text += `import './${sassName}';
+`;
+  }
+  if (isLess) {
+    text += `import './${lessName}';
+`;
+  }
+  if (ui === 'element') {
+    text += `
+Vue.use(ElementUI);
+`;
+  }
+
+  text += `
+new Vue({
   el: '#app',
   render: h => h(App),
 });`;
-  let text;
-
-  if (ui === 'element') {
-    text = `${headerText}
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-
-${bodyText}`;
-  } else {
-    text = `${headerText}${bodyText}`;
-  }
   return {
     text,
     file: 'index.js',

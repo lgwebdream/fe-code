@@ -11,19 +11,22 @@ module.exports = {
     license: 'ISC',
     scripts: {
       clean: 'rm dist/bundle.js',
-      dev: 'webpack --mode development',
+      dev: 'webpack serve --mode development',
       build: 'webpack --mode production',
     },
     dependencies: {},
     devDependencies: {
       webpack: devDependencies.webpack,
       'webpack-cli': devDependencies['webpack-cli'],
+      'html-webpack-plugin': devDependencies['html-webpack-plugin'],
+      'webpack-dev-server': devDependencies['webpack-dev-server'],
     },
   },
   templateWebpackConfig: {
     plugins: {
       webpack: 'webpack',
       path: 'path',
+      HtmlWebpackPlugin: 'html-webpack-plugin',
     },
     packageOptions: [],
   },

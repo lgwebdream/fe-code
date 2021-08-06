@@ -1,34 +1,53 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-module.exports = ({ ui }) => {
-  let text;
-  // eslint-disable-next-line prefer-const
-  text = `<template>
+module.exports = ({ isTypescript, ui }) => {
+  let text = '';
+  if (ui === 'element') {
+    text += `<template>
   <div>
-    <h1>
-      {{name}}
-    </h1>
+    <el-button>{{message}}</el-button>
   </div>
 </template>
+`;
+  } else {
+    text += `<template>
+  <div>
+    <h1>{{message}}</h1>
+  </div>
+</template>
+`;
+  }
+  if (isTypescript) {
+    text += `
 
-<script lang='ts'>
+<script lang="ts">
+import Vue from 'vue';
+
+interface IData {
+  message: string
+}
+export default Vue.extend( {
+  data (): IData {
+    return {
+      message: 'hello world'
+    }
+  }
+});
+</script>`;
+  } else {
+    text += `
+
+<script>
 import Vue from 'vue';
 
 export default Vue.extend({
   data: function() {
     return {
-      name: 'Hello World!',
+      message: 'hello world'
     }
   },
 });
 </script>
-
-<style>
-h1 {
-  color: white;
-  background-color: black;
-}
-</style>
-  `;
+`;
+  }
 
   return {
     text,

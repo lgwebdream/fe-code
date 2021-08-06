@@ -39,5 +39,14 @@ module.exports = {
     'node-sass': '^6.0.1',
     'less-loader': '^10.0.1',
     'style-loader': '^3.2.1',
+    'html-webpack-plugin': '^5.3.2',
+    'vue-loader': '^15.9.8',
+  },
+  componentDependencies: {
+    react: {
+      dependencies: {},
+      devDependencies: {},
+    },
+    vue: {},
   },
 };

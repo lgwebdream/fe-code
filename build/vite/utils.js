@@ -7,6 +7,7 @@ module.exports = {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
     result.name = projectName;
     if (main === 'react') {
+      console.log(isTypescript, 'isTypescript');
       if (isTypescript) {
         result.devDependencies['@types/react'] =
           devDependencies['@types/react'];
@@ -38,7 +39,6 @@ module.exports = {
       result.devDependencies['vue-template-compiler'] =
         devDependencies['vue-template-compiler'];
       result.dependencies.vue = dependencies.vue;
-      console.log('result.dependencies', result.dependencies);
     } else {
       result.devDependencies['vite-plugin-html'] =
         devDependencies['vite-plugin-html'];
