@@ -31,6 +31,8 @@ module.exports = {
         result.devDependencies['@vue/compiler-sfc'] =
           devDependencies['@vue/compiler-sfc'];
         result.devDependencies['vue-tsc'] = devDependencies['vue-tsc'];
+        result.devDependencies['vue-class-component'] =
+          devDependencies['vue-class-component'];
         result.devDependencies.typescript = devDependencies.typescript;
       }
       result.devDependencies['vite-plugin-vue2'] =

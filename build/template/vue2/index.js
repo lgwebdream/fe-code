@@ -7,7 +7,7 @@ module.exports = ({ ui, projectName, buildTool, main, isTypescript }) => {
     return [
       indexHtml({ projectName, buildTool, main, isTypescript }),
       indexJs({ ui }),
-      app({ ui }),
+      app({ ui, main, isTypescript }),
     ];
   }
   return [
