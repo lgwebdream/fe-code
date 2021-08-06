@@ -43,7 +43,10 @@ module.exports = {
     'vue-loader': '^15.9.8',
   },
   componentDependencies: {
-    react: {},
+    react: {
+      dependencies: {},
+      devDependencies: {},
+    },
     vue: {},
   },
 };
