@@ -10,8 +10,6 @@ module.exports = {
       result.devDependencies['@snowpack/plugin-typescript'] =
         devDependencies['@snowpack/plugin-typescript'];
       result.devDependencies.typescript = devDependencies.typescript;
-      result.devDependencies['vue-class-component'] =
-        devDependencies['vue-class-component'];
       if (main === 'react') {
         result.devDependencies['@types/react-dom'] =
           devDependencies['@types/react-dom'];

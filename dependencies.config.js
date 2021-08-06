@@ -41,6 +41,5 @@ module.exports = {
     'style-loader': '^3.2.1',
     'html-webpack-plugin': '^5.3.2',
     'vue-loader': '^15.9.8',
-    'vue-class-component': '^7.2.6',
   },
 };

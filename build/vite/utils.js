@@ -32,8 +32,6 @@ module.exports = {
         result.devDependencies['@vue/compiler-sfc'] =
           devDependencies['@vue/compiler-sfc'];
         result.devDependencies['vue-tsc'] = devDependencies['vue-tsc'];
-        result.devDependencies['vue-class-component'] =
-          devDependencies['vue-class-component'];
         result.devDependencies.typescript = devDependencies.typescript;
       }
       result.devDependencies['vite-plugin-vue2'] =
@@ -41,7 +39,6 @@ module.exports = {
       result.devDependencies['vue-template-compiler'] =
         devDependencies['vue-template-compiler'];
       result.dependencies.vue = dependencies.vue;
-      console.log('result.dependencies', result.dependencies);
     } else {
       result.devDependencies['vite-plugin-html'] =
         devDependencies['vite-plugin-html'];

@@ -1,47 +1,39 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-module.exports = ({ ui, main, isTypescript }) => {
+module.exports = ({ isTypescript, ui }) => {
   let text = '';
-  // eslint-disable-next-line prefer-const
-  if (isTypescript) {
-    text = `<template>
+  if (ui === 'element') {
+    text += `<template>
   <div>
-    <h1>
-    <div>{{message}}</div>
-    <button @click="onClick">Click!</button>
-    </h1>
+    <el-button>{{message}}</el-button>
   </div>
 </template>
+`;
+  } else {
+    text += `<template>
+  <div>
+    <h1>{{message}}</h1>
+  </div>
+</template>
+`;
+  }
+  if (isTypescript) {
+    text += `
 
 <script lang="ts">
-import Vue from 'vue'
-import Component from 'vue-class-component';
+import Vue from 'vue';
 
-@Component
-export default class App extends Vue{
-  message: string = 'hello world!'
-
-   // 组件方法也可以直接声明为实例的方法
-   onClick (): void {
-    window.alert(this.message)
-  }
-};
-</script>
-
-<style>
-h1 {
-  color: white;
-  background-color: black;
+interface IData {
+  message: string
 }
-</style>
-  `;
+export default Vue.extend( {
+  data (): IData {
+    return {
+      message: 'hello world'
+    }
+  }
+});
+</script>`;
   } else {
-    text = `<template>
-  <div>
-    <h1>
-      {{name}}
-    </h1>
-  </div>
-</template>
+    text += `
 
 <script>
 import Vue from 'vue';
@@ -49,19 +41,12 @@ import Vue from 'vue';
 export default Vue.extend({
   data: function() {
     return {
-      name: 'Hello World!',
+      message: 'hello world'
     }
   },
 });
 </script>
-
-<style>
-h1 {
-  color: white;
-  background-color: black;
-}
-</style>
-  `;
+`;
   }
 
   return {
