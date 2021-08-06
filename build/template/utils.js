@@ -23,7 +23,7 @@ module.exports.getScript = ({ buildTool, main, isTypescript }) => {
   const scripts = {
     snowpack: '<script type="module" src="index.js"></script>',
     vite: viteScript,
-    webpack: '<script src="bundle.js"></script>',
+    webpack: '',
   };
   return scripts[buildTool];
 };
