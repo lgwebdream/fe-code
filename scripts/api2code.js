@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
 const generateCRUD = require('../lib/api2code/generateCRUD');
 const loadConfig = require('../lib/loadConfig');
-const { removeEmpty, getCwdPath } = require('../lib/utils');
+const { removeEmpty } = require('../lib/utils');
 
 const config = loadConfig();
 
@@ -72,7 +72,7 @@ const api2code = program => {
             output,
             input: input && resolve(process.cwd(), input),
             body: body && resolve(process.cwd(), body),
-            ...props
+            ...props,
           }),
         );
       });

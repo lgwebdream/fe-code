@@ -1,113 +1,32 @@
-const {
-  removeSync,
-  ensureDirSync,
-  outputFileSync,
-  writeJsonSync,
-} = require('fs-extra');
+const { writeJsonSync, outputFileSync } = require('fs-extra');
 const { join } = require('path');
 const { getPackageJson, getViteConfigJs } = require('./utils');
-const {
-  indexHtml: getReactIndexHtml,
-  indexJs: getReactIndexJs,
-  app: getReactApp,
-} = require('../template/react17');
-const {
-  indexHtml: getVueIndexHtml,
-  app: getVueApp,
-  indexJs: getVueIndexJs,
-} = require('../template/vue2');
-const {
-  indexHtml: getEmptyIndexHtml,
-  indexJs: getEmptyIndexJs,
-} = require('../template/empty');
+const { PACKAGE_JSON, VITE_CONFIG_JS } = require('./config');
+const { jsonFormatted } = require('../template/lint');
 
-const getReadMe = require('../template/readme');
-const getIgnore = require('../template/ignore');
-
-const init = root => {
-  removeSync(root);
-  ensureDirSync(root);
-};
-
-const process = config => {
-  const {
-    mainFramework: main,
-    uiFramework: ui,
-    projectName,
-    $resolveRoot: root,
-    templatePath,
-    buildTool,
-    $featureChecks,
-  } = config;
-  const { babel = false, typescript = false } = $featureChecks;
-  const resolveTemplatePath = join(root, templatePath);
-  let html;
-  let js;
-  let app;
-  console.info(babel, typescript);
-
-  if (main === 'react') {
-    // generate index.html
-    html = getReactIndexHtml({ projectName, buildTool });
-
-    // generate index.js/jsx
-    js = getReactIndexJs({ ui });
-
-    // generate App.js/jsx
-    app = getReactApp({ ui });
-  } else if (main === 'vue') {
-    // generate index.html
-    html = getVueIndexHtml({ projectName, buildTool });
-
-    // generate index.js/jsx
-    js = getVueIndexJs({ ui });
-
-    // generate App.js/jsx
-    app = getVueApp({ ui });
-  } else {
-    // generate index.html
-    html = getEmptyIndexHtml({ projectName, buildTool });
-
-    // generate index.js/jsx
-    js = getEmptyIndexJs({ ui });
-  }
-  // generate index.html
-  outputFileSync(join(resolveTemplatePath, html.file), html.text);
-
-  // generate index.js/jsx
-  outputFileSync(join(resolveTemplatePath, js.file), js.text);
-
-  // generate App.js/jsx
-  app && outputFileSync(join(resolveTemplatePath, app.file), app.text);
-
-  // add ignore files
-  const ignore = getIgnore({ buildTool });
-  outputFileSync(join(root, ignore.file), ignore.text);
-
+module.exports = ({
+  mainFramework: main,
+  uiFramework: ui,
+  projectName,
+  $resolveRoot,
+  $featureChecks: { typescript: isTypescript, sass: isSass, less: isLess },
+}) => {
   // generate package.json
   writeJsonSync(
-    join(root, 'package.json'),
-    getPackageJson({ ui, main, projectName }),
-    {
-      spaces: 2,
-    },
+    join($resolveRoot, PACKAGE_JSON),
+    getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }),
+    jsonFormatted,
   );
 
-  // generate vite.config.json
-  writeJsonSync(
-    join(root, 'vite.config.js'),
-    getViteConfigJs({ ui, main }),
-    {
-      spaces: 2,
-    },
-  );
-
-  // add readme.md
-  const readme = getReadMe({ projectName, buildTool, main });
-  outputFileSync(join(root, readme.file), readme.text);
-};
-
-module.exports = config => {
-  init(config.$resolveRoot);
-  process(config);
+  // generate vite.config.js
+  const viteConfig = getViteConfigJs({
+    ui,
+    main,
+    isTypescript,
+    sass: isSass,
+    less: isLess,
+  });
+  console.log('viteConfig', viteConfig);
+  console.log('VITE_CONFIG_JS', $resolveRoot, VITE_CONFIG_JS);
+  outputFileSync(join($resolveRoot, VITE_CONFIG_JS), viteConfig);
 };

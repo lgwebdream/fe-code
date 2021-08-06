@@ -21,10 +21,11 @@ module.exports = {
   },
   templateSnowpackConfig: {
     mount: {
-      dist: '/',
       src: '/',
     },
     plugins: [],
     packageOptions: [],
   },
+  PACKAGE_JSON: 'package.json',
+  SNOWPACK_CONFIG_JSON: 'snowpack.config.json',
 };

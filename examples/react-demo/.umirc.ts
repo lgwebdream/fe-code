@@ -7,6 +7,7 @@ const pageRouters = [
   { path: '/', component: '@/pages/index' },
   { path: '/table', component: '@/pages/Table' },
   { path: '/toolbar', component: '@/pages/toolbar' },
+  { path: '/role', component: '@/pages/role' },
   { path: '/formDemo', component: '@/pages/FormDemo' },
 ];
 

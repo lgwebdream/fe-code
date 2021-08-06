@@ -1,34 +1,61 @@
-module.exports = ({ ui }) => {
-  const commonText = `import React from 'react';`;
-  let text;
+module.exports = ({ ui, isTypescript }) => {
+  let text = `import React from 'react';
 
+`;
+  let file;
   if (ui === 'antd') {
-    text = `${commonText}
-import { Button } from 'antd';
+    text += `import { Button } from 'antd';
 
-export default class extends React.Component {
-  render() {
-    return (
-      <>
-        <Button>Hello world!</Button>
-      </>
-    );
+`;
   }
-}`;
+  if (isTypescript) {
+    file = 'App.tsx';
+    if (ui === 'antd') {
+      text += `const App: React.FC = () => {
+  return (
+    <>
+      <Button>Hello world!</Button>
+    </>
+  );
+};
+`;
+    } else {
+      text += `const App: React.FC = () => {
+  return (
+    <>
+      <h1>Hello world!</h1>
+    </>
+  );
+};
+`;
+    }
   } else {
-    text = `${commonText}
-export default class extends React.Component {
-  render () {
-    return (
-      <>
-        <h1>Hello world!</h1>
-      </>
-    );
+    file = 'App.jsx';
+    if (ui === 'antd') {
+      text += `const App = () => {
+  return (
+    <>
+      <Button>Hello world!</Button>
+    </>
+  );
+};
+`;
+    } else {
+      text += `const App = () => {
+  return (
+    <>
+      <h1>Hello world!</h1>
+    </>
+  );
+};
+`;
+    }
   }
-}`;
-  }
+  text += `
+export default App;
+`;
   return {
     text,
-    file: 'App.jsx',
+    file,
   };
 };

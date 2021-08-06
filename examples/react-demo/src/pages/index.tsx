@@ -1,5 +1,4 @@
 import { Button, message } from 'antd';
-import request from 'umi-request';
 import {
   FCrud,
   ICrud,
@@ -20,14 +19,20 @@ const demoTable: ICrud = {
   containerType: ICurdContainerTypeEnum.Modal,
   tableProps: { size: 'middle' },
   request: (params) =>
-    request(apiConfig.list, { method: 'post', data: params }),
+    fetch(apiConfig.list, {
+      method: 'post',
+      body: JSON.stringify(params),
+    }).then((res) => res.json()),
   batchToolbar: [
     {
       label: '添加',
       type: 'primary',
       toolbarType: ICrudToolbarTypeEnum.Add,
       request: (row) =>
-        request(apiConfig.add, { method: 'post', data: row }).then(() => {
+        fetch(apiConfig.add, {
+          method: 'post',
+          body: JSON.stringify(row),
+        }).then(() => {
           message.success('添加成功');
         }),
     },
@@ -37,7 +42,10 @@ const demoTable: ICrud = {
       danger: true,
       toolbarType: ICrudToolbarTypeEnum.Delete,
       request: (row) =>
-        request(apiConfig.delete, { method: 'post', data: row }).then(() => {
+        fetch(apiConfig.delete, {
+          method: 'post',
+          body: JSON.stringify(row),
+        }).then(() => {
           message.success('删除成功');
         }),
     },
@@ -47,7 +55,10 @@ const demoTable: ICrud = {
       danger: true,
       toolbarType: ICrudToolbarTypeEnum.DeleteBatch,
       request: (row) =>
-        request(apiConfig.delete, { method: 'post', data: row }).then(() => {
+        fetch(apiConfig.delete, {
+          method: 'post',
+          body: JSON.stringify(row),
+        }).then(() => {
           message.success('删除成功');
         }),
     },
@@ -67,7 +78,10 @@ const demoTable: ICrud = {
       type: 'link',
       toolbarType: ICrudToolbarTypeEnum.Edit,
       request: (row) =>
-        request(apiConfig.edit, { method: 'post', data: row }).then(() => {
+        fetch(apiConfig.edit, {
+          method: 'post',
+          body: JSON.stringify(row),
+        }).then(() => {
           message.success('编辑成功');
         }),
     },
@@ -77,7 +91,10 @@ const demoTable: ICrud = {
       danger: true,
       toolbarType: ICrudToolbarTypeEnum.Delete,
       request: (row) =>
-        request(apiConfig.delete, { method: 'post', data: row }).then(() => {
+        fetch(apiConfig.delete, {
+          method: 'post',
+          body: JSON.stringify(row),
+        }).then(() => {
           message.success('删除成功');
         }),
     },
@@ -106,8 +123,15 @@ const demoTable: ICrud = {
       rules: [{ message: '姓名不能为空', required: true }],
       isFilter: true,
     },
-    { title: '年龄', dataIndex: 'age', type: IFormComTypeEnum.InputNumber },
-    { title: '地址', dataIndex: 'address', type: IFormComTypeEnum.Input },
+    {
+      title: '年龄',
+      dataIndex: 'age',
+      type: IFormComTypeEnum.InputNumber,
+      sorter: {
+        compare: (a: any, b: any) => a.age - b.age,
+        multiple: 3,
+      },
+    },
     {
       title: '职位',
       dataIndex: 'title',
@@ -119,6 +143,62 @@ const demoTable: ICrud = {
         { label: 'COO', value: 'coo' },
         { label: 'CFO', value: 'cfo' },
       ],
+    },
+    {
+      title: '部门',
+      dataIndex: 'department',
+      type: IFormComTypeEnum.TreeSelect,
+      fieldProps: {
+        treeData: [
+          {
+            title: '营销',
+            value: 'light',
+            children: [{ title: '运营', value: 'bamboo' }],
+          },
+          {
+            title: '企划',
+            value: 'light2',
+            children: [{ title: '业务', value: 'bamboo2' }],
+          },
+        ],
+      },
+    },
+    {
+      title: '积分',
+      dataIndex: 'score',
+      type: IFormComTypeEnum.Slider,
+    },
+    {
+      title: '评级',
+      dataIndex: 'level',
+      type: IFormComTypeEnum.Rate,
+    },
+    {
+      title: '映像',
+      dataIndex: 'mapping',
+      type: IFormComTypeEnum.RadioGroup,
+      options: [
+        { label: '优秀', value: '优秀' },
+        { label: '良好', value: '良好' },
+        { label: '差', value: '差' },
+      ],
+    },
+    {
+      isHide: true,
+      title: '标签',
+      dataIndex: 'tags',
+      type: IFormComTypeEnum.CheckboxGroup,
+      options: [
+        { label: '外向', value: '外向' },
+        { label: '善于沟通', value: '善于沟通' },
+        { label: '脾气差', value: '脾气差' },
+      ],
+    },
+    {
+      title: '是否上榜',
+      dataIndex: 'flag',
+      type: IFormComTypeEnum.Switch,
+      render: (value) => (value ? '是' : '否'),
     },
   ],
 };

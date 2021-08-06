@@ -10,9 +10,9 @@ module.exports = {
     author: '',
     license: 'ISC',
     scripts: {
-      clean: 'rm dist/bundle.js',
-      start: 'vite dev',
+      dev: 'vite',
       build: 'vite build',
+      serve: 'vite preview',
     },
     dependencies: {},
     devDependencies: {
@@ -20,8 +20,9 @@ module.exports = {
     },
   },
   templateViteConfig: {
-    plugins: [
-       (devDependencies.vite)()
-    ]
+    plugins: {},
+    packageOptions: [],
   },
+  PACKAGE_JSON: 'package.json',
+  VITE_CONFIG_JS: 'vite.config.js',
 };

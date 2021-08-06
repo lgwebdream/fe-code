@@ -1,6 +1,6 @@
 module.exports = ({ ui }) => {
   const headerText = `import Vue from 'vue';
-import App from './App';
+import App from './App.vue';
   `;
 
   const bodyText = `new Vue({

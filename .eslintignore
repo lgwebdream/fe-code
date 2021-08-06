@@ -1,10 +1,6 @@
 bin/fe
-build/vite
-build/webpack
-node_modules
-lib/vue
-lib/utils
-build/template
 /**/*.d.ts
 yarn.lock
 examples
+lib
+scripts/api2code.js
