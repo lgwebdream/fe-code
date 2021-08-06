@@ -10,8 +10,6 @@ module.exports = {
       if (isTypescript) {
         result.devDependencies.typescript = devDependencies.typescript;
         result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
-        result.devDependencies['@hot-loader/react-dom'] =
-          devDependencies['@hot-loader/react-dom'];
         result.devDependencies['@types/react'] =
           devDependencies['@types/react'];
         result.devDependencies['@types/react-dom'] =
@@ -37,8 +35,6 @@ module.exports = {
       result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
       result.devDependencies['@babel/preset-env'] =
         devDependencies['@babel/preset-env'];
-      result.devDependencies['@hot-loader/react-dom'] =
-        devDependencies['@hot-loader/react-dom'];
       result.devDependencies['@babel/preset-react'] =
         devDependencies['@babel/preset-react'];
       result.devDependencies['webpack-dev-server'] =
@@ -146,28 +142,27 @@ module.exports = config;
       }
       WebpackConfigTemplate = `${importExportTemplate}
 const config = {
-  entry: [
-    'react-hot-loader/patch',
-    './src/index.js'
-  ],
+  entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+  },
+  devServer: {
+    hot: true,
+    quiet: true,
+    port: 3000,
   },
   module: {
     ${ConfigModuleRule}
   },
   resolve: {
-    ${ConfigModuleExtensions},
-    alias: {
-      'react-dom': '@hot-loader/react-dom'
-    }
-  },
-  devServer: {
-    contentBase: './dist'
+    ${ConfigModuleExtensions}
   },
   plugins: [
-    new VueLoaderPlugin()
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+    }),
   ]
 };
 

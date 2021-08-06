@@ -7,6 +7,7 @@ module.exports = {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
     result.name = projectName;
     if (main === 'react') {
+      console.log(isTypescript, 'isTypescript');
       if (isTypescript) {
         result.devDependencies['@types/react'] =
           devDependencies['@types/react'];
