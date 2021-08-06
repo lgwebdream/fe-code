@@ -6,6 +6,8 @@ import {
   SelectProps,
   DatePickerProps,
   TimePickerProps,
+  TreeSelectProps,
+  CascaderProps,
 } from 'antd';
 import { IFormComTypeEnum } from './constant';
 
@@ -24,6 +26,8 @@ export type IFormComponentProps =
   | InputNumberProps
   | SelectProps<any>
   | DatePickerProps
-  | TimePickerProps;
+  | TimePickerProps
+  | TreeSelectProps<any>
+  | CascaderProps;
 
 export type IFormProps = FormProps;
