@@ -7,8 +7,8 @@
   ],
   "main": "components/index.ts",
   "scripts": {
-    "clean": "rimraf build/*",
-    "build": "npm run clean && tsc --project tsconfig.json --outDir build/ --module ES2015",
+    "clean": "rimraf jsx/*",
+    "build": "npm run clean && tsc --project tsconfig.json --outDir jsx/ --module ES2015",
     "prepare": "npm run build"
   },
   "keywords": [
