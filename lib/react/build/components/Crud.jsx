@@ -107,6 +107,8 @@ const FCrud = (props) => {
         const formCols = [];
         columns.forEach(it => {
             const temp = { ...it };
+            it.render && delete temp.render;
+            delete temp.isHide;
             delete temp.isFilter;
             !it.readonly && formCols.push({ ...temp });
             if (it.isFilter) {
@@ -121,7 +123,7 @@ const FCrud = (props) => {
         const buffer = [];
         columns.forEach(it => {
             const temp = { ...it };
-            buffer.push(temp);
+            !temp.isHide && buffer.push(temp);
         });
         if (rowToolbar) {
             buffer.push({

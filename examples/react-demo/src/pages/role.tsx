@@ -1,23 +1,107 @@
+import { Button, message } from 'antd';
 import React from 'react';
-import { FCrud, ICrud, IFormComTypeEnum } from '../components/index';
+import {
+  FCrud,
+  ICrud,
+  IFormComTypeEnum,
+  ICrudToolbarTypeEnum,
+  ICurdContainerTypeEnum,
+} from '../components/index';
 
-const apiConfig = '{crud.apiConfig}';
+const apiConfig = {
+  list: './mock/list.json',
+  add: './mock/modify.json',
+  edit: './mock/modify.json',
+  delete: './mock/delete.json',
+  batchDelete: './mock/delete.json',
+};
 
 const crudProps: ICrud = {
-  title: '{crud.title}',
-  // @ts-ignore
-  containerType: '{crud.containerType}',
+  title: '角色',
+
+  containerType: ICurdContainerTypeEnum.Modal,
   tableProps: { size: 'middle' },
-  request: params =>
-    // @ts-ignore
+  request: (params) =>
     fetch(apiConfig.list, {
       method: 'get',
-    }).then(res => res.json()),
+    }).then((res) => res.json()),
 
-  // @ts-ignore
-  batchToolbar: '{crud.batchToolbar}',
-  // @ts-ignore
-  rowToolbar: '{crud.rowToolbar}',
+  batchToolbar: [
+    {
+      label: '添加',
+      type: 'primary',
+      toolbarType: ICrudToolbarTypeEnum.Add,
+      request: (row) =>
+        fetch(apiConfig.add, {
+          method: 'get',
+        }).then(() => {
+          message.success('添加成功');
+        }),
+    },
+    {
+      label: '批量删除',
+      type: 'dashed',
+      danger: true,
+      toolbarType: ICrudToolbarTypeEnum.DeleteBatch,
+      request: (row) =>
+        fetch(apiConfig.delete, {
+          method: 'get',
+        }).then(() => {
+          message.success('删除成功');
+        }),
+    },
+    {
+      render: (rows, rowKeys) => {
+        console.log(rows, rowKeys);
+        return (
+          <Button type="text" onClick={() => message.warning('自定义事件处理')}>
+            自定义按钮
+          </Button>
+        );
+      },
+    },
+  ],
+
+  rowToolbar: [
+    {
+      label: '编辑',
+      type: 'link',
+      toolbarType: ICrudToolbarTypeEnum.Edit,
+      request: (row) =>
+        fetch(apiConfig.edit, {
+          method: 'get',
+        }).then(() => {
+          message.success('编辑成功');
+        }),
+    },
+    {
+      label: '删除',
+      type: 'link',
+      danger: true,
+      toolbarType: ICrudToolbarTypeEnum.Delete,
+      request: (row) =>
+        fetch(apiConfig.delete, {
+          method: 'get',
+        }).then(() => {
+          message.success('删除成功');
+        }),
+    },
+    {
+      render: (row, index) => {
+        return (
+          <Button
+            type="link"
+            onClick={() => {
+              message.warning('自定义事件处理');
+              console.log(1111, row, index);
+            }}
+          >
+            行级操作
+          </Button>
+        );
+      },
+    },
+  ],
   columns: [
     { title: 'ID', dataIndex: 'id', readonly: true },
     {
@@ -95,7 +179,7 @@ const crudProps: ICrud = {
       title: '是否上榜',
       dataIndex: 'flag',
       type: IFormComTypeEnum.Switch,
-      render: value => (value ? '是' : '否'),
+      render: (value) => (value ? '是' : '否'),
     },
   ],
 };
