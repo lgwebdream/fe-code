@@ -76,6 +76,10 @@ module.exports = {
           test: /\\.vue$/,
           loader: 'vue-loader'
         },
+        {
+          test: /\\.css$/,
+          use: ['style-loader', 'css-loader'],
+      },
       ]`;
 
       ConfigModuleExtensions = `extensions: [
@@ -127,7 +131,11 @@ module.exports = config;
           test: /\\.(js|jsx)$/,
           use: 'babel-loader',
           exclude: /node_modules/
-        }
+        },
+        {
+          test: /\\.css$/,
+          use: ['style-loader', 'css-loader'],
+      },
       ]`;
 
       ConfigModuleExtensions = `extensions: [

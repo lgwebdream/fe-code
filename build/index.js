@@ -1,6 +1,7 @@
 const { join } = require('path');
 const { outputFileSync, ensureDirSync } = require('fs-extra');
 const { transformArr2TrueObj } = require('./utils');
+const getBabel = require('./template/babel');
 const getIgnore = require('./template/ignore');
 const getReadMe = require('./template/readme');
 const getStyles = require('./template/style');
@@ -75,4 +76,10 @@ if (isTypescript) {
   }).forEach(({ file, text }) => {
     outputFileSync(join($resolveRoot, file), text);
   });
+}
+
+if (buildTool === 'webpack' && main === 'react') {
+  // generate .babelrc
+  const babel = getBabel();
+  outputFileSync(join($resolveRoot, babel.file), JSON.stringify(babel.text));
 }

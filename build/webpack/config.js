@@ -20,6 +20,8 @@ module.exports = {
       'webpack-cli': devDependencies['webpack-cli'],
       'html-webpack-plugin': devDependencies['html-webpack-plugin'],
       'webpack-dev-server': devDependencies['webpack-dev-server'],
+      'css-loader': devDependencies['css-loader'],
+      'style-loader': devDependencies['style-loader'],
     },
   },
   templateWebpackConfig: {
