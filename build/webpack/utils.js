@@ -71,21 +71,41 @@ module.exports = {
     let ConfigModuleRule = '';
     let ConfigModuleExtensions = '';
     if (main === 'vue') {
-      ConfigModuleRule = `rules: [
-        {
-          test: /\\.vue$/,
-          loader: 'vue-loader'
-        },
-        {
-          test: /\\.css$/,
-          use: ['style-loader', 'css-loader'],
-      },
-      ]`;
+      if (isTypescript) {
+        ConfigModuleRule = `rules: [
+          {
+            test: /\\.vue$/,
+            loader: 'vue-loader',
+          },
+          {
+            test: /\\.css$/,
+            use: ['style-loader', 'css-loader'],
+          },
+          {
+            test: /\\.ts(x)?$/,
+            loader: 'ts-loader',
+            exclude: /node_modules/,
+            options: {
+              appendTsSuffixTo: [/\\.vue$/],
+            },
+          },
+        ]`;
+      } else {
+        ConfigModuleRule = `rules: [
+          {
+            test: /\\.vue$/,
+            loader: 'vue-loader'
+          },
+          {
+            test: /\\.css$/,
+            use: ['style-loader', 'css-loader'],
+          },
+        ]`;
+      }
 
-      ConfigModuleExtensions = `extensions: [
-        '.js',
-        '.vue'
-      ]`;
+      ConfigModuleExtensions = `extensions: ${
+        isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js','.vue']"
+      }`;
 
       result.plugins = {
         ...result.plugins,
@@ -143,13 +163,6 @@ module.exports = config;
             use: ['style-loader', 'css-loader'],
           },
         ]`;
-
-        ConfigModuleExtensions = `extensions: [
-           '.js',
-           '.jsx',
-           '.tsx',
-           '.ts'
-        ]`;
       } else {
         ConfigModuleRule = `rules: [
           {
@@ -162,12 +175,11 @@ module.exports = config;
             use: ['style-loader', 'css-loader'],
           },
         ]`;
-
-        ConfigModuleExtensions = `extensions: [
-           '.js',
-           '.jsx'
-        ]`;
       }
+
+      ConfigModuleExtensions = `extensions: ${
+        isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"
+      }`;
 
       const pluginArr = result.plugins;
       // eslint-disable-next-line guard-for-in
