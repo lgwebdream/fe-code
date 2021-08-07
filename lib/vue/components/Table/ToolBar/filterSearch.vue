@@ -18,7 +18,7 @@
 
 <script lang='ts'>
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-import { ISearch, ICurdFromItemTypeEnum } from '../CrudTypes';
+import { ISearch, ICurdFromItemTypeEnum } from '../../CrudTypes';
 
 const FilterSearch = defineComponent({
   name: 'filterSearch',

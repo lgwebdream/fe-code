@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../CrudTypes';
+import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../../CrudTypes';
 import FilterSearch from './filterSearch.vue';
 
 type SetLoadingFn = (flag: boolean) => void;

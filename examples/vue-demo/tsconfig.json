@@ -22,7 +22,8 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "../../lib/vue/**/*.vue",
-    "../../lib/vue/**/*.ts"
+    "../../lib/vue/**/*.ts",
+    "../../lib/vue/components/Table/config.tsx"
   ],
   "exclude": ["node_modules"]
 }
