@@ -17,10 +17,10 @@
 </template>
 
 <script lang='ts'>
-import { defineComponent, ComponentOptions, PropType } from 'vue';
+import {  ComponentOptions, PropType } from 'vue';
 import { ISearch, ICurdFromItemTypeEnum } from '../../CrudTypes';
 
-const FilterSearch = defineComponent({
+const FilterSearch = {
   name: 'filterSearch',
   setup() {},
   props: {
@@ -47,11 +47,11 @@ const FilterSearch = defineComponent({
       this?.$parent?.$parent?.searcCb?.();
     },
   },
-});
-
-FilterSearch.install = (Vue: ComponentOptions) => {
-  Vue.component(FilterSearch.name, FilterSearch);
 };
+
+// FilterSearch.install = (Vue: ComponentOptions) => {
+//   Vue.component(FilterSearch.name, FilterSearch);
+// };
 export default FilterSearch;
 </script>
 

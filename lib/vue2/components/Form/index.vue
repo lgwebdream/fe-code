@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns' :searchConfigs='searchConfigs'></ToolBar>
+    <!-- <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns' :searchConfigs='searchConfigs'></ToolBar> -->
 
     <el-table :data='tableData' style='width: 100%' v-loading='loading' @selection-change='handleSelectionChange' ref='multipleTable'>
       <el-table-column type='selection' width='55'></el-table-column>
@@ -21,8 +21,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ComponentOptions, PropType } from 'vue';
-import ToolBar from '../ToolBar/index.vue';
+import { ComponentOptions, PropType } from 'vue';
+import ToolBar from '../Table/ToolBar/index.vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest, ISearch } from '../CrudTypes';
 import TableProps from './config'
 interface IData {
@@ -36,7 +36,7 @@ interface IData {
   tableData: unknown[];
   selectRows: unknown[];
 }
-const Tabel = defineComponent({
+const Tabel = {
   name: 'v-table',
   components: {
     ToolBar,
@@ -95,11 +95,11 @@ const Tabel = defineComponent({
       this.$refs.multipleTable.clearSelection();
     },
   },
-});
-
-Tabel.install = (Vue: ComponentOptions) => {
-  Vue.component(Tabel.name, Tabel);
 };
+
+// Tabel.install = (Vue: ComponentOptions) => {
+//   Vue.component(Tabel.name, Tabel);
+// };
 
 export default Tabel;
 </script>

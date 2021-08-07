@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ComponentOptions, PropType } from 'vue';
+import { ComponentOptions, PropType } from 'vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../../CrudTypes';
 import FilterSearch from './filterSearch.vue';
 
@@ -42,7 +42,7 @@ interface IToolBarData {
   dialogTitle: string;
 }
 
-const ToolBar = defineComponent({
+const ToolBar = {
   name: 'toolbar',
   components: {
     FilterSearch,
@@ -140,11 +140,11 @@ const ToolBar = defineComponent({
       this.$refs.formRef.resetFields();
     },
   },
-});
-
-ToolBar.install = (Vue: ComponentOptions) => {
-  Vue.component(ToolBar.name, ToolBar);
 };
+
+// ToolBar.install = (Vue: ComponentOptions) => {
+//   Vue.component(ToolBar.name, ToolBar);
+// };
 
 export default ToolBar;
 </script>

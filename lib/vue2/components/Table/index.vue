@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ComponentOptions, PropType } from 'vue';
+import { ComponentOptions, PropType } from 'vue';
 import ToolBar from './ToolBar/index.vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest, ISearch } from '../CrudTypes';
 import TableProps from './config'
@@ -36,7 +36,7 @@ interface IData {
   tableData: unknown[];
   selectRows: unknown[];
 }
-const Tabel = defineComponent({
+const Tabel = {
   name: 'v-table',
   components: {
     ToolBar,
@@ -95,11 +95,11 @@ const Tabel = defineComponent({
       this.$refs.multipleTable.clearSelection();
     },
   },
-});
-
-Tabel.install = (Vue: ComponentOptions) => {
-  Vue.component(Tabel.name, Tabel);
 };
+
+// Tabel.install = (Vue: ComponentOptions) => {
+//   Vue.component(Tabel.name, Tabel);
+// };
 
 export default Tabel;
 </script>
