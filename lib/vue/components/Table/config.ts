@@ -13,10 +13,6 @@ const apiConfig = {
 const TableProps: ICrud = {
   title: '{crud.title}',
   columns: [
-    // { dataIndex: 'date', title: '日期', readonly: true },
-    // { dataIndex: 'name', title: '姓名' },
-    // { dataIndex: 'address', title: '地址' },
-    // { title: 'ID', dataIndex: 'id', readonly: true },
     {
       title: '姓名',
       dataIndex: 'name',
