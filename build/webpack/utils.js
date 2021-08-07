@@ -126,22 +126,48 @@ const config = {
 module.exports = config;
 `;
     } else if (main === 'react') {
-      ConfigModuleRule = `rules: [
-        {
-          test: /\\.(js|jsx)$/,
-          use: 'babel-loader',
-          exclude: /node_modules/
-        },
-        {
-          test: /\\.css$/,
-          use: ['style-loader', 'css-loader'],
-      },
-      ]`;
+      if (isTypescript) {
+        ConfigModuleRule = `rules: [
+          {
+            test: /\\.(js|jsx)$/,
+            use: 'babel-loader',
+            exclude: /node_modules/
+          },
+          {
+            test: /\\.ts(x)?$/,
+            loader: 'ts-loader',
+            exclude: /node_modules/
+          },
+          {
+            test: /\\.css$/,
+            use: ['style-loader', 'css-loader'],
+          },
+        ]`;
 
-      ConfigModuleExtensions = `extensions: [
-        '.js',
-        '.jsx'
-      ]`;
+        ConfigModuleExtensions = `extensions: [
+           '.js',
+           '.jsx',
+           '.tsx',
+           '.ts'
+        ]`;
+      } else {
+        ConfigModuleRule = `rules: [
+          {
+            test: /\\.(js|jsx)$/,
+            use: 'babel-loader',
+            exclude: /node_modules/
+          },
+          {
+            test: /\\.css$/,
+            use: ['style-loader', 'css-loader'],
+          },
+        ]`;
+
+        ConfigModuleExtensions = `extensions: [
+           '.js',
+           '.jsx'
+        ]`;
+      }
 
       const pluginArr = result.plugins;
       // eslint-disable-next-line guard-for-in
@@ -150,7 +176,7 @@ module.exports = config;
       }
       WebpackConfigTemplate = `${importExportTemplate}
 const config = {
-  entry: './src/index.jsx',
+  entry: ${isTypescript ? "'./src/index.tsx'" : "'./src/index.jsx'"},
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
