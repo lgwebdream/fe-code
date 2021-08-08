@@ -23,8 +23,8 @@ module.exports = ({
     ui,
     main,
     isTypescript,
-    sass: isSass,
-    less: isLess,
+    isSass,
+    isLess,
   });
   outputFileSync(join($resolveRoot, WEBPACK_CONFIG_JS), webpackConfig);
 };

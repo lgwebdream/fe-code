@@ -13,12 +13,6 @@ module.exports = {
         result.devDependencies['@types/react'] = devDependencies['@types/react'];
         result.devDependencies['@types/react-dom'] = devDependencies['@types/react-dom'];
       }
-      if (isSass) {
-        result.devDependencies['css-loader'] = devDependencies['css-loader'];
-        result.devDependencies['sass-loader'] = devDependencies['sass-loader'];
-        result.devDependencies['node-sass'] = devDependencies['node-sass'];
-        result.devDependencies['style-loader'] = devDependencies['style-loader'];
-      }
       if (isLess) {
         result.devDependencies['css-loader'] = devDependencies['css-loader'];
         result.devDependencies['less-loader'] = devDependencies['less-loader'];
@@ -46,6 +40,17 @@ module.exports = {
     } else {
       console.log('没有选择任何框架，webpack不需要做任何处理！');
     }
+
+    if (isSass) {
+      result.devDependencies['sass-loader'] = devDependencies['sass-loader'];
+      result.devDependencies['node-sass'] = devDependencies['node-sass'];
+    }
+
+    if (isLess) {
+      result.devDependencies.less = devDependencies.less;
+      result.devDependencies['less-loader'] = devDependencies['less-loader'];
+    }
+
     if (ui === 'antd') {
       result.dependencies.antd = dependencies.antd;
     } else if (ui === 'element') {
@@ -59,43 +64,73 @@ module.exports = {
     const result = JSON.parse(JSON.stringify(templateWebpackConfig));
     let WebpackConfigTemplate = '';
     let importExportTemplate = '';
-    let ConfigModuleRule = '';
-    let ConfigModuleExtensions = '';
-    const devServerConfig = 'devServer: {\n    hot: true,\n    quiet: true,\n    port: 3000,\n  }';
-    if (main === 'vue') {
-      if (isTypescript) {
-        ConfigModuleRule = `rules: [
+    let ModuleRuleConfig = '';
+    let ModuleExtensionsConfig = '';
+    const vueBaseCssLoaderConfig = `{
+        test: /\\.css$/,
+        use: ['vue-style-loader', 'css-loader'],
+        exclude: /\\.module\\.css$/,
+      },
+      {
+        test: /\\.css$/,
+        use: [
+          'vue-style-loader',
           {
-            test: /\\.vue$/,
-            loader: 'vue-loader',
-          },
-          {
-            test: /\\.css$/,
-            use: ['style-loader', 'css-loader'],
-          },
-          {
-            test: /\\.ts(x)?$/,
-            loader: 'ts-loader',
-            exclude: /node_modules/,
+            loader: 'css-loader',
             options: {
-              appendTsSuffixTo: [/\\.vue$/],
+              importLoaders: 1,
+              modules: true,
             },
           },
-        ]`;
+        ],
+        include: /\\.module\\.css$/,
+      }`;
+
+    const vueSassLoaderConfig = `${vueBaseCssLoaderConfig},{
+        test: /\\.scss$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'sass-loader',
+        ]
+      }`;
+
+    const vuelessLoaderConfig = `${vueBaseCssLoaderConfig},{
+        test: /\\.less$/,
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          'less-loader',
+        ]
+      }`;
+
+    const vueBaseLoaderConfig = `{
+        test: /\\.vue$/,
+        loader: 'vue-loader',
+      }, ${isSass ? vueSassLoaderConfig : isLess ? vuelessLoaderConfig : vueBaseCssLoaderConfig}`;
+
+    const devServerConfig = 'devServer: {\n    hot: true,\n    quiet: true,\n    port: 3000,\n  }';
+
+    if (main === 'vue') {
+      if (isTypescript) {
+        ModuleRuleConfig = `rules: [
+          ${vueBaseLoaderConfig},
+        {
+          test: /\\.ts(x)?$/,
+          loader: 'ts-loader',
+          exclude: /node_modules/,
+          options: {
+            appendTsSuffixTo: [/\\.vue$/],
+          },
+        },
+      ]`;
       } else {
-        ConfigModuleRule = `rules: [
-          {
-            test: /\\.vue$/,
-            loader: 'vue-loader'
-          },
-          {
-            test: /\\.css$/,
-            use: ['style-loader', 'css-loader'],
-          },
+        ModuleRuleConfig = `rules: [
+          ${vueBaseLoaderConfig},
         ]`;
       }
 
-      ConfigModuleExtensions = `extensions: ${isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js','.vue']"}`;
+      ModuleExtensionsConfig = `extensions: ${isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js', '.vue']"}`;
 
       result.plugins = {
         ...result.plugins,
@@ -115,10 +150,10 @@ const config = {
   },
   ${devServerConfig},
   module: {
-    ${ConfigModuleRule}
+    ${ModuleRuleConfig}
   },
   resolve: {
-    ${ConfigModuleExtensions}
+    ${ModuleExtensionsConfig}
   },
   plugins: [
     new VueLoaderPlugin(),
@@ -126,14 +161,14 @@ const config = {
       filename: 'index.html',
       template: 'index.html',
     }),
-  ]
+  ],
 };
 
 module.exports = config;
 `;
     } else if (main === 'react') {
       if (isTypescript) {
-        ConfigModuleRule = `rules: [
+        ModuleRuleConfig = `rules: [
           {
             test: /\\.(js|jsx)$/,
             use: 'babel-loader',
@@ -150,7 +185,7 @@ module.exports = config;
           },
         ]`;
       } else {
-        ConfigModuleRule = `rules: [
+        ModuleRuleConfig = `rules: [
           {
             test: /\\.(js|jsx)$/,
             use: 'babel-loader',
@@ -163,7 +198,7 @@ module.exports = config;
         ]`;
       }
 
-      ConfigModuleExtensions = `extensions: ${isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"}`;
+      ModuleExtensionsConfig = `extensions: ${isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"}`;
 
       const pluginArr = result.plugins;
       // eslint-disable-next-line guard-for-in
@@ -179,17 +214,17 @@ const config = {
   },
   ${devServerConfig},
   module: {
-    ${ConfigModuleRule}
+    ${ModuleRuleConfig}
   },
   resolve: {
-    ${ConfigModuleExtensions}
+    ${ModuleExtensionsConfig}
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'index.html',
     }),
-  ]
+  ],
 };
 
 module.exports = config;
