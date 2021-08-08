@@ -10,35 +10,28 @@ module.exports = {
       if (isTypescript) {
         result.devDependencies.typescript = devDependencies.typescript;
         result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
-        result.devDependencies['@types/react'] =
-          devDependencies['@types/react'];
-        result.devDependencies['@types/react-dom'] =
-          devDependencies['@types/react-dom'];
+        result.devDependencies['@types/react'] = devDependencies['@types/react'];
+        result.devDependencies['@types/react-dom'] = devDependencies['@types/react-dom'];
       }
       if (isSass) {
         result.devDependencies['css-loader'] = devDependencies['css-loader'];
         result.devDependencies['sass-loader'] = devDependencies['sass-loader'];
         result.devDependencies['node-sass'] = devDependencies['node-sass'];
-        result.devDependencies['style-loader'] =
-          devDependencies['style-loader'];
+        result.devDependencies['style-loader'] = devDependencies['style-loader'];
       }
       if (isLess) {
         result.devDependencies['css-loader'] = devDependencies['css-loader'];
         result.devDependencies['less-loader'] = devDependencies['less-loader'];
         result.devDependencies.less = devDependencies.less;
-        result.devDependencies['style-loader'] =
-          devDependencies['style-loader'];
+        result.devDependencies['style-loader'] = devDependencies['style-loader'];
       }
       result.dependencies.react = dependencies.react;
       result.dependencies['react-dom'] = dependencies['react-dom'];
       result.devDependencies['babel-loader'] = devDependencies['babel-loader'];
       result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
-      result.devDependencies['@babel/preset-env'] =
-        devDependencies['@babel/preset-env'];
-      result.devDependencies['@babel/preset-react'] =
-        devDependencies['@babel/preset-react'];
-      result.devDependencies['webpack-dev-server'] =
-        devDependencies['webpack-dev-server'];
+      result.devDependencies['@babel/preset-env'] = devDependencies['@babel/preset-env'];
+      result.devDependencies['@babel/preset-react'] = devDependencies['@babel/preset-react'];
+      result.devDependencies['webpack-dev-server'] = devDependencies['webpack-dev-server'];
     } else if (main === 'vue') {
       if (isTypescript) {
         result.devDependencies.typescript = devDependencies.typescript;
@@ -46,12 +39,10 @@ module.exports = {
       }
       result.dependencies.vue = dependencies.vue;
       result.devDependencies['vue-loader'] = devDependencies['vue-loader'];
-      result.devDependencies['vue-template-compiler'] =
-        devDependencies['vue-template-compiler'];
+      result.devDependencies['vue-template-compiler'] = devDependencies['vue-template-compiler'];
       result.devDependencies['babel-loader'] = devDependencies['babel-loader'];
       result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
-      result.devDependencies['@babel/preset-env'] =
-        devDependencies['@babel/preset-env'];
+      result.devDependencies['@babel/preset-env'] = devDependencies['@babel/preset-env'];
     } else {
       console.log('没有选择任何框架，webpack不需要做任何处理！');
     }
@@ -70,6 +61,7 @@ module.exports = {
     let importExportTemplate = '';
     let ConfigModuleRule = '';
     let ConfigModuleExtensions = '';
+    const devServerConfig = 'devServer: {\n    hot: true,\n    quiet: true,\n    port: 3000,\n  }';
     if (main === 'vue') {
       if (isTypescript) {
         ConfigModuleRule = `rules: [
@@ -103,9 +95,7 @@ module.exports = {
         ]`;
       }
 
-      ConfigModuleExtensions = `extensions: ${
-        isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js','.vue']"
-      }`;
+      ConfigModuleExtensions = `extensions: ${isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js','.vue']"}`;
 
       result.plugins = {
         ...result.plugins,
@@ -123,11 +113,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  devServer: {
-    hot: true,
-    quiet: true,
-    port: 3000,
-  },
+  ${devServerConfig},
   module: {
     ${ConfigModuleRule}
   },
@@ -177,9 +163,7 @@ module.exports = config;
         ]`;
       }
 
-      ConfigModuleExtensions = `extensions: ${
-        isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"
-      }`;
+      ConfigModuleExtensions = `extensions: ${isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"}`;
 
       const pluginArr = result.plugins;
       // eslint-disable-next-line guard-for-in
@@ -193,11 +177,7 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  devServer: {
-    hot: true,
-    quiet: true,
-    port: 3000,
-  },
+  ${devServerConfig},
   module: {
     ${ConfigModuleRule}
   },
@@ -222,14 +202,18 @@ module.exports = config;
       }
       WebpackConfigTemplate = `${importExportTemplate}
 const config = {
-  entry: ['react-hot-loader/patch', './src/index.js'],
+  entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
   },
-  devServer: {
-    contentBase: './dist',
-  },
+  ${devServerConfig},
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: 'index.html',
+    }),
+  ],
 };
 
 module.exports = config;`;

@@ -15,7 +15,7 @@ module.exports = ({
   writeJsonSync(
     join($resolveRoot, PACKAGE_JSON),
     getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }),
-    jsonFormatted,
+    jsonFormatted
   );
 
   // generate webpack.config.js
