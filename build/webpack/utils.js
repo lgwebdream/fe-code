@@ -167,34 +167,56 @@ const config = {
 module.exports = config;
 `;
     } else if (main === 'react') {
-      if (isTypescript) {
-        ModuleRuleConfig = `rules: [
-          {
+      const reactCssLoaderConfig = `{
+          test: /\\.css$/,
+          use: ['style-loader', 'css-loader'],
+        }, `;
+
+      const reactSassLoaderConfig = `{
+          test: /\\.css$/,
+          use: ['style-loader', 'css-loader'],
+        }, {
+        test: /\\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ],
+      },`;
+
+      const reactlessLoaderConfig = `{
+          test: /\\.css$/,
+          use: ['style-loader', 'css-loader'],
+        }, {
+        test: /\\.less$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader',
+        ],
+      },`;
+
+      const reactBaseLoaderConfig = `{
             test: /\\.(js|jsx)$/,
             use: 'babel-loader',
             exclude: /node_modules/
           },
-          {
+          ${isSass ? reactSassLoaderConfig : isLess ? reactlessLoaderConfig : reactCssLoaderConfig}`;
+
+      const reactTypescriptLoaderConfig = `{
             test: /\\.ts(x)?$/,
             loader: 'ts-loader',
             exclude: /node_modules/
-          },
-          {
-            test: /\\.css$/,
-            use: ['style-loader', 'css-loader'],
-          },
+          },`;
+
+      if (isTypescript) {
+        ModuleRuleConfig = `rules: [
+         ${reactBaseLoaderConfig}
+         ${reactTypescriptLoaderConfig}
         ]`;
       } else {
         ModuleRuleConfig = `rules: [
-          {
-            test: /\\.(js|jsx)$/,
-            use: 'babel-loader',
-            exclude: /node_modules/
-          },
-          {
-            test: /\\.css$/,
-            use: ['style-loader', 'css-loader'],
-          },
+          ${reactBaseLoaderConfig}
         ]`;
       }
 

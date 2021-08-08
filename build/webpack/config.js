@@ -26,7 +26,6 @@ module.exports = {
   },
   templateWebpackConfig: {
     plugins: {
-      webpack: 'webpack',
       path: 'path',
       HtmlWebpackPlugin: 'html-webpack-plugin',
     },
