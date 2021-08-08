@@ -22,6 +22,9 @@ module.exports = {
       'webpack-dev-server': devDependencies['webpack-dev-server'],
       'css-loader': devDependencies['css-loader'],
       'style-loader': devDependencies['style-loader'],
+      'babel-loader': '^8.2.2',
+      '@babel/core': '^7.14.8',
+      '@babel/preset-env': '^7.14.8',
     },
   },
   templateWebpackConfig: {

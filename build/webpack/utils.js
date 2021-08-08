@@ -6,39 +6,25 @@ module.exports = {
   getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
     result.name = projectName;
+
     if (main === 'react') {
       if (isTypescript) {
-        result.devDependencies.typescript = devDependencies.typescript;
-        result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
         result.devDependencies['@types/react'] = devDependencies['@types/react'];
         result.devDependencies['@types/react-dom'] = devDependencies['@types/react-dom'];
       }
-      if (isLess) {
-        result.devDependencies['css-loader'] = devDependencies['css-loader'];
-        result.devDependencies['less-loader'] = devDependencies['less-loader'];
-        result.devDependencies.less = devDependencies.less;
-        result.devDependencies['style-loader'] = devDependencies['style-loader'];
-      }
       result.dependencies.react = dependencies.react;
       result.dependencies['react-dom'] = dependencies['react-dom'];
-      result.devDependencies['babel-loader'] = devDependencies['babel-loader'];
-      result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
-      result.devDependencies['@babel/preset-env'] = devDependencies['@babel/preset-env'];
-      result.devDependencies['@babel/preset-react'] = devDependencies['@babel/preset-react'];
-      result.devDependencies['webpack-dev-server'] = devDependencies['webpack-dev-server'];
     } else if (main === 'vue') {
-      if (isTypescript) {
-        result.devDependencies.typescript = devDependencies.typescript;
-        result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
-      }
       result.dependencies.vue = dependencies.vue;
       result.devDependencies['vue-loader'] = devDependencies['vue-loader'];
       result.devDependencies['vue-template-compiler'] = devDependencies['vue-template-compiler'];
-      result.devDependencies['babel-loader'] = devDependencies['babel-loader'];
-      result.devDependencies['@babel/core'] = devDependencies['@babel/core'];
-      result.devDependencies['@babel/preset-env'] = devDependencies['@babel/preset-env'];
     } else {
       console.log('没有选择任何框架，webpack不需要做任何处理！');
+    }
+
+    if (isTypescript) {
+      result.devDependencies.typescript = devDependencies.typescript;
+      result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
     }
 
     if (isSass) {
@@ -53,9 +39,12 @@ module.exports = {
 
     if (ui === 'antd') {
       result.dependencies.antd = dependencies.antd;
-    } else if (ui === 'element') {
+    }
+
+    if (ui === 'element') {
       result.dependencies['element-ui'] = dependencies['element-ui'];
     }
+
     return result;
   },
 
@@ -277,9 +266,12 @@ module.exports = config;`;
     }
     if (ui === 'antd') {
       result.packageOptions.push('antd');
-    } else if (ui === 'element') {
+    }
+
+    if (ui === 'element') {
       result.packageOptions.push('element-ui');
     }
+
     return WebpackConfigTemplate;
   },
 };
