@@ -1,9 +1,5 @@
 <template>
-    <div>
-           <!-- button -->
-       <!-- <table></table> -->
-       
-    </div>
+  <div></div>
 </template>
 
 <script lang="ts">

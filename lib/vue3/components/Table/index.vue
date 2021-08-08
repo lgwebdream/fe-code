@@ -5,7 +5,17 @@
     <el-table :data='tableData' style='width: 100%' v-loading='loading' @selection-change='handleSelectionChange' ref='multipleTable'>
       <el-table-column type='selection' width='55'></el-table-column>
       <el-table-column type='index' label='ID' width='50'></el-table-column>
-      <el-table-column v-for='(item, index) in columns' :key='index' :prop='item.dataIndex' :label='item.title'></el-table-column>
+
+      <template v-for='(item, index) in columns'>
+        <el-table-column v-if='!item.isHide' :label='item.title' :key='index'>
+          <template #default='scope'>
+            <!-- 普通 -->
+            <div v-if='!item.render'>{{scope.row?.[item.dataIndex]}}</div>
+            <!-- 自定义render -->
+            <div v-if='item.render'>{{item?.render(scope.row?.[item.dataIndex],scope.row, scope.$index)}}</div>
+          </template>
+        </el-table-column>
+      </template>
     </el-table>
 
     <el-pagination
@@ -23,8 +33,7 @@
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
 import ToolBar from './ToolBar/index.vue';
-import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest, ISearch } from '../CrudTypes';
-import TableProps from './config'
+import TableProps from './config';
 interface IData {
   /** 列表总数 */
   total: number;

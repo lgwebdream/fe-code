@@ -1,5 +1,7 @@
+import { IFormComTypeEnum } from './Form/constant';
+
 /** CRUD 主体配置定义 */
-export interface ICrud<P = unknown, R = unknown,T = unknown> {
+export interface ICrud<P = unknown, R = unknown, T = unknown> {
   /** 业务标题，用作表单弹框、信息提示等场景展示 */
   title?: string;
 
@@ -29,8 +31,16 @@ export interface ICrudColumn {
   /** 属性字段名 */
   dataIndex: string;
 
+  /** 是否隐藏 */
+  isHide?: boolean;
+
+  render?: (value?: unknown) => string;
+
   /** 是否只读 */
   readonly?: boolean;
+
+  /** form表单类型 */
+  type?: IFormComTypeEnum;
 }
 
 export type ICrudColumnToolbar<T = unknown> = {

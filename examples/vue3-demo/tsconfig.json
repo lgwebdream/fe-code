@@ -23,7 +23,7 @@
     "src/**/*.vue",
     "../../lib/vue3/**/*.vue",
     "../../lib/vue3/**/*.ts",
-    "../../lib/vue3/components/Table/config.tsx"
+    "../../lib/vue3/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -6,7 +6,7 @@
   "main": "./components",
   "scripts": {},
   "dependencies": {
-    "element-plus": "^1.0.2-beta.55",
+    "element-plus": "^1.0.2-beta.70",
     "vue": "3.1.5",
     "vue-router": "^3.5.2"
   },
