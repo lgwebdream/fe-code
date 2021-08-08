@@ -1,5 +1,5 @@
 const { join } = require('path');
-const { outputFileSync, ensureDirSync } = require('fs-extra');
+const { outputFileSync, ensureDirSync, writeJsonSync } = require('fs-extra');
 const { transformArr2TrueObj } = require('../utils');
 const getBabel = require('./template/babel');
 const getIgnore = require('./template/ignore');
@@ -9,6 +9,7 @@ const { app: getTsConfig } = require('./template/tsconfig');
 const reactSrcTemplate = require('./template/react17');
 const vueSrcTemplate = require('./template/vue2');
 const emptySrcTemplate = require('./template/empty');
+const { jsonFormatted } = require('./template/lint');
 
 const rootPath = process.cwd();
 const [, , inputConfigPath] = process.argv;
@@ -78,8 +79,8 @@ if (isTypescript) {
   });
 }
 
-if (buildTool === 'webpack' && main === 'react') {
+if (buildTool === 'webpack') {
   // generate .babelrc
   const babel = getBabel();
-  outputFileSync(join($resolveRoot, babel.file), JSON.stringify(babel.text));
+  writeJsonSync(join($resolveRoot, babel.file), babel.text, jsonFormatted);
 }

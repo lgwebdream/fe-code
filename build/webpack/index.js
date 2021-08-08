@@ -1,5 +1,6 @@
 const { writeJsonSync, outputFileSync } = require('fs-extra');
 const { join } = require('path');
+const beautify = require('js-beautify').js;
 const { getPackageJson, getWebpackConfigJs } = require('./utils');
 const { PACKAGE_JSON, WEBPACK_CONFIG_JS } = require('./config');
 const { jsonFormatted } = require('../template/lint');
@@ -26,5 +27,11 @@ module.exports = ({
     isSass,
     isLess,
   });
-  outputFileSync(join($resolveRoot, WEBPACK_CONFIG_JS), webpackConfig);
+  outputFileSync(
+    join($resolveRoot, WEBPACK_CONFIG_JS),
+    beautify(webpackConfig, {
+      indent_size: 2,
+      space_in_empty_paren: true,
+    }),
+  );
 };
