@@ -17,29 +17,30 @@ const TableProps: ICrud = {
       title: '姓名',
       dataIndex: 'name',
       type: IFormComTypeEnum.Input,
-      // rules: [{ message: '姓名不能为空', required: true }],
-      // isFilter: true,
+      rules: [{ message: '姓名不能为空', required: true }],
+      isFilter: true,
     },
     {
       title: '年龄',
       dataIndex: 'age',
       type: IFormComTypeEnum.InputNumber,
-      // sorter: {
-      //   compare: (a: any, b: any) => a.age - b.age,
-      //   multiple: 3,
-      // },
+      sorter: {
+        compare: (a, b) => {
+          return a.age - b.age;
+        },
+      },
     },
     {
       title: '职位',
       dataIndex: 'title',
       type: IFormComTypeEnum.Select,
-      // isFilter: true,
-      // rules: [{ message: '职位不能为空', required: true }],
-      // options: [
-      //   { label: 'CTO', value: 'cto' },
-      //   { label: 'COO', value: 'coo' },
-      //   { label: 'CFO', value: 'cfo' },
-      // ],
+      rules: [{ message: '职位不能为空', required: true }],
+      isFilter: true,
+      options: [
+        { label: 'CTO', value: 'cto' },
+        { label: 'COO', value: 'coo' },
+        { label: 'CFO', value: 'cfo' },
+      ],
     },
     {
       title: '部门',
@@ -132,32 +133,32 @@ const TableProps: ICrud = {
         }),
     },
   ],
-  searchConfigs: [
-    {
-      type: ICurdFromItemTypeEnum.Input,
-      label: '审批人',
-      value: '',
-      prop: 'user',
-      placeholder: '审批人',
-    },
-    {
-      type: ICurdFromItemTypeEnum.Select,
-      label: '活动区域',
-      value: '',
-      prop: 'region',
-      placeholder: '活动区域',
-      data: [
-        {
-          label: '上海',
-          value: 'shanghai',
-        },
-        {
-          label: '北京',
-          value: 'beijing',
-        },
-      ],
-    },
-  ],
+  // searchConfigs: [
+  //   {
+  //     type: ICurdFromItemTypeEnum.Input,
+  //     label: '审批人',
+  //     value: '',
+  //     prop: 'user',
+  //     placeholder: '审批人',
+  //   },
+  //   {
+  //     type: ICurdFromItemTypeEnum.Select,
+  //     label: '活动区域',
+  //     value: '',
+  //     prop: 'region',
+  //     placeholder: '活动区域',
+  //     data: [
+  //       {
+  //         label: '上海',
+  //         value: 'shanghai',
+  //       },
+  //       {
+  //         label: '北京',
+  //         value: 'beijing',
+  //       },
+  //     ],
+  //   },
+  // ],
 };
 
 export default TableProps;

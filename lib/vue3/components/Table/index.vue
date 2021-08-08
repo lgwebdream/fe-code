@@ -1,13 +1,15 @@
 <template>
   <div>
-    <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns' :searchConfigs='searchConfigs'></ToolBar>
+    <!-- 工具栏 -->
+    <ToolBar :batchToolbar='batchToolbar' :selectRows='selectRows' :setLoading='setLoading' :clearSelection='clearSelection' :columns='columns' :searcCb='searcCb'></ToolBar>
 
+    <!-- 表格 -->
     <el-table :data='tableData' style='width: 100%' v-loading='loading' @selection-change='handleSelectionChange' ref='multipleTable'>
       <el-table-column type='selection' width='55'></el-table-column>
       <el-table-column type='index' label='ID' width='50'></el-table-column>
 
       <template v-for='(item, index) in columns'>
-        <el-table-column v-if='!item.isHide' :label='item.title' :key='index'>
+        <el-table-column v-if='!item.isHide' :label='item.title' :key='index' :sort-method='item.sorter?.compare' :sortable='item.sorter?.compare'>
           <template #default='scope'>
             <!-- 普通 -->
             <div v-if='!item.render'>{{scope.row?.[item.dataIndex]}}</div>
@@ -34,6 +36,7 @@
 import { defineComponent, ComponentOptions, PropType } from 'vue';
 import ToolBar from './ToolBar/index.vue';
 import TableProps from './config';
+import { ICrudColumn, IListRequestParams } from '../CrudTypes';
 interface IData {
   /** 列表总数 */
   total: number;
@@ -65,13 +68,14 @@ const Tabel = defineComponent({
     this.getList();
   },
   methods: {
-    searcCb(values) {
+    searcCb(values: IListRequestParams) {
       this.getList(values);
     },
     setLoading(flag: boolean) {
       this.loading = flag;
     },
-    async getList(params = {}) {
+    // 获取列表
+    async getList(params: IListRequestParams) {
       this.setLoading(true);
       const res = await this.request({
         pageSize: this.pageSize,
@@ -87,19 +91,23 @@ const Tabel = defineComponent({
         this.setLoading(false);
       }, 1000);
     },
+    // 处理请求页数
     handleSizeChange(val: number) {
       if (this.loading) return;
       this.pageSize = val;
       this.getList();
     },
+    // 处理当前页
     handleCurrentChange(val: number) {
       if (this.loading) return;
       this.current = val;
       this.getList();
     },
+    // 勾选事件
     handleSelectionChange(rows) {
       this.selectRows = rows;
     },
+    // 取消勾选
     clearSelection() {
       this.$refs.multipleTable.clearSelection();
     },

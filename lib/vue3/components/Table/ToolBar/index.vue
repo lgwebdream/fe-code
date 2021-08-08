@@ -1,6 +1,6 @@
 <template>
   <div>
-    <filter-search :searchConfigs='searchConfigs' />
+    <filter-search :columns='columns' />
     <div class='toolBarWrap'>
       <div v-for='(item, index) in batchToolbar' :key='index' class='toolBarItem'>
         <el-button v-if='!item.render' :type='item.type' :plain='item.plain' @click='btnClick(item)'>{{item.label}}</el-button>
@@ -28,7 +28,7 @@
 
 <script lang="tsx">
 import { defineComponent, ComponentOptions, PropType,h } from 'vue';
-import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../../CrudTypes';
+import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, IListRequestParams, ISearch } from '../../CrudTypes';
 import FilterSearch from './filterSearch.vue';
 
 type SetLoadingFn = (flag: boolean) => void;
@@ -55,6 +55,7 @@ const ToolBar = defineComponent({
     clearSelection: Function,
     columns: Array as PropType<ICrudColumn[]>,
     searchConfigs: Array as PropType<ISearch[]>,
+    searcCb: Function as PropType<(params: IListRequestParams)=>void>,
   },
   data(): IToolBarData {
     return {
