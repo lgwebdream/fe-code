@@ -116,7 +116,7 @@ const TableProps: ICrud = {
     },
     {
       label: '删除',
-      type: 'link',
+      type: 'warning',
       toolbarType: ICrudToolbarTypeEnum.Delete,
       request: row =>
         axios(apiConfig.delete, { method: 'post', data: row }).then(() => {
@@ -125,7 +125,7 @@ const TableProps: ICrud = {
     },
     {
       label: '批量删除',
-      type: 'dashed',
+      type: 'danger',
       toolbarType: ICrudToolbarTypeEnum.DeleteBatch,
       request: row =>
         axios(apiConfig.delete, { method: 'post', data: row }).then(() => {

@@ -26,7 +26,7 @@
 
 <script lang='ts'>
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-import { ICrudColumn, ICurdFromItemTypeEnum, IListRequestParams } from '../../CrudTypes';
+import { ICrudColumn, IListRequestParams } from '../../CrudTypes';
 import { IFormComTypeEnum } from '../Form/constant';
 
 interface FilterSearchData {
@@ -69,12 +69,11 @@ const FilterSearch = defineComponent({
   },
   methods: {
     onSubmit() {
-      this?.$parent?.$parent?.searcCb?.(this.dyFormData);
+      this.searcCb?.(this.dyFormData);
     },
     resetForm() {
       this.$refs.dyFormData.resetFields();
-      this?.$parent?.$parent?.searcCb?.();
-      
+      this.searcCb?.();
     },
   },
 });

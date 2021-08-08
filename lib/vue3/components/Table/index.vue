@@ -9,7 +9,7 @@
       <el-table-column type='index' label='ID' width='50'></el-table-column>
 
       <template v-for='(item, index) in columns'>
-        <el-table-column v-if='!item.isHide' :label='item.title' :key='index' :sort-method='item.sorter?.compare' :sortable='item.sorter?.compare'>
+        <el-table-column v-if='!item.isHide' :label='item.title' :key='index' :sort-method='item.sorter?.compare' :sortable='!!item.sorter?.compare'>
           <template #default='scope'>
             <!-- 普通 -->
             <div v-if='!item.render'>{{scope.row?.[item.dataIndex]}}</div>

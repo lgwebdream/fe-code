@@ -1,9 +1,9 @@
 <template>
   <div>
-    <filter-search :columns='columns' />
+    <filter-search :columns='columns' :searcCb='searcCb' />
     <div class='toolBarWrap'>
       <div v-for='(item, index) in batchToolbar' :key='index' class='toolBarItem'>
-        <el-button v-if='!item.render' :type='item.type' :plain='item.plain' @click='btnClick(item)'>{{item.label}}</el-button>
+        <el-button v-if='!item.render' :type='item?.type || "link"' :plain='!!item.plain' @click='btnClick(item)'>{{item.label}}</el-button>
       </div>
 
       <el-dialog :title='dialogTitle' v-model='dialogFormVisible' destroy-on-close :before-close='beforeCloseDialog'>
@@ -11,11 +11,6 @@
           <el-form-item :label='column.title' v-for='(column,index) in columns' :key='index' :prop='column.dataIndex'>
             <el-input v-model='form[column.dataIndex]' autocomplete='off'></el-input>
           </el-form-item>
-
-          <!-- <el-select v-model='form.region' placeholder='请选择活动区域'>
-            <el-option label='区域一' value='shanghai'></el-option>
-            <el-option label='区域二' value='beijing'></el-option>
-          </el-select>-->
         </el-form>
         <div slot='footer' class='dialog-footer'>
           <el-button @click='clickDialogCancel'>取 消</el-button>
