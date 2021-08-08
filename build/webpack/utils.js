@@ -9,15 +9,18 @@ module.exports = {
 
     if (main === 'react') {
       if (isTypescript) {
-        result.devDependencies['@types/react'] = devDependencies['@types/react'];
-        result.devDependencies['@types/react-dom'] = devDependencies['@types/react-dom'];
+        result.devDependencies['@types/react'] =
+          devDependencies['@types/react'];
+        result.devDependencies['@types/react-dom'] =
+          devDependencies['@types/react-dom'];
       }
       result.dependencies.react = dependencies.react;
       result.dependencies['react-dom'] = dependencies['react-dom'];
     } else if (main === 'vue') {
       result.dependencies.vue = dependencies.vue;
       result.devDependencies['vue-loader'] = devDependencies['vue-loader'];
-      result.devDependencies['vue-template-compiler'] = devDependencies['vue-template-compiler'];
+      result.devDependencies['vue-template-compiler'] =
+        devDependencies['vue-template-compiler'];
     } else {
       console.log('没有选择任何框架，webpack不需要做任何处理！');
     }
@@ -96,9 +99,16 @@ module.exports = {
     const vueBaseLoaderConfig = `{
         test: /\\.vue$/,
         loader: 'vue-loader',
-      }, ${isSass ? vueSassLoaderConfig : isLess ? vuelessLoaderConfig : vueBaseCssLoaderConfig}`;
+      }, ${
+        isSass
+          ? vueSassLoaderConfig
+          : isLess
+          ? vuelessLoaderConfig
+          : vueBaseCssLoaderConfig
+      }`;
 
-    const devServerConfig = 'devServer: {\n    hot: true,\n    quiet: true,\n    port: 3000,\n  }';
+    const devServerConfig =
+      'devServer: {\n    hot: true,\n    quiet: true,\n    port: 3000,\n  }';
 
     if (main === 'vue') {
       if (isTypescript) {
@@ -119,7 +129,9 @@ module.exports = {
         ]`;
       }
 
-      ModuleExtensionsConfig = `extensions: ${isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js', '.vue']"}`;
+      ModuleExtensionsConfig = `extensions: ${
+        isTypescript ? "['.js', '.vue', '.tsx', '.ts']" : "['.js', '.vue']"
+      }`;
 
       result.plugins = {
         ...result.plugins,
@@ -190,7 +202,13 @@ module.exports = config;
             use: 'babel-loader',
             exclude: /node_modules/
           },
-          ${isSass ? reactSassLoaderConfig : isLess ? reactlessLoaderConfig : reactCssLoaderConfig}`;
+          ${
+            isSass
+              ? reactSassLoaderConfig
+              : isLess
+              ? reactlessLoaderConfig
+              : reactCssLoaderConfig
+          }`;
 
       const reactTypescriptLoaderConfig = `{
             test: /\\.ts(x)?$/,
@@ -209,7 +227,9 @@ module.exports = config;
         ]`;
       }
 
-      ModuleExtensionsConfig = `extensions: ${isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"}`;
+      ModuleExtensionsConfig = `extensions: ${
+        isTypescript ? "['.js','.jsx','.tsx','.ts']" : "['.js','.jsx']"
+      }`;
 
       const pluginArr = result.plugins;
       // eslint-disable-next-line guard-for-in

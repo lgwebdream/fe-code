@@ -18,3 +18,10 @@ module.exports.patchPackageJson = ({ packagesPath, main }) => {
       spaces: 2,
     });
 };
+/**
+ * transform array data to object with truly value
+ * @param arr{Array}
+ * @return {Object}
+ */
+module.exports.transformArr2TrueObj = arr =>
+  arr.reduce((pre, cur) => ({ ...pre, ...{ [cur]: true } }), {});

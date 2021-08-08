@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { outputFileSync, ensureDirSync } = require('fs-extra');
-const { transformArr2TrueObj } = require('./utils');
+const { transformArr2TrueObj } = require('../utils');
 const getBabel = require('./template/babel');
 const getIgnore = require('./template/ignore');
 const getReadMe = require('./template/readme');

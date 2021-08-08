@@ -15,11 +15,22 @@ module.exports = {
     'no-prototype-builtins': 'off',
     'no-restricted-syntax': 'off',
     'no-unused-expressions': 'off',
-    '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+    '@typescript-eslint/no-unused-expressions': [
+      'error',
+      { allowShortCircuit: true, allowTernary: true },
+    ],
     'import/no-unresolved': [
       2,
       {
-        ignore: ['vue', 'react', '@crud', 'react-dom', 'vite-plugin-vue2', 'mockjs', 'umi-request'],
+        ignore: [
+          'vue',
+          'react',
+          '@crud',
+          'react-dom',
+          'vite-plugin-vue2',
+          'mockjs',
+          'umi-request',
+        ],
       },
     ],
     'global-require': 'off',
