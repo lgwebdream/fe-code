@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { ButtonProps } from 'antd';
-import { Rule } from 'antd/es/form/index.d';
+import type { Rule } from 'antd/es/form/index.d';
 import { ColumnType, SortOrder } from 'antd/lib/table/interface';
 import type { CrudTableParams, CrudTableProps } from './Table/TableTypes';
 import { IFormComTypeEnum } from './Form/constant';
