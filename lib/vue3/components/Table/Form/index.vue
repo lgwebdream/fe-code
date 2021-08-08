@@ -31,7 +31,7 @@
 
 <script lang="ts">
 import { defineComponent, ComponentOptions, PropType } from 'vue';
-import ToolBar from '../Table/ToolBar/index.vue';
+import ToolBar from '../ToolBar/index.vue';
 import TableProps from './config';
 
 interface IData {

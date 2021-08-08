@@ -26,8 +26,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ComponentOptions, PropType } from 'vue';
+<script lang="tsx">
+import { defineComponent, ComponentOptions, PropType,h } from 'vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../../CrudTypes';
 import FilterSearch from './filterSearch.vue';
 
@@ -44,6 +44,7 @@ interface IToolBarData {
 
 const ToolBar = defineComponent({
   name: 'toolbar',
+  functional: true,
   components: {
     FilterSearch,
   },
@@ -71,6 +72,7 @@ const ToolBar = defineComponent({
     this.form = form;
   },
   methods: {
+    // 按钮点击事件
     btnClick(item: ICrudColumnToolbar) {
       this[item.toolbarType]?.(item);
     },
@@ -115,16 +117,19 @@ const ToolBar = defineComponent({
         message: '未选中',
       });
     },
+    // 关闭loading
     closeLoading(time = 1000) {
       setTimeout(() => {
         this.setLoading(false);
         this.clearSelection();
       }, time);
     },
+    // 关闭弹窗前钩子
     beforeCloseDialog(done) {
       this.$refs.formRef.resetFields();
       done();
     },
+    // 取消弹窗
     clickDialogCancel() {
       this.$refs.formRef.resetFields();
       this.dialogFormVisible = false;

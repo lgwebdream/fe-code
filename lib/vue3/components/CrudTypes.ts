@@ -1,4 +1,4 @@
-import { IFormComTypeEnum } from './Form/constant';
+import { IFormComTypeEnum } from './Table/Form/constant';
 
 /** CRUD 主体配置定义 */
 export interface ICrud<P = unknown, R = unknown, T = unknown> {

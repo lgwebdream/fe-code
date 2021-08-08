@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ICrud, ICurdFromItemTypeEnum } from '../CrudTypes';
-import TablePropsBase from '../Table/config';
+import { ICrud, ICurdFromItemTypeEnum } from '../../CrudTypes';
+import TablePropsBase from '../config';
 
 const apiConfig = {
   add: '/api/json/add',

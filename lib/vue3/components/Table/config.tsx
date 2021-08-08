@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import { ICrud, ICurdFromItemTypeEnum, ICrudToolbarTypeEnum } from '../CrudTypes';
-import { IFormComTypeEnum } from '../Form/constant';
+import { IFormComTypeEnum } from './Form/constant';
 
 const apiConfig = {
   add: '/api/json/add',
