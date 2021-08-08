@@ -7,15 +7,7 @@
       </div>
 
       <el-dialog :title='dialogTitle' v-model='dialogFormVisible' destroy-on-close :before-close='beforeCloseDialog'>
-        <el-form :model='form' ref='formRef'>
-          <el-form-item :label='column.title' v-for='(column,index) in columns' :key='index' :prop='column.dataIndex'>
-            <el-input v-model='form[column.dataIndex]' autocomplete='off'></el-input>
-          </el-form-item>
-        </el-form>
-        <div slot='footer' class='dialog-footer'>
-          <el-button @click='clickDialogCancel'>取 消</el-button>
-          <el-button type='primary' @click='clickDialogOk()'>确 定</el-button>
-        </div>
+        <Form ref='formRef' :columns='columns' :onCancel='clickDialogCancel' :onOk='clickDialogOk' :formOptions='formOptions' />
       </el-dialog>
     </div>
   </div>
@@ -25,16 +17,15 @@
 import { defineComponent, ComponentOptions, PropType,h } from 'vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, IListRequestParams, ISearch } from '../../CrudTypes';
 import FilterSearch from './filterSearch.vue';
+import Form from '../Form/index.vue'
 
 type SetLoadingFn = (flag: boolean) => void;
 
 interface IToolBarData {
   dialogFormVisible: boolean;
   dialogCurrentData: ICrudColumnToolbar;
-  form: {
-    [key in string]: unknown;
-  };
   dialogTitle: string;
+  formOptions?: any;
 }
 
 const ToolBar = defineComponent({
@@ -42,6 +33,7 @@ const ToolBar = defineComponent({
   functional: true,
   components: {
     FilterSearch,
+    Form
   },
   props: {
     batchToolbar: Array as PropType<ICrudColumnToolbar[]>,
@@ -56,8 +48,10 @@ const ToolBar = defineComponent({
     return {
       dialogFormVisible: false,
       dialogCurrentData: null,
-      form: {},
       dialogTitle: '',
+      formOptions: {
+        labelWidth: '100px'
+      }
     };
   },
   created() {
@@ -122,23 +116,24 @@ const ToolBar = defineComponent({
     },
     // 关闭弹窗前钩子
     beforeCloseDialog(done) {
-      this.$refs.formRef.resetFields();
+      // this.$refs.formRef.getRef().resetFields();
       done();
     },
     // 取消弹窗
     clickDialogCancel() {
-      this.$refs.formRef.resetFields();
+      // this.$refs.formRef.getRef().resetFields();
       this.dialogFormVisible = false;
     },
     // 弹窗确定
     async clickDialogOk() {
-      const valid = await this.$refs.formRef.validate();
+      const formRef = this.$refs.formRef.getRef()
+      const valid = await formRef.validate();
       if (!valid) return false;
       this.setLoading(true);
       await this.dialogCurrentData.request?.(this.form);
       await this.closeLoading(300);
       this.dialogFormVisible = false;
-      this.$refs.formRef.resetFields();
+      formRef.resetFields();
     },
   },
 });
@@ -157,9 +152,5 @@ export default ToolBar;
   .toolBarItem {
     margin-right: 20px;
   }
-}
-.dialog-footer {
-  display: flex;
-  justify-content: center;
 }
 </style>

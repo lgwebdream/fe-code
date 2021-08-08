@@ -14,3 +14,24 @@ export enum IFormComTypeEnum {
   Rate = 'Rate',
   Checkbox = 'Checkbox',
 }
+
+/** 表单类型 */
+export interface FormType {
+  Input: IFormComTypeEnum.Input;
+  InputNumber: IFormComTypeEnum.InputNumber;
+  Select: IFormComTypeEnum.Select;
+  DatePicker: IFormComTypeEnum.DatePicker;
+  TimePicker: IFormComTypeEnum.TimePicker;
+  RadioGroup: IFormComTypeEnum.RadioGroup;
+  TreeSelect: IFormComTypeEnum.TreeSelect;
+  Cascader: IFormComTypeEnum.Cascader;
+  Switch: IFormComTypeEnum.Switch;
+  CheckboxGroup: IFormComTypeEnum.CheckboxGroup;
+  Slider: IFormComTypeEnum.Slider;
+  Rate: IFormComTypeEnum.Rate;
+  Checkbox: IFormComTypeEnum.Checkbox;
+}
+
+export interface IFormData {
+  [key: string]: any;
+}

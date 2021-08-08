@@ -27,26 +27,12 @@
 <script lang='ts'>
 import { defineComponent, ComponentOptions, PropType } from 'vue';
 import { ICrudColumn, IListRequestParams } from '../../CrudTypes';
-import { IFormComTypeEnum } from '../Form/constant';
+import { FormType, IFormComTypeEnum } from '../Form/constant';
 
 interface FilterSearchData {
   dyFormData: any;
   btnShow: boolean;
-  formType: {
-    Input: IFormComTypeEnum.Input,
-    InputNumber: IFormComTypeEnum.InputNumber,
-    Select: IFormComTypeEnum.Select,
-    DatePicker: IFormComTypeEnum.DatePicker,
-    TimePicker: IFormComTypeEnum.TimePicker,
-    RadioGroup: IFormComTypeEnum.RadioGroup,
-    TreeSelect: IFormComTypeEnum.TreeSelect,
-    Cascader: IFormComTypeEnum.Cascader,
-    Switch: IFormComTypeEnum.Switch,
-    CheckboxGroup: IFormComTypeEnum.CheckboxGroup,
-    Slider: IFormComTypeEnum.Slider,
-    Rate: IFormComTypeEnum.Rate,
-    Checkbox: IFormComTypeEnum.Checkbox,
-  };
+  formType: FormType;
 }
 
 const FilterSearch = defineComponent({
@@ -54,17 +40,17 @@ const FilterSearch = defineComponent({
   setup() {},
   props: {
     columns: Array as PropType<ICrudColumn[]>,
-    searcCb: Function as PropType<(params: IListRequestParams)=>void>,
+    searcCb: Function as PropType<(params: IListRequestParams) => void>,
   },
-  data():FilterSearchData {
+  data(): FilterSearchData {
     return {
       dyFormData: {},
-      btnShow : false,
-      formType: IFormComTypeEnum
+      btnShow: false,
+      formType: IFormComTypeEnum,
     };
   },
   created() {
-    const flag = this.columns?.some?.((item:ICrudColumn) => item.isFilter);
+    const flag = this.columns?.some?.((item: ICrudColumn) => item.isFilter);
     this.btnShow = flag;
   },
   methods: {

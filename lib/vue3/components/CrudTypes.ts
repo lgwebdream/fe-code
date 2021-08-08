@@ -87,6 +87,12 @@ export interface ICrudColumn {
 
   /** 校验规则，同 antd */
   rules?: any[];
+
+  /** TreeSelect组件数据 */
+  fieldProps?: {
+    treeData?: any[];
+    cascaderData?: any[];
+  };
 }
 
 export interface SorterResult {

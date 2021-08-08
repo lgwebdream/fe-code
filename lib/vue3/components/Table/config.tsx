@@ -45,21 +45,21 @@ const TableProps: ICrud = {
     {
       title: '部门',
       dataIndex: 'department',
-      type: IFormComTypeEnum.TreeSelect,
-      // fieldProps: {
-      //   treeData: [
-      //     {
-      //       title: '营销',
-      //       value: 'light',
-      //       children: [{ title: '运营', value: 'bamboo' }],
-      //     },
-      //     {
-      //       title: '企划',
-      //       value: 'light2',
-      //       children: [{ title: '业务', value: 'bamboo2' }],
-      //     },
-      //   ],
-      // },
+      type: IFormComTypeEnum.Cascader,
+      fieldProps: {
+        cascaderData: [
+          {
+            label: '营销',
+            value: 'light',
+            children: [{ label: '运营', value: 'bamboo' }],
+          },
+          {
+            label: '企划',
+            value: 'light2',
+            children: [{ label: '业务', value: 'bamboo2' }],
+          },
+        ],
+      },
     },
     {
       title: '积分',
@@ -75,22 +75,22 @@ const TableProps: ICrud = {
       title: '映像',
       dataIndex: 'mapping',
       type: IFormComTypeEnum.RadioGroup,
-      // options: [
-      //   { label: '优秀', value: '优秀' },
-      //   { label: '良好', value: '良好' },
-      //   { label: '差', value: '差' },
-      // ],
+      options: [
+        { label: '优秀', value: '优秀' },
+        { label: '良好', value: '良好' },
+        { label: '差', value: '差' },
+      ],
     },
     {
       isHide: true,
       title: '标签',
       dataIndex: 'tags',
       type: IFormComTypeEnum.CheckboxGroup,
-      // options: [
-      //   { label: '外向', value: '外向' },
-      //   { label: '善于沟通', value: '善于沟通' },
-      //   { label: '脾气差', value: '脾气差' },
-      // ],
+      options: [
+        { label: '外向', value: '外向' },
+        { label: '善于沟通', value: '善于沟通' },
+        { label: '脾气差', value: '脾气差' },
+      ],
     },
     {
       title: '是否上榜',
