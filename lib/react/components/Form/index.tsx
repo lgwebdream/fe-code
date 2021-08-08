@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form } from 'antd';
-import { IFormProps } from './FormTypes';
+import type { IFormProps } from './FormTypes';
 import { findComByName } from './formUtils';
 import { ICrudColumn } from '../CrudTypes';
 

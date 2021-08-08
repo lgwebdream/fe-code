@@ -1,6 +1,7 @@
 const ora = require('ora');
 const { join } = require('path');
 const { prompt } = require('inquirer');
+const { exec } = require('shelljs');
 const { existsSync, mkdirSync } = require('fs-extra');
 const {
   generateReactCode,
@@ -105,14 +106,22 @@ const react2code = program => {
           generateReactCode(templatePath, toPath, answers);
 
           // generate mock json
-          generateReactMock(reactLibPath, join(toPath, answers.model));
+          generateReactMock(reactLibPath, toPath);
 
           setTimeout(() => {
-            spinner.text = 'generate success';
-            setTimeout(() => {
-              spinner.stop();
-            }, 400);
-          }, 1200);
+            spinner.text = 'format code... \n';
+
+            // format code with prettier
+            exec(
+              `npx prettier -u --write '${toPath}/(components|${answers.model})/*.{tsx,jsx,js,ts}'`,
+              () => {
+                spinner.text = 'generate success...';
+                setTimeout(() => {
+                  spinner.stop();
+                }, 400);
+              },
+            );
+          }, 500);
         } catch (error) {
           spinner.stop();
         }
