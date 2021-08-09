@@ -1,0 +1,36 @@
+{
+  "name": "@fe-code/vue2",
+  "version": "0.1.0",
+  "description": "",
+  "license": "ISC",
+  "main": "./components",
+  "scripts": {},
+  "dependencies": {
+    "element-ui": "^2.15.3",
+    "vue": "^2.6.11",
+    "vue-router": "^3.5.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "typescript": "^4.3.5"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

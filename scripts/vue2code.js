@@ -18,23 +18,27 @@ const confirmQuestions = [
 // 交互问题采集
 const questions = [
   {
+    type: 'checkbox',
+    name: 'component',
+    choices: [
+      {
+        name: 'Table',
+        value: 'Table',
+      },
+      {
+        name: 'Form',
+        value: 'Form',
+      },
+    ],
+    message: 'Check the component needed for your project',
+  },
+  {
     type: 'input',
     name: 'model',
     message: '新模块名称（英文）:',
     default: 'model-a',
   },
-  {
-    type: 'input',
-    name: 'file',
-    message: '新模块文件名称（英文）:',
-    default: 'index',
-  },
-  {
-    type: 'confirm',
-    name: 'isReset',
-    message: '是否需要初始化/重置基础组件:',
-    default: 'N',
-  },
+
   {
     type: 'input',
     name: 'title',
@@ -59,12 +63,13 @@ confirmQuestions.forEach(it =>
   }),
 );
 
+const config = loadConfig();
+
 // TODO 校验初始化与否，给予合理提示
 
 // 校验是否使用 typescript
 
-const { isTypescript } = transformArr2TrueObj(loadConfig().featureList || []);
-const templatePath = join(__dirname, `../lib/vue/${isTypescript ? '' : ''}`);
+// const templatePath = join(__dirname, `../lib/vue/${isTypescript ? '' : ''}`);
 
 // const templatePath = join(__dirname, '../lib/vue/');
 
@@ -74,11 +79,13 @@ const vue2code = program => {
     .alias('v2c')
     .usage('-o <output>')
     .description('🍉 generate vue code of crud')
-    .requiredOption('-o, --output <output>', 'path of generation file')
+    .option('-o, --output <output>', 'path of generation file')
 
     .action(({ output }) => {
       prompt(questions).then(answers => {
-        const { isReset } = answers;
+        // const { isReset } = answers;
+        const { isTypescript } = transformArr2TrueObj(config.featureList || []);
+        const templatePath = join(__dirname, `../lib/vue3/`);
 
         Object.assign(answers, { isTs: isTypescript });
         // write path
@@ -92,7 +99,7 @@ const vue2code = program => {
 
         try {
           // init/reset base components
-          isReset && initVueBase(templatePath, toPath);
+          initVueBase(templatePath, toPath, answers);
 
           // generate react crud code
           generateVueCode(templatePath, toPath, answers);
