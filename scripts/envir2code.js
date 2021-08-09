@@ -190,7 +190,7 @@ const start = () => {
       type: 'list',
       name: 'buildTool',
       default: 'webpack',
-      choices: ['snowpack', 'vite', 'webpack'], // webpack
+      choices: ['webpack', 'snowpack', 'vite'],
       message: 'Which build tool do you want to use?',
     },
     {

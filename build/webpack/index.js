@@ -32,6 +32,7 @@ module.exports = ({
     beautify(webpackConfig, {
       indent_size: 2,
       space_in_empty_paren: true,
+      brace_style: 'collapse',
     }),
   );
 };
