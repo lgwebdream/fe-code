@@ -3,6 +3,7 @@ const { prompt } = require('inquirer');
 const ora = require('ora');
 const { generateVueCode, initVueBase } = require('../lib/utils/vue2Code');
 const loadConfig = require('../lib/loadConfig');
+const { transformArr2TrueObj } = require('../utils');
 
 const confirmQuestions = [
   { key: 'isNeedQuery', text: '查询' },
@@ -68,6 +69,8 @@ const config = loadConfig();
 
 // 校验是否使用 typescript
 
+// const templatePath = join(__dirname, `../lib/vue/${isTypescript ? '' : ''}`);
+
 // const templatePath = join(__dirname, '../lib/vue/');
 
 const vue2code = program => {
@@ -81,8 +84,7 @@ const vue2code = program => {
     .action(({ output }) => {
       prompt(questions).then(answers => {
         // const { isReset } = answers;
-
-        const isTypescript = config?.featureList?.includes('typescript');
+        const { isTypescript } = transformArr2TrueObj(config.featureList || []);
         const templatePath = join(__dirname, `../lib/vue3/`);
 
         Object.assign(answers, { isTs: isTypescript });

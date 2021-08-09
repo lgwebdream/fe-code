@@ -1,8 +1,10 @@
 const { prompt } = require('inquirer');
 const { writeJsonSync, pathExistsSync, ensureDirSync } = require('fs-extra');
-const { green, yellow } = require('chalk');
+const { green, yellow, red } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
+const ora = require('ora');
+
 const {
   initConfig,
   CONFIG_NAME,
@@ -16,6 +18,31 @@ const finishCommand = () => {
   const { root, projectName } = collection;
   const resolvePath = join(process.cwd(), root, projectName);
   const configPath = join(resolvePath, CONFIG_NAME);
+  const spinner = ora();
+  const run = () => {
+    spinner.start(`generate ${CONFIG_NAME}...`);
+    try {
+      ensureDirSync(resolvePath);
+      writeJsonSync(
+        configPath,
+        { ...initConfig, ...collection },
+        {
+          spaces: 2,
+        },
+      );
+      spinner.succeed(green(`generate ${CONFIG_NAME} successfully`));
+    } catch (e) {
+      spinner.fail(red(`Error: generate ${CONFIG_NAME}`));
+      return;
+    }
+    spinner.start(`generate project...`);
+    if (shell.exec(`node ${runnerPath} ${configPath}`).code !== 0) {
+      spinner.fail(red(`node ${runnerPath} ${configPath}`));
+      shell.exit(1);
+    } else {
+      spinner.succeed(green(`generate ${projectName} successfully`));
+    }
+  };
   if (pathExistsSync(resolvePath)) {
     const questions = [
       {
@@ -28,30 +55,20 @@ const finishCommand = () => {
     ];
     prompt(questions).then(answers => {
       if (answers.overrideOutput) {
-        shell.exec(`rm -rf ${resolvePath}`);
-        ensureDirSync(resolvePath);
-        writeJsonSync(
-          configPath,
-          { ...initConfig, ...collection },
-          {
-            spaces: 2,
-          },
-        );
-        console.info(green(`generate ${CONFIG_NAME}`));
-        shell.exec(`node ${runnerPath} ${configPath}`);
+        spinner.start(`remove ${resolvePath}`);
+        if (shell.exec(`rm -rf ${resolvePath}`).code !== 0) {
+          shell.echo(`Error: rm -rf ${resolvePath}`);
+          spinner.fail(red(`Error: remove ${resolvePath}`));
+          shell.exit(1);
+          return;
+        }
+        spinner.succeed(green(`remove ${resolvePath} successfully`));
+        run();
       }
     });
   } else {
-    ensureDirSync(resolvePath);
-    writeJsonSync(
-      configPath,
-      { ...initConfig, ...collection },
-      {
-        spaces: 2,
-      },
-    );
-    console.info(green(`generate ${CONFIG_NAME}`));
-    shell.exec(`node ${runnerPath} ${configPath}`);
+    spinner.start();
+    run();
   }
 };
 
@@ -173,14 +190,14 @@ const start = () => {
       type: 'list',
       name: 'buildTool',
       default: 'snowpack',
-      choices: ['snowpack', 'vite'], // 'webpack'
+      choices: ['snowpack', 'vite'], // webpack
       message: 'Which build tool do you want to use?',
     },
     {
       type: 'list',
       name: 'mainFramework',
       default: 'react',
-      choices: ['vue', 'react', 'none'],
+      choices: ['react', 'vue', 'none'],
       message: 'Which main framework do you want to use?',
     },
   ];
