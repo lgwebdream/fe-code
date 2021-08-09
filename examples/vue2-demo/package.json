@@ -6,7 +6,6 @@
     "start": "npm run link:npm && npm run serve",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "link:npm": "npm link @fe-code/vue2",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

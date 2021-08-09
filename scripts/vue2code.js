@@ -83,7 +83,7 @@ const vue2code = program => {
         // const { isReset } = answers;
 
         const isTypescript = config?.featureList?.includes('typescript');
-        const templatePath = join(__dirname, `../lib/vue/`);
+        const templatePath = join(__dirname, `../lib/vue3/`);
 
         Object.assign(answers, { isTs: isTypescript });
         // write path

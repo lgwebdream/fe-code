@@ -7,9 +7,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ComponentOptions } from 'vue';
 
-const crud = defineComponent({
+const crud = {
   name: 'crud',
   props: {
       crudProps:{
@@ -23,10 +22,6 @@ const crud = defineComponent({
  
     return {};
   },
-});
-
-crud.install = (Vue: ComponentOptions) => {
-  Vue.component(crud.name, crud);
 };
 
 export default crud;

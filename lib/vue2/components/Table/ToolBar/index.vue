@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { ComponentOptions, PropType } from 'vue';
+
 import { ICrudColumn, ICrudColumnToolbar, ICrudToolbarTypeEnum, ISearch } from '../../CrudTypes';
 import FilterSearch from './filterSearch.vue';
 

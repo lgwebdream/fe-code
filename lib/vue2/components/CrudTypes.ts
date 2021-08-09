@@ -26,6 +26,8 @@ export interface ICrudColumn {
 
   placeholder?: string;
 
+  type:string;
+
   /** 属性字段名 */
   dataIndex: string;
 

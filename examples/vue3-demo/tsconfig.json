@@ -21,9 +21,9 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "../../lib/vue3/**/*.vue",
-    "../../lib/vue3/**/*.ts",
-    "../../lib/vue3/**/*.tsx"
+    "../../lib/vue3/*.vue",
+    "../../lib/vue3/*.ts",
+    "../../lib/vue3/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

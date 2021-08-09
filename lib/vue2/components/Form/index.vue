@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { ComponentOptions, PropType } from 'vue';
+
 import ToolBar from '../Table/ToolBar/index.vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest, ISearch } from '../CrudTypes';
 import TableProps from './config'
