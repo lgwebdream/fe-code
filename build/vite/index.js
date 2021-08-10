@@ -26,7 +26,5 @@ module.exports = ({
     sass: isSass,
     less: isLess,
   });
-  console.log('viteConfig', viteConfig);
-  console.log('VITE_CONFIG_JS', $resolveRoot, VITE_CONFIG_JS);
   outputFileSync(join($resolveRoot, VITE_CONFIG_JS), viteConfig);
 };

@@ -58,7 +58,7 @@ module.exports = {
     let importExportTemplate = '';
     let ModuleRuleConfig = '';
     let ModuleExtensionsConfig = '';
-    const vueBaseCssLoaderConfig = `{
+    let vueBaseCssLoaderConfig = `{
         test: /\\.css$/,
         use: ['vue-style-loader', 'css-loader'],
         exclude: /\\.module\\.css$/,
@@ -78,7 +78,7 @@ module.exports = {
         include: /\\.module\\.css$/,
       }`;
 
-    const vueSassLoaderConfig = `${vueBaseCssLoaderConfig},{
+    const vueSassLoaderConfig = `{
         test: /\\.scss$/,
         use: [
           'vue-style-loader',
@@ -87,7 +87,7 @@ module.exports = {
         ]
       }`;
 
-    const vuelessLoaderConfig = `${vueBaseCssLoaderConfig},{
+    const vuelessLoaderConfig = `{
         test: /\\.less$/,
         use: [
           'vue-style-loader',
@@ -96,19 +96,21 @@ module.exports = {
         ]
       }`;
 
+    if (isSass) {
+      vueBaseCssLoaderConfig = `${vueBaseCssLoaderConfig},${vueSassLoaderConfig}`;
+    }
+
+    if (isLess) {
+      vueBaseCssLoaderConfig = `${vueBaseCssLoaderConfig},${vuelessLoaderConfig}`;
+    }
+
     const vueBaseLoaderConfig = `{
         test: /\\.vue$/,
         loader: 'vue-loader',
-      }, ${
-        isSass
-          ? vueSassLoaderConfig
-          : isLess
-          ? vuelessLoaderConfig
-          : vueBaseCssLoaderConfig
-      }`;
+      }, ${vueBaseCssLoaderConfig}`;
 
     const devServerConfig =
-      'devServer: {\n    hot: true,\n    quiet: true,\n    port: 3000,\n  }';
+      'devServer: {\n    hot: true,\n    quiet: false,\n    port: 3000,\n  }';
 
     if (main === 'vue') {
       if (isTypescript) {
@@ -168,57 +170,50 @@ const config = {
 module.exports = config;
 `;
     } else if (main === 'react') {
-      const reactCssLoaderConfig = `{
-          test: /\\.css$/,
-          use: ['style-loader', 'css-loader'],
-        }, `;
+      let reactBaseLoaderConfig = `{
+            test: /\\.(js|jsx)$/,
+            use: 'babel-loader',
+            exclude: /node_modules/
+          },{
+            test: /\\.css$/,
+            use: ['style-loader', 'css-loader'],
+          }`;
 
       const reactSassLoaderConfig = `{
-          test: /\\.css$/,
-          use: ['style-loader', 'css-loader'],
-        }, {
         test: /\\.scss$/,
         use: [
           'style-loader',
           'css-loader',
           'sass-loader',
         ],
-      },`;
+      }`;
 
       const reactlessLoaderConfig = `{
-          test: /\\.css$/,
-          use: ['style-loader', 'css-loader'],
-        }, {
         test: /\\.less$/,
         use: [
           'style-loader',
           'css-loader',
           'less-loader',
         ],
-      },`;
+      }`;
 
-      const reactBaseLoaderConfig = `{
-            test: /\\.(js|jsx)$/,
-            use: 'babel-loader',
-            exclude: /node_modules/
-          },
-          ${
-            isSass
-              ? reactSassLoaderConfig
-              : isLess
-              ? reactlessLoaderConfig
-              : reactCssLoaderConfig
-          }`;
+      if (isSass) {
+        reactBaseLoaderConfig = `${reactBaseLoaderConfig},${reactSassLoaderConfig}`;
+      }
+
+      if (isLess) {
+        reactBaseLoaderConfig = `${reactBaseLoaderConfig},${reactlessLoaderConfig}`;
+      }
 
       const reactTypescriptLoaderConfig = `{
             test: /\\.ts(x)?$/,
             loader: 'ts-loader',
             exclude: /node_modules/
-          },`;
+          }`;
 
       if (isTypescript) {
         ModuleRuleConfig = `rules: [
-         ${reactBaseLoaderConfig}
+         ${reactBaseLoaderConfig},
          ${reactTypescriptLoaderConfig}
         ]`;
       } else {
