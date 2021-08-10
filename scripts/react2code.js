@@ -51,13 +51,13 @@ const questions = [
     message: '业务标题:',
     default: '标题',
   },
-  {
-    type: 'list',
-    name: 'containerType',
-    message: '交互方式:',
-    choices: ['Modal', 'Panel'],
-    default: 'Modal',
-  },
+  // {
+  //   type: 'list',
+  //   name: 'containerType',
+  //   message: '交互方式:',
+  //   choices: ['Modal', 'Panel'],
+  //   default: 'Modal',
+  // },
 ];
 
 confirmQuestions.forEach(it =>
