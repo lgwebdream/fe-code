@@ -64,39 +64,39 @@ module.exports = {
         createVuePlugin: 'vite-plugin-vue2',
       };
       const pluginArr = result.plugins;
-      for(let key in pluginArr) {
-        importExportTemplate += `import { ${key} } from '${pluginArr[key]}';`;
+      // eslint-disable-next-line guard-for-in
+      for (const key in pluginArr) {
+        importExportTemplate += `import {${key}} from '${pluginArr[key]}';
+        `;
         exportTemplateArr.push(`${key}()`);
       }
       ViteConfigTemplate = `${importExportTemplate}
-
-module.exports = {
-  root: './src',
-  plugins: [${exportTemplateArr}],
-};
-`
-    } else if(main === 'react'){
-        result.plugins = {
-            reactRefresh: '@vitejs/plugin-react-refresh',
-            vitePluginHtml: 'vite-plugin-html',
-        };
-        const pluginArr = result.plugins;
-        for(let key in pluginArr) {
-          importExportTemplate += `import ${key} from '${pluginArr[key]}';
-          `;
-          exportTemplateArr.push(`${key}()`);
-        }
-        if(isTypescript) {
-          scriptTemplate = '<script type="module" src="/index.tsx"></script>'
-        } else {
-          scriptTemplate = '<script type="module" src="/index.jsx"></script>'
-        }
-        ViteConfigTemplate = `import { defineConfig } from 'vite';
-${importExportTemplate}
+      module.exports = {
+        root : './src',
+        plugins: [${exportTemplateArr}],
+      };`;
+    } else if (main === 'react') {
+      result.plugins = {
+        reactRefresh: '@vitejs/plugin-react-refresh',
+        vitePluginHtml: 'vite-plugin-html',
+      };
+      const pluginArr = result.plugins;
+      // eslint-disable-next-line guard-for-in
+      for (const key in pluginArr) {
+        importExportTemplate += `import ${key} from '${pluginArr[key]}';`;
+        exportTemplateArr.push(`${key}()`);
+      }
+      if (isTypescript) {
+        scriptTemplate = '<script type="module" src="/index.tsx"></script>';
+      } else {
+        scriptTemplate = '<script type="module" src="/index.jsx"></script>';
+      }
+      ViteConfigTemplate = `import { defineConfig } from 'vite';
+        ${importExportTemplate}
 export default defineConfig({
   root: './src',
   plugins: [
-    reactRefresh(), 
+    reactRefresh(),
     vitePluginHtml({
       minify: true,
       inject: {
@@ -105,9 +105,8 @@ export default defineConfig({
         },
       },
     }),
-  ],
-});
-`
+  ]
+});`;
     } else {
       scriptTemplate = '<script type="module" src="/App.js"></script>';
       ViteConfigTemplate = `import { defineConfig } from 'vite';
