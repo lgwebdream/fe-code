@@ -1,5 +1,4 @@
 const config = require('./defaultConfig');
-const { jsonFormatted } = require('../lint');
 
 const vueShim = {
   text: `declare module "*.vue" {
@@ -22,14 +21,15 @@ const viteVueShims = {
   file: 'shims-vue.d.ts',
 };
 
-module.exports = ({ main, includePath, buildTool }) => {
+module.exports = ({ main, includePath, buildTool, isTypescript }) => {
   const result = [];
+  if (!isTypescript) return result;
   if (main === 'react') {
     config.compilerOptions.jsx = 'react';
   }
   config.include.push(`./${includePath}/**/*`);
   result.push({
-    text: JSON.stringify(config, null, jsonFormatted.spaces),
+    text: JSON.stringify(config),
     file: 'tsconfig.json',
   });
   if (buildTool === 'snowpack') {

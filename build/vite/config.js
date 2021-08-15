@@ -10,9 +10,9 @@ module.exports = {
     author: '',
     license: 'ISC',
     scripts: {
+      clean: 'rm dist/bundle.js',
       dev: 'vite',
       build: 'vite build',
-      serve: 'vite preview',
     },
     dependencies: {},
     devDependencies: {

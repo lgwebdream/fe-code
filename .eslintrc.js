@@ -42,6 +42,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/destructuring-assignment': [0, 'always'],
     'import/no-extraneous-dependencies': 0,
+    'no-param-reassign': 0,
     'no-nested-ternary': 'off',
   },
   settings: {
