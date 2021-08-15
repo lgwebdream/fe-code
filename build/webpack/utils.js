@@ -1,32 +1,28 @@
 const { templatePackageJson, templateWebpackConfig } = require('./config');
 
-const { dependencies, devDependencies } = require('../../dependencies.config');
+const { devDependencies } = require('../../dependencies.config');
+const { mergeBasicDependencies } = require('../utils');
 
 module.exports = {
-  getPackageJson({ ui, main, projectName, isTypescript, isSass, isLess }) {
+  getPackageJson({
+    isLint,
+    isPrettier,
+    ui,
+    main,
+    projectName,
+    isTypescript,
+    isSass,
+    isLess,
+  }) {
     const result = JSON.parse(JSON.stringify(templatePackageJson));
-    result.name = projectName;
 
-    if (main === 'react') {
-      if (isTypescript) {
-        result.devDependencies['@types/react'] =
-          devDependencies['@types/react'];
-        result.devDependencies['@types/react-dom'] =
-          devDependencies['@types/react-dom'];
-      }
-      result.dependencies.react = dependencies.react;
-      result.dependencies['react-dom'] = dependencies['react-dom'];
-    } else if (main === 'vue') {
-      result.dependencies.vue = dependencies.vue;
+    if (main === 'vue') {
       result.devDependencies['vue-loader'] = devDependencies['vue-loader'];
       result.devDependencies['vue-template-compiler'] =
         devDependencies['vue-template-compiler'];
-    } else {
-      console.log('没有选择任何框架，webpack不需要做任何处理！');
     }
 
     if (isTypescript) {
-      result.devDependencies.typescript = devDependencies.typescript;
       result.devDependencies['ts-loader'] = devDependencies['ts-loader'];
     }
 
@@ -39,16 +35,14 @@ module.exports = {
       result.devDependencies.less = devDependencies.less;
       result.devDependencies['less-loader'] = devDependencies['less-loader'];
     }
-
-    if (ui === 'antd') {
-      result.dependencies.antd = dependencies.antd;
-    }
-
-    if (ui === 'element') {
-      result.dependencies['element-ui'] = dependencies['element-ui'];
-    }
-
-    return result;
+    return mergeBasicDependencies(result, {
+      isLint,
+      isPrettier,
+      projectName,
+      ui,
+      main,
+      isTypescript,
+    });
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

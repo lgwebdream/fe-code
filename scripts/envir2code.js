@@ -1,6 +1,6 @@
 const { prompt } = require('inquirer');
 const { writeJsonSync, pathExistsSync, ensureDirSync } = require('fs-extra');
-const { green, yellow, red } = require('chalk');
+const { green, yellow, red, blue } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
 const ora = require('ora');
@@ -14,9 +14,23 @@ const {
 const runnerPath = join(__dirname, '..', 'build/index.js');
 let collection = {};
 
+/**
+ * merge the fields of mainFramework, mainFrameworkVersion to mainFramework object
+ * @param data{{request: {headers: {}, url: string}, language: string, templatePath: string}}
+ * @return {{mainFramework: string}}
+ */
+const formatOutput = (data = {}) => {
+  const { mainFrameworkVersion, mainFramework } = data;
+  data.mainFramework = {
+    name: mainFramework,
+    version: mainFrameworkVersion,
+  };
+  delete data.mainFrameworkVersion;
+  return data;
+};
 const finishCommand = () => {
-  const { root, projectName } = collection;
-  const resolvePath = join(process.cwd(), root, projectName);
+  const { projectName } = collection;
+  const resolvePath = join(process.cwd(), projectName);
   const configPath = join(resolvePath, CONFIG_NAME);
   const spinner = ora();
   const run = () => {
@@ -25,24 +39,42 @@ const finishCommand = () => {
       ensureDirSync(resolvePath);
       writeJsonSync(
         configPath,
-        { ...initConfig, ...collection },
+        formatOutput({ ...initConfig, ...collection }),
         {
           spaces: 2,
         },
       );
-      spinner.succeed(green(`generate ${CONFIG_NAME} successfully`));
     } catch (e) {
       spinner.fail(red(`Error: generate ${CONFIG_NAME}`));
-      return;
+      shell.exit(1);
     }
     spinner.start(`generate project...`);
     if (shell.exec(`node ${runnerPath} ${configPath}`).code !== 0) {
-      spinner.fail(red(`node ${runnerPath} ${configPath}`));
+      spinner.fail(red(`Error: node ${runnerPath} ${configPath}`));
       shell.exit(1);
-    } else {
-      spinner.succeed(green(`generate ${projectName} successfully`));
     }
+
+    spinner.start(`format code...`);
+    if (
+      shell.exec(`prettier --loglevel error --write ${resolvePath}`).code !== 0
+    ) {
+      spinner.fail(
+        red(`Error: prettier --loglevel error --write ${resolvePath}`),
+      );
+      shell.exit(1);
+    }
+    spinner.succeed(green(`Project initialization finished!`));
+
+    spinner.stopAndPersist({
+      text: `
+Get started with the following commands:
+  ${blue(`
+  $ cd ${projectName}
+  $ npm install`)}
+`,
+    });
   };
+
   if (pathExistsSync(resolvePath)) {
     const questions = [
       {
@@ -62,7 +94,6 @@ const finishCommand = () => {
           shell.exit(1);
           return;
         }
-        spinner.succeed(green(`remove ${resolvePath} successfully`));
         run();
       }
     });
@@ -82,43 +113,45 @@ const commonPartQuestions = [
       //   value: 'babel',
       // },
       {
-        name: 'typescript',
+        name: 'Typescript',
         value: 'typescript',
       },
-      // {
-      //   name: 'unit Testing',
-      //   value: 'unitTest',
-      // },
-      // {
-      //   name: 'Linter/Formatter',
-      //   value: 'lint',
-      // },
+      {
+        name: 'Unit Testing',
+        value: 'unitTest',
+      },
+      {
+        name: 'Eslint',
+        value: 'lint',
+      },
+      {
+        name: 'Prettier',
+        value: 'prettier',
+      },
       // {
       //   name: 'E2E Testing',
       //   value: 'e2e',
       // },
       {
-        name: 'sass',
+        name: 'Sass',
         value: 'sass',
       },
       {
-        name: 'less',
+        name: 'Less',
         value: 'less',
       },
     ],
     message: 'Check the features needed for your project',
   },
-  {
-    type: 'input',
-    name: 'root',
-    message: 'Please input the destination of output?',
-    filter(input) {
-      return input.trim();
-    },
-  },
 ];
 const vuePart = () => {
   const questions = [
+    {
+      type: 'list',
+      name: 'mainFrameworkVersion',
+      choices: [2, 3],
+      message: 'Which vue version do you prefer to use?',
+    },
     {
       type: 'list',
       name: 'uiFramework',

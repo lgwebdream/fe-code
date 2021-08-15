@@ -41,7 +41,7 @@
 - typescript: template, ~~react.~~ vue(any), empty
 - style: sass/postcss/less:
   - react: sass, less done
-- test: jest/mocha/chai/ should/expect - template
+
 
 改动:
 1. template/react 调用方式从之前`const { newIndex: reactNewIndex } = require('./template/react17');`
@@ -53,9 +53,16 @@
 3. 新增react ts, sass, less的模板
 4. `.fecoderc.json`的`featureList`新增sass,less属性
 
-- lint: eslint/prettier - alone
-- babel  
-- framework: vue3
+- test: jest/mocha/chai/ should/expect - template
+  react/vue - jest
+~~- lint: eslint/prettier - alone: format all generation files~~
+- framework: vue3 - ts - sass - less
+
+新增：
+1. 添加 `mergeBasicDependencies` 方法处理3个打包工具共同使用的依赖包。 相关引用代码已统一处理好
+2. 把 `getSrcTemplate` 这部分代码提取成utils, 降低对 `index.js` 的耦合
+3. 移除 `beauty-js` , 使用 `prettier` 统一处理格式化问题。相关代码在 `script/envir2code.js`
+
 - plugins:
   - webpack
     - html-webpack-plugin
