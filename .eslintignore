@@ -2,3 +2,4 @@ bin/fe
 /**/*.d.ts
 yarn.lock
 examples
+lib
