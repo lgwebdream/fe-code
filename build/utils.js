@@ -3,7 +3,8 @@ const {
   devDependencies: devDependenciesConfig,
 } = require('../dependencies.config');
 const reactSrcTemplate = require('./template/react17');
-const vueSrcTemplate = require('./template/vue2');
+const vue2SrcTemplate = require('./template/vue2');
+const vue3SrcTemplate = require('./template/vue3');
 const emptySrcTemplate = require('./template/empty');
 const getStyles = require('./template/style');
 
@@ -83,7 +84,8 @@ module.exports.getSrcTemplate = ({
   isLess,
 }) => {
   const srcFilesMap = {
-    vue: vueSrcTemplate,
+    vue2: vue2SrcTemplate,
+    vue3: vue3SrcTemplate,
     react: reactSrcTemplate,
   };
   const scripts = (srcFilesMap[main] || emptySrcTemplate)({

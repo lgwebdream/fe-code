@@ -59,7 +59,7 @@ module.exports = {
     const exportTemplateArr = [];
     let importExportTemplate = '';
     let scriptTemplate = '';
-    if (main === 'vue') {
+    if (main === 'vue2') {
       result.plugins = {
         createVuePlugin: 'vite-plugin-vue2',
       };
@@ -75,6 +75,23 @@ module.exports = {
         root : './src',
         plugins: [${exportTemplateArr}],
       };`;
+    } else if (main === 'vue3') {
+      result.plugins = {
+        vue: '@vitejs/plugin-vue',
+      };
+      const pluginArr = result.plugins;
+      // eslint-disable-next-line guard-for-in
+      for (const key in pluginArr) {
+        importExportTemplate += `import {${key}} from '${pluginArr[key]}';
+        `;
+        exportTemplateArr.push(`${key}()`);
+      }
+      ViteConfigTemplate = `import { defineConfig } from 'vite';
+      ${importExportTemplate}
+export default defineConfig({
+  root: './src',
+  plugins: [vue()]
+})`;
     } else if (main === 'react') {
       result.plugins = {
         reactRefresh: '@vitejs/plugin-react-refresh',
@@ -130,9 +147,6 @@ export default defineConfig({
     } else if (ui === 'element') {
       result.packageOptions.push('element-ui');
     }
-    // ViteConfigTemplate=  uglifyjs({
-    //   ViteConfigTemplate
-    // }, )
     return ViteConfigTemplate;
   },
 };
