@@ -4,6 +4,7 @@ const { green, yellow, red, blue } = require('chalk');
 const { join } = require('path');
 const shell = require('shelljs');
 const ora = require('ora');
+const { formatCode } = require('../utils');
 
 const {
   initConfig,
@@ -55,9 +56,7 @@ const finishCommand = () => {
     }
 
     spinner.start(`format code...`);
-    if (
-      shell.exec(`prettier --loglevel error --write ${resolvePath}`).code !== 0
-    ) {
+    if (formatCode(resolvePath) !== 0) {
       spinner.fail(
         red(`Error: prettier --loglevel error --write ${resolvePath}`),
       );
