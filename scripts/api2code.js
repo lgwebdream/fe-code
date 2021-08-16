@@ -1,14 +1,12 @@
 const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
-const generateCRUD = require('../lib/api2code/generateCRUD');
-const loadConfig = require('../lib/loadConfig');
+const generateCrud = require('../lib/api2code/generateCrud/index2');
+const { parserMap } = require('../lib/api2code/parser');
 const { removeEmpty } = require('../lib/utils');
-
-const config = loadConfig();
 
 const handleTargetMap = {
   interface: generateInterface,
-  CRUD: generateCRUD,
+  crud: generateCrud,
 };
 
 // main questions
@@ -19,31 +17,38 @@ const promptList = [
     message: 'Please select the type of generation',
     choices: Object.keys(handleTargetMap),
   },
+  // {
+  //   type: 'confirm',
+  //   name: 'skip',
+  //   message: 'skip all the files generated before ? ',
+  // },
   {
-    type: 'confirm',
-    name: 'skip',
-    message: 'skip all the files generated before ? ',
+    type: 'list',
+    name: 'jsonType',
+    message: 'please select the type of json',
+    choices: Object.keys(parserMap),
+    when: ({ target }) => target === 'crud',
   },
   {
     type: 'list',
     name: 'language',
     message: 'Please select the coding language you used',
     choices: ['JavaScript', 'Typescript'],
-    when: ({ target }) => target === 'CRUD',
+    when: ({ target }) => target === 'crud',
   },
   {
     type: 'list',
     name: 'requestLib',
     message: 'Please select the request library you used',
-    choices: ['axios', 'jQuery', 'fetch' /** graphQL */],
-    when: ({ target }) => target === 'CRUD',
+    choices: ['axios', 'fetch' /** graphQL */],
+    when: ({ target }) => target === 'crud',
   },
   {
     type: 'list',
     name: 'codeStyle',
     message: 'Please select the style for code',
     choices: ['code-snippets', 'service'],
-    when: ({ target }) => target === 'CRUD',
+    when: ({ target }) => target === 'crud',
   },
 ];
 
@@ -53,25 +58,20 @@ const api2code = program => {
     .command('api2code')
     .alias('a2c')
     .description('🌽 api translation typescript')
-
-    .option('-u, --url <url>', 'api addres(domain or ip)', config.request.url)
-    .option('-p, --path <path>', 'api path')
-    .option(
-      '-b, --body <body>',
-      'data json path for http body, only post method.',
-    )
-    .option('-i, --input <input>', 'input json file')
+    // .option('-u, --url <url>', 'api addres(domain or ip)', config.request.url)
+    // .option('-p, --path <path>', 'api path')
+    .requiredOption('-i, --input <input>', 'input json file')
+    .requiredOption('-o, --output <output>', 'output code file')
     .action(options => {
-      const { url, output, path, body, input } = options;
+      const { output, input } = options;
 
       inquirer.prompt(promptList).then(({ target, ...props }) => {
         handleTargetMap[target](
           removeEmpty({
-            url,
-            path,
+            // url,
+            // path,
             output,
-            input: input && resolve(process.cwd(), input),
-            body: body && resolve(process.cwd(), body),
+            input,
             ...props,
           }),
         );

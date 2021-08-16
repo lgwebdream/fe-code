@@ -1,6 +1,6 @@
 const { writeJsonSync } = require('fs-extra');
+const shell = require('shelljs');
 const { componentDependencies } = require('./dependencies.config');
-
 /**
  * patch dependencies to package.json
  * @param packagesPath{string} package path
@@ -14,9 +14,7 @@ module.exports.patchPackageJson = ({ packagesPath, main }) => {
     Reflect.ownKeys(ds).forEach(item => {
       packages[item] = componentDependencies[item];
     }) &&
-    writeJsonSync(packagesPath, packages, {
-      spaces: 2,
-    });
+    writeJsonSync(packagesPath, packages);
 };
 /**
  * transform array data to object with truly value
@@ -25,3 +23,12 @@ module.exports.patchPackageJson = ({ packagesPath, main }) => {
  */
 module.exports.transformArr2TrueObj = arr =>
   arr.reduce((pre, cur) => ({ ...pre, ...{ [cur]: true } }), {});
+
+/**
+ * format code
+ * @param src{string} absolute path
+ * @return {number}
+ */
+module.exports.formatCode = src => {
+  return shell.exec(`prettier --loglevel error --write ${src} `).code;
+};

@@ -1,6 +1,4 @@
 {
-  "typeCodePath": "/typings",
-  "crudCodePath": "/service",
   "apis": {
     "user": [
       {

@@ -3,4 +3,3 @@ bin/fe
 yarn.lock
 examples
 lib
-scripts/api2code.js
