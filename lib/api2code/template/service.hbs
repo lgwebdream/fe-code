@@ -1,0 +1,39 @@
+import axios from 'axios';
+
+export default class {{serviceName}} {
+  {{#each service}}
+  /**
+   * @desc {{this.description}}
+   * @returns any successful operation
+   {{#if (diff this.method 'POST')}}
+   * @param requestBody Update an existent user in the store
+   {{/if}}
+   */
+  static async {{path2CamelCase this.path}} (
+    {{#if (diff this.method 'POST')}}
+      requestBody
+    {{else}}
+      {{#each this.requestParams}}
+        {{@key}},
+      {{/each}}
+    {{/if}}
+  ) {
+    const response = await axios.{{toLowerCase this.method}}(
+      '{{this.path}}',
+      {{#if (diff this.method 'POST')}}
+      requestBody
+      {{else}}
+      {
+        params: {
+          {{#each this.requestParams}}
+            {{@key}},
+          {{/each}}
+        }
+      }
+      {{/if}}
+    );
+    return response.data;
+  }
+
+  {{/each}}
+}

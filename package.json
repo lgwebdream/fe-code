@@ -28,6 +28,7 @@
     "eslint-plugin-vue": "^7.14.0",
     "figlet": "^1.4.0",
     "fs-extra": "^10.0.0",
+    "handlebars": "^4.7.7",
     "https-proxy-agent": "^5.0.0",
     "inquirer": "^7.1.0",
     "jest": "^27.0.6",
