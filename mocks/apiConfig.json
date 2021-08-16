@@ -1,0 +1,51 @@
+{
+  "version": "1.0.0",
+  "apis": {
+    "userinfo": [
+      {
+        "method": "GET",
+        "path": "/userinfo/get",
+        "description": "获取用户信息",
+        "requestParams": {
+          "uid": {
+            "required": true,
+            "type": "string",
+            "example": "u37as29sJDsjakkJDJdd2",
+            "in": "query"
+          }
+        },
+        "response": {
+          "successful": {
+            "required": true,
+            "type": "boolean"
+          }
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/userinfo/create",
+        "description": "创建用户信息",
+        "requestParams": {
+          "name": {
+            "required": true,
+            "type": "string",
+            "example": "menndy",
+            "in": "body"
+          },
+          "age": {
+            "required": true,
+            "type": "number",
+            "example": 18,
+            "in": "body"
+          }
+        },
+        "response": {
+          "successful": {
+            "required": true,
+            "type": "boolean"
+          }
+        }
+      }
+    ]
+  }
+}
