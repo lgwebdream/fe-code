@@ -1,6 +1,7 @@
 interface ResponseParams {
   required: boolean; // 是否必传
-  type: 'number' | 'string' | 'boolean' | 'array' | 'object'; // 数据类型
+  type: 'number' | 'string' | 'boolean' | 'array' | 'object' | 'enum'; // 数据类型
+  description: string; // 字段描述
   example?: unknown; // 示例数据
   properties?: ResponseParams; // 当type为引用类型时有该值
 }

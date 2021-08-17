@@ -2,13 +2,17 @@ import axios from 'axios';
 
 export default class {{serviceName}} {
   {{#each service}}
-  /**
-   * @desc {{this.description}}
-   * @returns any successful operation
-   {{#if (diff this.method 'POST')}}
-   * @param requestBody Update an existent user in the store
-   {{/if}}
-   */
+    /**
+    * @desc {{this.description}}
+    {{#if (diff this.method 'POST')}}
+    * @param requestBody Update an existent user in the store
+    {{else}}
+      {{#each this.requestParams}}
+    * @param {{@key}} {{this.description}}
+      {{/each}}
+    {{/if}}
+    * @returns any successful operation
+    */
   static async {{path2CamelCase this.path}} (
     {{#if (diff this.method 'POST')}}
       requestBody
