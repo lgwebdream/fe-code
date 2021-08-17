@@ -30,5 +30,5 @@ module.exports.transformArr2TrueObj = arr =>
  * @return {number}
  */
 module.exports.formatCode = src => {
-  return shell.exec(`prettier --loglevel error --write ${src} `).code;
+  return shell.exec(`npx prettier --loglevel error --write ${src} `).code;
 };
