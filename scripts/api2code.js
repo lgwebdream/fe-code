@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const generateInterface = require('../lib/api2code/generateInterface');
-const generateCrud = require('../lib/api2code/generateCrud/index2');
+const generateCrud = require('../lib/api2code/generateCrud');
 const { parserMap } = require('../lib/api2code/parser');
 const { removeEmpty } = require('../lib/utils');
 
