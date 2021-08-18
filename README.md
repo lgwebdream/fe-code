@@ -93,9 +93,6 @@ fe-code api2code --help
 
 ```bash
 Options:
-  -u, --url <url>        （可选）api地址(域名 或 ip) (默认: "http://localhost:3000")
-  -p, --path <path>      （可选）api路径
-  -b, --body <body>      （可选）post方法中baby的json路径, only post method.
   -i, --input <input>    （可选）输入的json路径
   -o, --output <output>  （必填）输出interface的文件路径
   -h, --help              查看帮助
