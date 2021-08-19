@@ -3,6 +3,7 @@ const generateInterface = require('../lib/api2code/generateInterface');
 const generateCrud = require('../lib/api2code/generateCrud');
 const { parserMap } = require('../lib/api2code/parser');
 const { removeEmpty } = require('../lib/utils');
+const { languages } = require('../lib/utils/constants');
 
 const handleTargetMap = {
   interface: generateInterface,
@@ -33,7 +34,7 @@ const promptList = [
     type: 'list',
     name: 'language',
     message: 'Please select the coding language you used',
-    choices: ['JavaScript', 'Typescript'],
+    choices: Object.keys(languages),
     when: ({ target }) => target === 'crud',
   },
   {

@@ -1,4 +1,12 @@
 import axios from 'axios';
+{{#if modelConfig.interfacesConfig}}
+import {
+  {{#each modelConfig.interfacesConfig}}
+    {{this.interfaceName}},
+  {{/each}}
+} from '../models/{{modelConfig.filename}}'
+{{/if}}
+
 
 export default class {{serviceName}} {
   {{#each service}}
@@ -13,15 +21,27 @@ export default class {{serviceName}} {
     {{/if}}
     * @returns any successful operation
     */
-  static async {{path2CamelCase this.path}} (
+  static async {{path2CamelCase this.path}}
+  (
     {{#if (diff this.method 'POST')}}
-      requestBody
+      requestBody 
+      {{#if ../isTs}}
+      : {{getType 'body' this.path ../modelConfig.interfacesConfig}}
+      {{/if}}
     {{else}}
       {{#each this.requestParams}}
-        {{@key}},
+        {{@key}} {{#if ../../isTs}}: {{this.type}}{{/if}},
       {{/each}}
     {{/if}}
-  ) {
+  )
+
+  {{#if ../isTs}}
+  :Promise<
+    {{getType 'response' this.path ../modelConfig.interfacesConfig}}
+  >
+  {{/if}}
+
+  {
     const response = await axios.{{toLowerCase this.method}}(
       '{{this.path}}',
       {{#if (diff this.method 'POST')}}
