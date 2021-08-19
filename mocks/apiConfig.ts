@@ -3,12 +3,12 @@ interface ResponseParams {
   type: 'number' | 'string' | 'boolean' | 'array' | 'object' | 'enum'; // 数据类型
   description?: string; // 字段描述
   example?: unknown; // 示例数据
-  properties?: ResponseParams; // 当type为引用类型时有该值
+  properties?: Record<string, ResponseParams> | ResponseParams[]; // 当type为引用类型时有该值
 }
 
 interface RequestParams extends ResponseParams {
   in: 'path' | 'query' | 'body'; // 该参数的所属位置 path为动态路由上的参数
-  properties?: RequestParams; // 当type为引用类型时有该值
+  properties?: Record<string, RequestParams> | RequestParams[]; // 当type为引用类型时有该值
 }
 
 // 每个接口中间类型格式
