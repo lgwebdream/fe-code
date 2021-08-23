@@ -1,0 +1,147 @@
+{
+  "definitions": {
+      "Api": {
+          "properties": {
+              "description": {
+                  "type": "string"
+              },
+              "domain": {
+                  "type": "string"
+              },
+              "method": {
+                  "enum": [
+                      "DELETE",
+                      "GET",
+                      "POST"
+                  ],
+                  "type": "string"
+              },
+              "path": {
+                  "type": "string"
+              },
+              "requestParams": {
+                  "additionalProperties": {
+                      "$ref": "#/definitions/RequestParams"
+                  },
+                  "type": "object"
+              },
+              "response": {
+                  "additionalProperties": {
+                      "$ref": "#/definitions/ResponseParams"
+                  },
+                  "type": "object"
+              }
+          },
+          "type": "object"
+      },
+      "Record<string,RequestParams>": {
+          "type": "object"
+      },
+      "Record<string,ResponseParams>": {
+          "type": "object"
+      },
+      "RequestParams": {
+          "properties": {
+              "description": {
+                  "type": "string"
+              },
+              "example": {
+              },
+              "in": {
+                  "enum": [
+                      "body",
+                      "path",
+                      "query"
+                  ],
+                  "type": "string"
+              },
+              "properties": {
+                  "anyOf": [
+                      {
+                          "$ref": "#/definitions/RequestParams"
+                      },
+                      {
+                          "$ref": "#/definitions/Record<string,RequestParams>"
+                      },
+                      {
+                          "items": {
+                              "$ref": "#/definitions/Record<string,RequestParams>"
+                          },
+                          "type": "array"
+                      }
+                  ]
+              },
+              "required": {
+                  "type": "boolean"
+              },
+              "type": {
+                  "enum": [
+                      "array",
+                      "boolean",
+                      "enum",
+                      "number",
+                      "object",
+                      "string"
+                  ],
+                  "type": "string"
+              }
+          },
+          "type": "object"
+      },
+      "ResponseParams": {
+          "properties": {
+              "description": {
+                  "type": "string"
+              },
+              "example": {
+              },
+              "properties": {
+                  "anyOf": [
+                      {
+                          "$ref": "#/definitions/ResponseParams"
+                      },
+                      {
+                          "$ref": "#/definitions/Record<string,ResponseParams>"
+                      },
+                      {
+                          "items": {
+                              "$ref": "#/definitions/Record<string,ResponseParams>"
+                          },
+                          "type": "array"
+                      }
+                  ]
+              },
+              "required": {
+                  "type": "boolean"
+              },
+              "type": {
+                  "enum": [
+                      "array",
+                      "boolean",
+                      "enum",
+                      "number",
+                      "object",
+                      "string"
+                  ],
+                  "type": "string"
+              }
+          },
+          "type": "object"
+      }
+  },
+  "properties": {
+      "apis": {
+          "additionalProperties": {
+              "items": {
+                  "$ref": "#/definitions/Api"
+              },
+              "type": "array"
+          },
+          "type": "object"
+      },
+      "version": {
+          "type": "string"
+      }
+  },
+  "type": "object"
+}

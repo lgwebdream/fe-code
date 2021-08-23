@@ -16,63 +16,29 @@
 
 - [🤖 前端代码 no-code 🌈](#-前端代码-no-code-)
   - [目录](#目录)
-  - [配置项](#配置项)
-    - [配置文件](#配置文件)
-    - [配置项](#配置项-1)
-  - [基础命令](#基础命令)
+  - [开始](#开始)
+    - [安装](#安装)
+    - [基础命令](#基础命令)
     - [`envir2code`](#envir2code)
-      - [例子 🌰](#例子)
+      - [例子 🌰](#例子-)
     - [`api2code`](#api2code)
       - [参数](#参数)
-      - [例子 🌰](#例子-)
+      - [例子 🌰](#例子--1)
     - [`react2code`](#react2code)
       - [参数](#参数-1)
-      - [例子 🌰](#例子--1)
+      - [例子 🌰](#例子--2)
     - [`vue2code`](#vue2code)
       - [参数](#参数-2)
-      - [例子 🌰](#例子--2)
+      - [例子 🌰](#例子--3)
 
-## 配置项
+## 开始
 
-### 配置文件
-
-配置文件在项目根目录下，支持以下格式。如果没有配置文件所有值将会走默认配置。
-
-- `.fecoderc`
-- `.fecoderc.json`
-- `.fecoderc.yaml`
-- `.fecoderc.yml`
-- `.fecoderc.js`
-- `.fecoderc.cjs`
-- `fe-code.config.js`
-- `fe-code.config.cjs`
-
-### 配置项
-
-| 配置项          | 类型      | 描述                                                                   | 默认      |
-| --------------- | --------- | ---------------------------------------------------------------------- | --------- |
-| `request`       | `object`  | `url`: 使用该脚手架发送请求时的默认 baseUrl； `headers`:自定义 http 头 | 如下 json |
-| `root`          | `string`  | 输出文件时的根路径                                                     | `src`     |
-| `framework`     | `array`   | 使用的框架 `Vue`, `React`                                              | `[]`      |
-| `useTypescript` | `boolean` | 项目中是否使用 TS                                                      | `true`    |
-| `language`      | `string`  | （预留）脚手架使用的自然语言                                           | `zh-CN`   |
-
-默认配置：
-
-```json
-{
-  "request": {
-    "url": "http://localhost:3000",
-    "headers": {}
-  },
-  "root": "src",
-  "framework": [],
-  "useTypescript": true,
-  "language": "zh-CN"
-}
+### 安装
+```bash
+npm install fe-code
 ```
 
-## 基础命令
+### 基础命令
 
 ```shell
 #查看版本号
@@ -83,36 +49,8 @@ fe-code --help
 fe-code api2code --help
 ```
 
-<img src="./assets/hello.png" alt="logo" style="zoom:38%;" />
-
-### `api2code`
-
-缩写：`a2c`
-
-#### 参数
-
-```bash
-Options:
-  -i, --input <input>    （可选）输入的json路径
-  -o, --output <output>  （必填）输出interface的文件路径
-  -h, --help              查看帮助
-```
-
-#### 例子 🌰
-
-1. 通过请求接口的方式生成 interface
-
-   ```bash
-   fe-code a2c -o src/index.ts -p /getDetails
-   ```
-
-2. 通过本地 json 方式生成 interface
-
-   ```bash
-   fe-code a2c -o src/index.ts -i /data.json
-   ```
-
 ### `envir2code`
+描述：初始化基于(`webpack`/`vite`/`snowpack`)的`vue`/`react`脚手架
 
 缩写: `e2c`
 
@@ -125,7 +63,33 @@ fe-code envir2code
 fe-code e2c
 ```
 
+
+### `api2code`
+描述：通过自定义结构或openAPI的json生成crud代码
+缩写：`a2c`
+
+#### 参数
+
+```bash
+Options:
+  -i, --input <input>    （可选）输入的json路径
+  -o, --output <output>  （必填）输出interface的文件路径
+  -h, --help              查看帮助
+```
+
+#### 例子 🌰
+1. 通过本地 json 方式生成 interface
+   ```bash
+   fe-code a2c -o src/index.ts -i /data.json
+   ```
+2. 通过自定义json或openAPI生成 crud代码
+    ```bash
+    fe-code a2c -i ./mocks/apiConfig.json -o api/
+    ```
+    > 示例json在项目目录`mocks/apiConfig.json`中。
+
 ### `react2code`
+描述：生成react组件代码
 
 缩写: `r2c`
 
