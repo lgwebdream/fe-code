@@ -37,20 +37,20 @@ const promptList = [
     choices: Object.keys(languages),
     when: ({ target }) => target === 'crud',
   },
-  {
-    type: 'list',
-    name: 'requestLib',
-    message: 'Please select the request library you used',
-    choices: ['axios', 'fetch' /** graphQL */],
-    when: ({ target }) => target === 'crud',
-  },
-  {
-    type: 'list',
-    name: 'codeStyle',
-    message: 'Please select the style for code',
-    choices: ['code-snippets', 'service'],
-    when: ({ target }) => target === 'crud',
-  },
+  // {
+  //   type: 'list',
+  //   name: 'requestLib',
+  //   message: 'Please select the request library you used',
+  //   choices: ['axios', 'fetch' /** graphQL */],
+  //   when: ({ target }) => target === 'crud',
+  // },
+  // {
+  //   type: 'list',
+  //   name: 'codeStyle',
+  //   message: 'Please select the style for code',
+  //   choices: ['code-snippets', 'service'],
+  //   when: ({ target }) => target === 'crud',
+  // },
 ];
 
 // main program
