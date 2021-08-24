@@ -115,10 +115,10 @@ const commonPartQuestions = [
         name: 'Typescript',
         value: 'typescript',
       },
-      {
-        name: 'Unit Testing',
-        value: 'unitTest',
-      },
+      // {
+      //   name: 'Unit Testing',
+      //   value: 'unitTest',
+      // },
       {
         name: 'Eslint',
         value: 'lint',
