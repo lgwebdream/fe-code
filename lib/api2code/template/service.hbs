@@ -1,23 +1,47 @@
 import axios from 'axios';
+{{#if modelConfig.interfacesConfig}}
+import {
+  {{#each modelConfig.interfacesConfig}}
+    {{this.interfaceName}},
+  {{/each}}
+} from '../models/{{modelConfig.filename}}'
+{{/if}}
+
 
 export default class {{serviceName}} {
   {{#each service}}
-  /**
-   * @desc {{this.description}}
-   * @returns any successful operation
-   {{#if (diff this.method 'POST')}}
-   * @param requestBody Update an existent user in the store
-   {{/if}}
-   */
-  static async {{path2CamelCase this.path}} (
+    /**
+    * @desc {{this.description}}
     {{#if (diff this.method 'POST')}}
-      requestBody
+    * @param requestBody Update an existent user in the store
     {{else}}
       {{#each this.requestParams}}
-        {{@key}},
+    * @param {{@key}} {{this.description}}
       {{/each}}
     {{/if}}
-  ) {
+    * @returns any successful operation
+    */
+  static async {{path2CamelCase this.path}}
+  (
+    {{#if (diff this.method 'POST')}}
+      requestBody 
+      {{#if ../isTs}}
+      : {{getType 'body' this.path ../modelConfig.interfacesConfig}}
+      {{/if}}
+    {{else}}
+      {{#each this.requestParams}}
+        {{@key}} {{#if ../../isTs}}: {{this.type}}{{/if}},
+      {{/each}}
+    {{/if}}
+  )
+
+  {{#if ../isTs}}
+  :Promise<
+    {{getType 'response' this.path ../modelConfig.interfacesConfig}}
+  >
+  {{/if}}
+
+  {
     const response = await axios.{{toLowerCase this.method}}(
       '{{this.path}}',
       {{#if (diff this.method 'POST')}}

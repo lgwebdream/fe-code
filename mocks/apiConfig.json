@@ -10,6 +10,7 @@
           "uid": {
             "required": true,
             "type": "string",
+            "description": "用户id",
             "example": "u37as29sJDsjakkJDJdd2",
             "in": "query"
           }
@@ -29,14 +30,45 @@
           "name": {
             "required": true,
             "type": "string",
+            "description": "用户名字",
             "example": "menndy",
             "in": "body"
           },
           "age": {
             "required": true,
             "type": "number",
+            "description": "用户年龄",
             "example": 18,
             "in": "body"
+          }
+        },
+        "response": {
+          "successful": {
+            "required": true,
+            "type": "boolean"
+          }
+        }
+      }
+    ],
+    "store": [
+      {
+        "method": "GET",
+        "path": "/store/get",
+        "description": "获取商品信息",
+        "requestParams": {
+          "id": {
+            "required": true,
+            "type": "string",
+            "description": "商品id",
+            "example": "u37as29sJDsjakkJDJdd2",
+            "in": "query"
+          },
+          "date": {
+            "required": true,
+            "type": "string",
+            "description": "时间",
+            "example": "2021.8.17",
+            "in": "query"
           }
         },
         "response": {

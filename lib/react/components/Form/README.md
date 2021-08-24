@@ -23,35 +23,31 @@ export enum IFormComTypeEnum {
 }
 ```
 
-## form schema数据格式
+## form schema 数据格式
 
 ```js
-    export const schema = [
+export const schema = [
+  {
+    comType: IFormComTypeEnum.Input,
+    comProps: {},
+    itemProps: {
+      name: 'email',
+      label: 'E-mail',
+      rules: [
         {
-            comType: IFormComTypeEnum.Input,
-            comProps: {
-
-            },
-            itemProps: {
-                name: "email",
-                label: "E-mail",
-                rules: [
-                    {
-                        type: 'email',
-                        message: 'The input is not valid E-mail!',
-                    },
-                    {
-                        required: true,
-                        message: 'Please input your E-mail!'
-                    }
-                ]
-            }
+          type: 'email',
+          message: 'The input is not valid E-mail!',
         },
-    ]
-
+        {
+          required: true,
+          message: 'Please input your E-mail!',
+        },
+      ],
+    },
+  },
+];
 ```
-
 
 ## FSelect (TODO)
 
-- 支持动态Options
+- 支持动态 Options

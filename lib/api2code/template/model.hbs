@@ -1,0 +1,8 @@
+{{#each interfacesConfig}}
+export interface {{this.interfaceName}} {
+  {{#each this.data}}
+    {{@key}}{{#if this.required}}{{else}}?{{/if}}: {{this.type}};
+  {{/each}}
+}
+
+{{/each}}
