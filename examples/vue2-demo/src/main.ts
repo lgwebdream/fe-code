@@ -1,8 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+
+import xui from '@fe-code/vue2'; // 导入组件库
+
+Vue.use(xui)
+
+
 
 Vue.config.productionTip = false
 
