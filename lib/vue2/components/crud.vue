@@ -18,10 +18,6 @@ const crud = {
   data() {
     return {};
   },
-  setup() {
- 
-    return {};
-  },
 };
 
 export default crud;

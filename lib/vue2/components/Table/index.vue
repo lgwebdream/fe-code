@@ -25,6 +25,7 @@
 import ToolBar from './ToolBar/index.vue';
 import { ICrudColumn, ICrudColumnToolbar, ICrudListRequest, ISearch } from '../CrudTypes';
 import TableProps from './config'
+import Vue from 'vue'
 interface IData {
   /** 列表总数 */
   total: number;
@@ -36,7 +37,8 @@ interface IData {
   tableData: unknown[];
   selectRows: unknown[];
 }
-const Tabel = {
+
+const Tabel = Vue.extend({
   name: 'v-table',
   components: {
     ToolBar,
@@ -95,11 +97,9 @@ const Tabel = {
       this.$refs.multipleTable.clearSelection();
     },
   },
-};
+});
 
-// Tabel.install = (Vue: ComponentOptions) => {
-//   Vue.component(Tabel.name, Tabel);
-// };
+
 
 export default Tabel;
 </script>
