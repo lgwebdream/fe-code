@@ -18,6 +18,8 @@ jobs:
           node-version: '14.x'
           registry-url: 'https://npm.pkg.github.com'
       - run: yarn install
-      - run: npm publish
+      - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          token: ${{ secrets.NPM_TOKEN }}
