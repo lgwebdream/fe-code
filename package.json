@@ -5,7 +5,7 @@
     "url": "https://github.com/lgwebdream/fe-code.git"
   },
   "publishConfig": {
-    "registry":"https://npm.pkg.github.com"
+    "registry":"https://registry.npmjs.org"
   },
   "version": "1.0.0",
   "description": "",
