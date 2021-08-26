@@ -17,11 +17,10 @@ const loadConfig = require('../lib/loadConfig');
 const versionStr = figlet.textSync('Fe Code');
 
 program.version(
-  Printer.default.fromString(
+  Printer.fromString(
     `   \n   前端代码生成器${version}\n    www.yidengfe.com \n${versionStr}`,
   ),
 );
-// .option('-c, --config <path>', '配置路径', './fecoderc.json');
 
 // 接口生成代码部分
 api2code(program);
