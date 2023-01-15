@@ -45,7 +45,7 @@
     "json-server": "^0.16.3",
     "ora": "^4.0.4",
     "promise-fs": "^2.1.1",
-    "quicktype-core": "^6.0.70",
+    "quicktype-core": "^20.0.14",
     "shelljs": "^0.8.4"
   },
   "devDependencies": {
