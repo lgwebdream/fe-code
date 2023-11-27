@@ -14,7 +14,7 @@
     "@fe-code/vue3": "file:../../lib/vue3",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.2.1",
     "@vue/babel-preset-jsx": "^1.2.4",
-    "@vue/cli-plugin-typescript": "^4.5.13",
+    "@vue/cli-plugin-typescript": "^5.0.0",
     "ant-design-vue": "^1.7.6",
     "core-js": "^3.6.5",
     "element-plus": "^1.0.2-beta.55",
