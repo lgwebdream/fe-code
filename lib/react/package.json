@@ -18,7 +18,7 @@
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
-    "antd": "^4.16.7",
+    "antd": "^5.0.1",
     "classnames": "^2.3.1",
     "react": "^17.0.2"
   },
