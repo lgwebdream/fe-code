@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
-    "@ant-design/pro-layout": "^6.5.0",
+    "@ant-design/pro-layout": "^7.20.1",
     "antd": "^4.16.8",
     "classnames": "^2.3.1",
     "mockjs": "^1.1.0",
