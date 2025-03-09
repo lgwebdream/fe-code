@@ -27,13 +27,13 @@
     "@darkobits/lolcatjs": "^3.1.5",
     "ajv": "^8.6.2",
     "antd": "^4.16.7",
-    "axios": "^1.6.4",
+    "axios": "^1.8.2",
     "camelcase": "^6.2.0",
     "chalk": "^4.1.1",
     "commander": "^5.1.0",
     "cosmiconfig": "^7.0.0",
     "download-git-repo": "^3.0.2",
-    "eslint-plugin-vue": "^7.14.0",
+    "eslint-plugin-vue": "^10.0.0",
     "figlet": "^1.4.0",
     "fs-extra": "^10.0.0",
     "handlebars": "^4.7.7",
@@ -46,7 +46,7 @@
     "ora": "^4.0.4",
     "promise-fs": "^2.1.1",
     "quicktype-core": "^6.0.70",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.9.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
