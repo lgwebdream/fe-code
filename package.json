@@ -46,7 +46,7 @@
     "ora": "^4.0.4",
     "promise-fs": "^2.1.1",
     "quicktype-core": "^6.0.70",
-    "shelljs": "^0.8.4"
+    "shelljs": "^0.9.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^12.1.4",
